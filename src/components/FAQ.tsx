@@ -21,8 +21,8 @@ const faqs: FAQItem[] = [
     answer: "Tiers will start at $20 AUD. Rewards include digital copies of the film, exclusive behind-the-scenes content, physical memorabilia, and even producer credits."
   },
   {
-    question: "Why $750,000?",
-    answer: "This goal covers high-end production costs, archival footage licensing, interviews across the country, and post-production to ensure this history is preserved in the highest quality possible."
+    question: "Why $350,000?",
+    answer: "This goal covers high-end production costs, archival footage licensing, interviews across the country, and post-production to ensure this history is preserved in the highest quality possible. Stretch goals will be revealed as the campaign progresses."
   }
 ];
 

@@ -8,40 +8,67 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
-import PledgeModal from "./components/PledgeModal";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare } from "lucide-react";
-
-/**
- * 🛠️ DEVELOPER GUIDE: HOW TO ADD REWARDS LATER
- * -------------------------------------------
- * 1. Locate the 'PLEDGE_TIERS' array below.
- * 2. Add strings to the 'perks' array for each tier (e.g., perks: ["Digital Copy", "Poster"]).
- * 3. In 'PledgeModal.tsx', uncomment the perks mapping section to display them in the lightbox.
- * 4. In 'TierCard' (at the bottom of this file), you can re-add the perks preview if desired.
- */
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers } from "lucide-react";
 
 const PLEDGE_TIERS = [
   {
-    title: "Supporter",
-    price: "20",
-    perks: [], // Add rewards here later
+    level: "01",
+    title: "Your Name in Pixels",
+    price: "25",
+    perks: ["Film + Name in Credits"],
+    icon: User,
+    intensity: 0.05
   },
   {
-    title: "Collector",
-    price: "75",
+    level: "02",
+    title: "In Your Hands",
+    price: "60",
+    perks: ["Blu-ray/DVD"],
+    icon: Disc,
+    intensity: 0.1,
+    includesLowerTiers: true
+  },
+  {
+    level: "03",
+    title: "Wear the Doco",
+    price: "120",
+    perks: ["Exclusive Shirt"],
+    icon: Shirt,
+    intensity: 0.15,
+    includesLowerTiers: true
+  },
+  {
+    level: "04",
+    title: "Collector's Tome",
+    price: "550",
+    perks: ["Hardcover Book (Limit 50)"],
+    icon: BookOpen,
+    intensity: 0.2,
     featured: true,
-    perks: [], // Add rewards here later
+    includesLowerTiers: true
   },
   {
-    title: "Producer",
-    price: "250",
-    perks: [], // Add rewards here later
+    level: "05",
+    title: "Assoc. Producer Credit",
+    price: "1,000",
+    perks: ["Higher Screen Credit", "Additional benefits to be revealed soon"],
+    icon: Star,
+    intensity: 0.3,
+    includesLowerTiers: true
+  },
+  {
+    level: "06",
+    title: "Exec. Producer Credit",
+    price: "2,500",
+    perks: ["Executive Producer Credit (Limit 4)", "Additional benefits to be revealed soon"],
+    icon: Crown,
+    intensity: 0.4,
+    includesLowerTiers: true
   },
 ];
 
 export default function App() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<typeof PLEDGE_TIERS[0] | null>(null);
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -62,11 +89,12 @@ export default function App() {
               Region Locked
             </span>
           </div>
-          <div className="flex items-center gap-8 text-[10px] font-mono uppercase tracking-widest text-mint-cream/60">
-            <a href="#about" className="hover:text-steel-blue transition-colors">About</a>
-            <a href="#pledge" className="hover:text-steel-blue transition-colors">Pledge</a>
-            <a href="#faq" className="hover:text-steel-blue transition-colors">FAQ</a>
-            <a href="#contact" className="bg-steel-blue text-ink-black px-4 py-2 rounded-full font-bold hover:bg-mint-cream transition-all">
+          <div className="flex items-center gap-4 md:gap-8 text-[10px] font-mono uppercase tracking-widest text-mint-cream/60">
+            <a href="#about" className="hover:text-steel-blue transition-colors hidden md:block">About</a>
+            <a href="#team" className="hover:text-steel-blue transition-colors hidden md:block">Team</a>
+            <a href="#pledge" className="hover:text-steel-blue transition-colors hidden md:block">Pledge</a>
+            <a href="#faq" className="hover:text-steel-blue transition-colors hidden md:block">FAQ</a>
+            <a href="#contact" className="bg-steel-blue text-ink-black px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold hover:bg-mint-cream transition-all whitespace-nowrap">
               Notify Me
             </a>
           </div>
@@ -123,14 +151,14 @@ export default function App() {
             >
               <a
                 href="#contact"
-                className="group flex items-center gap-2 bg-mint-cream text-ink-black px-8 py-4 rounded-full font-bold hover:bg-steel-blue transition-all"
+                className="group flex items-center gap-2 bg-mint-cream text-ink-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold hover:bg-steel-blue transition-all text-sm md:text-base"
               >
                 Get Early Access
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <button
                 onClick={() => setIsVideoOpen(true)}
-                className="px-8 py-4 rounded-full border border-steel-blue/20 hover:bg-steel-blue/5 transition-all text-sm font-medium"
+                className="px-6 py-3 md:px-8 md:py-4 rounded-full border border-steel-blue/20 hover:bg-steel-blue/5 transition-all text-sm font-medium"
               >
                 Watch Teaser
               </button>
@@ -169,95 +197,135 @@ export default function App() {
         {/* Goal Tracker Section */}
         <section id="goal" className="py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20">
           <div className="max-w-7xl mx-auto text-center space-y-12">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Mission</h2>
-              <p className="text-mint-cream/70 max-w-xl mx-auto text-lg font-normal">
-                We're aiming to raise $750k to bring this definitive history to life.
-              </p>
+              <div className="max-w-3xl mx-auto space-y-4">
+                <p className="text-mint-cream/80 text-lg font-normal leading-relaxed">
+                  We intend to create a detailed, cinematic and entertaining feature - showcasing the contributions that Australians have made to the video game industry, from the very early days.
+                </p>
+                <p className="text-mint-cream/60 text-base font-light leading-relaxed">
+                  From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers and artists that gave Australia a spotlight in the industry, and the unfortunate situations that lead to a less productive landscape for Aussie game development.
+                </p>
+                <p className="text-steel-blue font-mono text-sm uppercase tracking-widest pt-4">
+                  Target Goal: $350,000 AUD
+                  <span className="block text-[10px] text-mint-cream/40 mt-1">Stretch goals to be revealed as the campaign progresses</span>
+                </p>
+              </div>
             </div>
-            <GoalTracker current={0} goal={750000} />
+            <GoalTracker current={0} goal={350000} />
           </div>
         </section>
 
         {/* Topics Section */}
         <section id="about" className="py-24 px-6">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <h2 className="text-6xl md:text-8xl font-display font-normal tracking-widest leading-tight uppercase">
-                  A Legacy <br />
-                  <span className="text-steel-blue">Waiting</span> to be Told.
+            <div className="max-w-4xl mx-auto">
+              <div className="space-y-12">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
+                  The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
+                  <span className="text-2xl md:text-4xl opacity-80">Unveil the Untold History</span>
                 </h2>
-                <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
                   <TopicItem
-                    icon={<History className="w-6 h-6" />}
-                    title="Lounge Room Revolution"
-                    description="The introduction of commercial video games into Australian homes and how it changed everything."
+                    icon={<MessageSquare className="w-6 h-6" />}
+                    title="The Legends' Perspective"
+                    description="Direct conversations with the pioneers who built the industry from the ground up, sharing the raw truth of creating global hits from the edge of the world."
                   />
                   <TopicItem
-                    icon={<Gamepad2 className="w-6 h-6" />}
-                    title="Golden Era (1970-2000)"
-                    description="The explosive growth of Australian game development and the studios that paved the way."
+                    icon={<History className="w-6 h-6" />}
+                    title="Systemic Roadblocks"
+                    description="An unflinching look at the hurdles of a limited local industry, where small funding and isolation forced a unique brand of Aussie innovation."
                   />
                   <TopicItem
                     icon={<Cpu className="w-6 h-6" />}
-                    title="Technical Innovation"
-                    description="Significant advancements Australia contributed to global game development and mechanics."
+                    title="The Funding Battle"
+                    description="Uncovering the constant fight for legitimacy and financial backing in a landscape that was often decades behind the global curve."
                   />
                   <TopicItem
                     icon={<Sparkles className="w-6 h-6" />}
-                    title="Unseen History"
-                    description="Never before seen or heard history of Aussie games and video game dev/art."
+                    title="Resilience & Legacy"
+                    description="The stories of the studios that survived, the ones that didn't, and the enduring spirit of the developers who put Australia on the map against all odds."
                   />
                 </div>
               </div>
-              <div className="relative aspect-square rounded-3xl overflow-hidden border border-steel-blue/10 bg-oxford-navy/10 group">
-                <div className="absolute inset-0 bg-gradient-to-br from-steel-blue/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-4 p-8">
-                    <div className="w-20 h-20 bg-steel-blue/10 rounded-full flex items-center justify-center mx-auto border border-steel-blue/20">
-                      <History className="w-10 h-10 text-steel-blue" />
-                    </div>
-                    <p className="text-sm font-mono text-mint-cream/70 uppercase tracking-widest">Archive Preview</p>
-                    <p className="text-lg font-light italic text-mint-cream/80">"Australia wasn't just playing games; we were building the future of them."</p>
-                  </div>
-                </div>
-                {/* Decorative Elements */}
-                <div className="absolute top-4 left-4 font-mono text-[8px] opacity-20">SYS_LOG: HISTORY_UNLOCKED</div>
-                <div className="absolute bottom-4 right-4 font-mono text-[8px] opacity-20">REGION: PAL_AUS</div>
-              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* The Team Section */}
+        <section id="team" className="py-24 px-6 bg-oxford-navy/5">
+          <div className="max-w-7xl mx-auto space-y-16">
+            <div className="text-center space-y-4">
+              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Team</h2>
+              <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
+                The visionaries behind the lens, dedicated to preserving Australia's digital heritage.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <TeamMember 
+                name="David Tucker"
+                role="Director / Executive Producer"
+                bio="Dave is a true titan of the entertainment industry, bringing nearly three decades of unparalleled expertise to the table. During his tenure at the ABC, he was a driving force behind the success of the iconic television series' Good Game and Spawn Point, showcasing his dynamic talents as a writer, producer, and editor. Having honed his craft on a multitude of compelling documentaries, Dave possesses the perfect, proven skills to transform any subject matter, especially history, into an unforgettable, engaging, and genuinely fun learning experience."
+                firstGame="Space Invaders"
+                favGame="Rocket League"
+                linkedin="https://www.linkedin.com/in/david-tucker-a4670356"
+                imdb="https://m.imdb.com/name/nm5198731/?ref_=fn_t_8"
+                credits={[
+                  "Good Game & Good Game Spawn Point (Writer / Producer / Editor)",
+                  "Catalyst (Producer / Editor)",
+                  "At The Movies (Producer / Editor)"
+                ]}
+              />
+              <TeamMember 
+                name="Michael Refalo"
+                role="Creative Lead / Executive Producer"
+                bio="Michael is a versatile and highly accomplished visionary whose sprawling career defines innovation across marketing, consumer products, retail, and visual merchandising. His expertise was sharpened as a creative leader at Toys 'R' Us Australia, where he developed the passion for designing dynamic, interactive spaces that instantly capture attention and drive deep consumer engagement. Fusing his lifelong enthusiasm for science, technology, storytelling, and entertainment, Michael now champions a powerful vision: to ignite the imaginations of the next generation of storytellers."
+                firstGame="Final Fantasy: Mystic Quest"
+                favGame="Half Life: Alyx"
+                linkedin="https://www.linkedin.com/in/michael-refalo"
+                imdb="https://www.imdb.com/name/nm15881952/?ref_=ra_sb_ln"
+                credits={[
+                  "Wiggles Ready Steady Wiggle (Creative Lead)",
+                  "Wiggle Up Giddy Up (Creative Lead)",
+                  "iiNet's 'Business Help Hub' (Campaign Manager & Director)"
+                ]}
+              />
             </div>
           </div>
         </section>
 
         {/* Pledge Tiers Preview */}
         <section id="pledge" className="py-24 px-6 bg-oxford-navy/10">
-          <div className="max-w-7xl mx-auto text-center space-y-16">
-            <div className="space-y-4">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Pledge Offerings</h2>
+          <div className="max-w-4xl mx-auto space-y-16">
+            <div className="text-center space-y-4">
+              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Value Ladder</h2>
               <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
-                Starting at just <span className="text-steel-blue font-bold">$20 AUD</span>. 
-                Support the project and get exclusive rewards.
+                Unlock higher tiers to gain legendary status and exclusive physical rewards.
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div className="space-y-4 relative">
+              {/* Connecting Line */}
+              <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-steel-blue/0 via-steel-blue/20 to-steel-blue/0 hidden md:block" />
+              
               {PLEDGE_TIERS.map((tier, i) => (
-                <TierCard
-                  key={i}
-                  title={tier.title}
-                  price={tier.price}
-                  perks={tier.perks}
-                  featured={tier.featured}
-                  onOpen={() => setSelectedTier(tier)}
-                />
+                <PledgeRow key={i} tier={tier} />
               ))}
+            </div>
+
+            <div className="pt-12 text-center">
+              <p className="text-steel-blue font-mono text-sm uppercase tracking-[0.3em] animate-pulse">
+                Stretch goals to be revealed soon
+              </p>
             </div>
           </div>
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="py-24 px-6">
-          <div className="max-w-7xl mx-auto">
+        <section id="faq" className="py-24 px-6 relative overflow-hidden">
+          <TronBackground opacity={0.1} />
+          <div className="max-w-7xl mx-auto relative z-10">
             <div className="text-center mb-16 space-y-4">
               <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Frequently Asked</h2>
               <p className="text-mint-cream/70 font-normal">Everything you need to know about the project.</p>
@@ -320,12 +388,90 @@ export default function App() {
         onClose={() => setIsVideoOpen(false)} 
         videoUrl="https://drive.google.com/file/d/1YY8LJ4elGmu220-l-upVu1oOdpEDU0Yv/preview"
       />
-      <PledgeModal
-        isOpen={!!selectedTier}
-        onClose={() => setSelectedTier(null)}
-        tier={selectedTier}
-      />
     </div>
+  );
+}
+
+function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credits }: { 
+  name: string; 
+  role: string; 
+  bio: string; 
+  firstGame: string; 
+  favGame: string;
+  linkedin: string;
+  imdb: string;
+  credits: string[];
+}) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="group relative p-8 rounded-3xl border border-steel-blue/10 bg-oxford-navy/10 hover:border-steel-blue/30 transition-all duration-500"
+    >
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <h3 className="text-4xl font-display font-normal tracking-widest uppercase text-white group-hover:text-steel-blue transition-colors">
+            {name}
+          </h3>
+          <div className="space-y-1">
+            <p className="text-steel-blue font-mono text-xs uppercase tracking-[0.3em]">
+              {role}
+            </p>
+            <div className="space-y-1 font-mono text-[10px] uppercase tracking-widest">
+              <p className="text-mint-cream/40">
+                <span className="font-bold text-steel-blue/60">First Game:</span> <span className="text-mint-cream/70">{firstGame}</span>
+              </p>
+              <p className="text-mint-cream/40">
+                <span className="font-bold text-steel-blue/60">Favourite Game:</span> <span className="text-mint-cream/70">{favGame}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <p className="text-mint-cream/70 leading-relaxed font-light text-sm">
+          {bio}
+        </p>
+
+        <div className="space-y-3">
+          <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em]">Key Credits</p>
+          <ul className="space-y-1 text-xs font-mono text-mint-cream/60 uppercase tracking-wider">
+            {credits.map((credit, idx) => (
+              <li key={idx} className="flex items-center gap-2">
+                <span className="w-1 h-1 bg-steel-blue/30 rounded-full" />
+                {credit}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="pt-4 flex items-center gap-6">
+          <a 
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-steel-blue hover:text-mint-cream transition-colors"
+          >
+            <Linkedin className="w-4 h-4" />
+            LinkedIn
+          </a>
+          <a 
+            href={imdb}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-steel-blue hover:text-mint-cream transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            IMDb
+          </a>
+        </div>
+      </div>
+      
+      {/* Decorative corner */}
+      <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden rounded-tr-3xl">
+        <div className="absolute top-[-1px] right-[-1px] w-8 h-8 border-t border-r border-steel-blue/20" />
+      </div>
+    </motion.div>
   );
 }
 
@@ -335,47 +481,85 @@ function TopicItem({ icon, title, description }: { icon: React.ReactNode; title:
       <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-oxford-navy/20 flex items-center justify-center border border-steel-blue/10 group-hover:border-steel-blue/50 transition-colors">
         <div className="text-steel-blue">{icon}</div>
       </div>
-      <div className="space-y-1">
+      <div className="space-y-2">
         <h3 className="text-2xl font-display font-normal tracking-widest uppercase">{title}</h3>
-        {/* Dummy summary section - uncomment to show */}
-        {/* <p className="text-mint-cream/40 leading-relaxed font-light">{description}</p> */}
+        <p className="text-mint-cream/60 leading-relaxed font-light text-sm">{description}</p>
       </div>
     </div>
   );
 }
-interface TierCardProps {
+interface PledgeTier {
+  level: string;
   title: string;
   price: string;
   perks: string[];
+  icon: any;
+  intensity: number;
   featured?: boolean;
-  onOpen: () => void;
+  includesLowerTiers?: boolean;
 }
 
-const TierCard: React.FC<TierCardProps> = ({ title, price, perks, featured = false, onOpen }) => {
+const PledgeRow: React.FC<{ tier: PledgeTier }> = ({ tier }) => {
+  const Icon = tier.icon;
   return (
-    <div className={`relative p-8 rounded-3xl border ${featured ? 'border-steel-blue bg-steel-blue/5' : 'border-steel-blue/10 bg-oxford-navy/5'} text-left space-y-6 transition-transform hover:scale-[1.02]`}>
-      {featured && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-steel-blue text-ink-black text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      className={`group relative flex flex-row items-start gap-4 md:gap-6 p-4 md:p-5 rounded-xl border transition-all duration-500 ${tier.featured ? 'border-steel-blue bg-steel-blue/5' : 'border-steel-blue/10 bg-oxford-navy/5 hover:border-steel-blue/30'}`}
+    >
+      {tier.featured && (
+        <div className="absolute -top-2.5 right-4 bg-steel-blue text-ink-black text-[8px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest z-20 shadow-[0_0_15px_rgba(147,197,253,0.3)]">
           Most Popular
         </div>
       )}
-      <div className="space-y-1">
-        <h3 className="text-3xl font-display font-normal tracking-widest uppercase">{title}</h3>
-        <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-bold text-steel-blue">${price}</span>
-          <span className="text-mint-cream/70 text-xs font-sans uppercase">AUD</span>
+
+      {/* Level Indicator */}
+      <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-oxford-navy/20 flex items-center justify-center border border-steel-blue/10 group-hover:border-steel-blue/50 transition-colors relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-steel-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Icon className="w-5 h-5 text-steel-blue relative z-10" />
+        <div className="absolute top-0.5 left-1 text-[7px] font-mono text-steel-blue/40 uppercase">LVL_{tier.level}</div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-grow text-left space-y-2">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+          <h3 className="text-lg md:text-xl font-display font-normal tracking-widest uppercase leading-tight">{tier.title}</h3>
+          <div className="flex items-baseline gap-1">
+            <span className="text-xl font-bold text-steel-blue">${tier.price}</span>
+            <span className="text-mint-cream/40 text-[9px] font-sans uppercase">AUD</span>
+          </div>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <ul className="flex flex-wrap gap-x-3 gap-y-1">
+            {tier.perks.map((perk, idx) => (
+              <li key={idx} className="text-[9px] md:text-[10px] font-mono text-mint-cream/60 uppercase tracking-wider flex items-center gap-1.5">
+                <span className="w-1 h-1 bg-steel-blue/30 rounded-full" />
+                {perk}
+              </li>
+            ))}
+          </ul>
+
+          {tier.includesLowerTiers && (
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-steel-blue/10 border border-steel-blue/20 group-hover:border-steel-blue/40 transition-colors">
+              <Layers className="w-2.5 h-2.5 text-steel-blue" />
+              <span className="text-[8px] font-mono text-steel-blue uppercase tracking-widest font-bold">
+                + All Lower Tiers
+              </span>
+            </div>
+          )}
         </div>
       </div>
-      
-      {/* 📝 REWARDS LIST PREVIEW REMOVED PER REQUEST - RE-ENABLE HERE IF NEEDED */}
 
-      <button 
-        onClick={onOpen}
-        className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${featured ? 'bg-steel-blue text-ink-black hover:bg-mint-cream' : 'bg-steel-blue/10 text-mint-cream hover:bg-steel-blue/20'}`}
-      >
-        Find Out More
-      </button>
-    </div>
+      {/* Value Indicator (Glow) */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+        style={{ 
+          background: `radial-gradient(circle at center, rgba(147, 197, 253, ${tier.intensity / 2}) 0%, transparent 70%)` 
+        }} 
+      />
+    </motion.div>
   );
 }
 
