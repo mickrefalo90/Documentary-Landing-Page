@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import CoinLogo from "./components/CoinLogo";
 import StarField from "./components/StarField";
 import GoalTracker from "./components/GoalTracker";
@@ -8,7 +8,18 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers } from "lucide-react";
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X } from "lucide-react";
+import sectionsConfig from "./config/sections.json";
+
+const NAV_ITEMS = [
+  { key: 'hero', label: 'Home', id: '#' },
+  { key: 'mission', label: 'Mission', id: '#goal' },
+  { key: 'about', label: 'About', id: '#about' },
+  { key: 'team', label: 'Team', id: '#team' },
+  { key: 'pledge', label: 'Pledge', id: '#pledge' },
+  { key: 'faq', label: 'FAQ', id: '#faq' },
+  { key: 'contact', label: 'Notify Me', id: '#contact' },
+];
 
 const PLEDGE_TIERS = [
   {
@@ -69,6 +80,8 @@ const PLEDGE_TIERS = [
 
 export default function App() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showSocialToast, setShowSocialToast] = useState(false);
   const targetRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -77,6 +90,8 @@ export default function App() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
+
+  const visibleNavItems = NAV_ITEMS.filter(item => (sectionsConfig as any)[item.key]);
 
   return (
     <div ref={targetRef} className="min-h-screen bg-ink-black text-mint-cream selection:bg-steel-blue selection:text-ink-black overflow-x-hidden">
@@ -89,262 +104,302 @@ export default function App() {
               Region Locked
             </span>
           </div>
-          <div className="flex items-center gap-4 md:gap-8 text-[10px] font-mono uppercase tracking-widest text-mint-cream/60">
-            <a href="#about" className="hover:text-steel-blue transition-colors hidden md:block">About</a>
-            <a href="#team" className="hover:text-steel-blue transition-colors hidden md:block">Team</a>
-            <a href="#pledge" className="hover:text-steel-blue transition-colors hidden md:block">Pledge</a>
-            <a href="#faq" className="hover:text-steel-blue transition-colors hidden md:block">FAQ</a>
-            <a href="#contact" className="bg-steel-blue text-ink-black px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold hover:bg-mint-cream transition-all whitespace-nowrap">
-              Notify Me
-            </a>
-          </div>
+          
+          {/* Menu Button (All screen sizes) */}
+          <button 
+            className="text-mint-cream p-2 hover:text-steel-blue transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+          </button>
         </div>
       </nav>
 
+      {/* Full-Screen Navigation Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-ink-black flex flex-col items-center justify-center glitch-overlay"
+          >
+            <button 
+              className="absolute top-6 right-6 text-mint-cream p-2 z-[110]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <X className="w-10 h-10" />
+            </button>
+
+            <div className="flex flex-col gap-4 text-center relative z-[110]">
+              {visibleNavItems.map((item, i) => (
+                <motion.div
+                  key={item.key}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 + i * 0.1 }}
+                >
+                  <a 
+                    href={item.id} 
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-6xl md:text-9xl font-display uppercase tracking-tighter text-white hover:text-steel-blue transition-colors inline-block"
+                  >
+                    {item.label}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative min-h-screen flex flex-col items-center justify-center py-32 px-8 overflow-hidden text-center">
-          <TronBackground opacity={0.3} />
-          <div className="absolute inset-0 z-0 opacity-20">
-            <StarField />
-          </div>
-          <motion.div
-            style={{ opacity, scale }}
-            className="relative z-10 w-full max-w-5xl mx-auto space-y-12"
-          >
-            <div className="flex justify-center mb-8">
-              <CoinLogo className="w-24 h-24 md:w-32 md:h-32" />
+        {sectionsConfig.hero && (
+          <section className="relative min-h-screen flex flex-col items-center justify-center py-32 px-8 overflow-hidden text-center">
+            <TronBackground opacity={0.3} />
+            <div className="absolute inset-0 z-0 opacity-20">
+              <StarField />
             </div>
-            <div className="space-y-6">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-steel-blue font-mono text-sm tracking-[0.5em] uppercase"
-              >
-                Launching July 1 on Kickstarter
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-7xl md:text-[10rem] font-display font-normal tracking-[0.1em] text-white leading-[0.85] uppercase flex items-center justify-center flex-wrap gap-x-[0.15em]"
-              >
-                <span>REGION</span>
-                <span>L<span className="relative inline-flex items-center justify-center">O<svg viewBox="7 2 10 20" fill="currentColor" className="absolute h-[0.51em] w-auto text-[#050505] pointer-events-none top-[42%] left-[40%] -translate-x-1/2 -translate-y-1/2 scale-y-110"><path d="M12 2C9.24 2 7 4.24 7 7C7 8.83 8 10.42 9.5 11.25L7 22H17L14.5 11.25C16 10.42 17 8.83 17 7C17 4.24 14.76 2 12 2Z" /></svg></span>CKED</span>
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg md:text-xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
-              >
-                Unlocking the untold history of Australian video games.
-              </motion.p>
-            </div>
-
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
+              style={{ opacity, scale }}
+              className="relative z-10 w-full max-w-5xl mx-auto space-y-12"
             >
-              <a
-                href="#contact"
-                className="group flex items-center gap-2 bg-mint-cream text-ink-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold hover:bg-steel-blue transition-all text-sm md:text-base"
-              >
-                Get Early Access
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <button
-                onClick={() => setIsVideoOpen(true)}
-                className="px-6 py-3 md:px-8 md:py-4 rounded-full border border-steel-blue/20 hover:bg-steel-blue/5 transition-all text-sm font-medium"
-              >
-                Watch Teaser
-              </button>
-            </motion.div>
-          </motion.div>
+              <div className="flex justify-center mb-8">
+                <CoinLogo className="w-24 h-24 md:w-32 md:h-32" />
+              </div>
+              <div className="space-y-6">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-steel-blue font-mono text-sm tracking-[0.5em] uppercase"
+                >
+                  Launching July 1 on Kickstarter
+                </motion.p>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-7xl md:text-[10rem] font-display font-normal tracking-[0.1em] text-white leading-[0.85] uppercase flex items-center justify-center flex-wrap gap-x-[0.15em]"
+                >
+                  <span>REGION</span>
+                  <span>L<span className="relative inline-flex items-center justify-center">O<svg viewBox="7 2 10 20" fill="currentColor" className="absolute h-[0.51em] w-auto text-[#050505] pointer-events-none top-[42%] left-[40%] -translate-x-1/2 -translate-y-1/2 scale-y-110"><path d="M12 2C9.24 2 7 4.24 7 7C7 8.83 8 10.42 9.5 11.25L7 22H17L14.5 11.25C16 10.42 17 8.83 17 7C17 4.24 14.76 2 12 2Z" /></svg></span>CKED</span>
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-lg md:text-xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
+                >
+                  Unlocking the untold history of Australian video games.
+                </motion.p>
+              </div>
 
-          {/* Floating Image Flow Elements */}
-          <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-            {[...Array(6)].map((_, i) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{
-                  opacity: [0.1, 0.3, 0.1],
-                  scale: [1, 1.1, 1],
-                  x: [0, Math.random() * 100 - 50, 0],
-                  y: [0, Math.random() * 100 - 50, 0],
-                }}
-                transition={{
-                  duration: 10 + i * 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute w-64 h-64 rounded-2xl bg-gradient-to-br from-steel-blue/10 to-transparent border border-steel-blue/5 backdrop-blur-3xl"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                }}
-              />
-            ))}
-          </div>
-        </section>
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
+              >
+                <button
+                  onClick={() => setIsVideoOpen(true)}
+                  className="group flex items-center gap-2 bg-mint-cream text-ink-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold hover:bg-steel-blue transition-all text-sm md:text-base"
+                >
+                  Watch Teaser
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </motion.div>
+            </motion.div>
 
-        <ImageFlow />
+            {/* Floating Image Flow Elements */}
+            <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{
+                    opacity: [0.1, 0.3, 0.1],
+                    scale: [1, 1.1, 1],
+                    x: [0, Math.random() * 100 - 50, 0],
+                    y: [0, Math.random() * 100 - 50, 0],
+                  }}
+                  transition={{
+                    duration: 10 + i * 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute w-64 h-64 rounded-2xl bg-gradient-to-br from-steel-blue/10 to-transparent border border-steel-blue/5 backdrop-blur-3xl"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                  }}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {sectionsConfig.hero && <ImageFlow />}
 
         {/* Goal Tracker Section */}
-        <section id="goal" className="py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20">
-          <div className="max-w-7xl mx-auto text-center space-y-12">
-            <div className="space-y-6">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Mission</h2>
-              <div className="max-w-3xl mx-auto space-y-4">
-                <p className="text-mint-cream/80 text-lg font-normal leading-relaxed">
-                  We intend to create a detailed, cinematic and entertaining feature - showcasing the contributions that Australians have made to the video game industry, from the very early days.
-                </p>
-                <p className="text-mint-cream/60 text-base font-light leading-relaxed">
-                  From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers and artists that gave Australia a spotlight in the industry, and the unfortunate situations that lead to a less productive landscape for Aussie game development.
-                </p>
-                <p className="text-steel-blue font-mono text-sm uppercase tracking-widest pt-4">
-                  Target Goal: $350,000 AUD
-                  <span className="block text-[10px] text-mint-cream/40 mt-1">Stretch goals to be revealed as the campaign progresses</span>
-                </p>
-              </div>
-            </div>
-            <GoalTracker current={0} goal={350000} />
-          </div>
-        </section>
-
-        {/* Topics Section */}
-        <section id="about" className="py-24 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="max-w-4xl mx-auto">
-              <div className="space-y-12">
-                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
-                  The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
-                  <span className="text-2xl md:text-4xl opacity-80">Unveil the Untold History</span>
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-                  <TopicItem
-                    icon={<MessageSquare className="w-6 h-6" />}
-                    title="The Legends' Perspective"
-                    description="Direct conversations with the pioneers who built the industry from the ground up, sharing the raw truth of creating global hits from the edge of the world."
-                  />
-                  <TopicItem
-                    icon={<History className="w-6 h-6" />}
-                    title="Systemic Roadblocks"
-                    description="An unflinching look at the hurdles of a limited local industry, where small funding and isolation forced a unique brand of Aussie innovation."
-                  />
-                  <TopicItem
-                    icon={<Cpu className="w-6 h-6" />}
-                    title="The Funding Battle"
-                    description="Uncovering the constant fight for legitimacy and financial backing in a landscape that was often decades behind the global curve."
-                  />
-                  <TopicItem
-                    icon={<Sparkles className="w-6 h-6" />}
-                    title="Resilience & Legacy"
-                    description="The stories of the studios that survived, the ones that didn't, and the enduring spirit of the developers who put Australia on the map against all odds."
-                  />
+        {sectionsConfig.mission && (
+          <section id="goal" className="py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20">
+            <div className="max-w-7xl mx-auto text-center space-y-12">
+              <div className="space-y-6">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Mission</h2>
+                <div className="max-w-3xl mx-auto space-y-4">
+                  <p className="text-mint-cream/80 text-lg font-normal leading-relaxed">
+                    We intend to create a detailed, cinematic and entertaining feature - showcasing the contributions that Australians have made to the video game industry, from the very early days.
+                  </p>
+                  <p className="text-mint-cream/60 text-base font-light leading-relaxed">
+                    From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers and artists that gave Australia a spotlight in the industry, and the unfortunate situations that lead to a less productive landscape for Aussie game development.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+
+        {/* Topics Section */}
+        {sectionsConfig.about && (
+          <section id="about" className="py-24 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="max-w-4xl mx-auto">
+                <div className="space-y-12">
+                  <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
+                    The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
+                    <span className="text-2xl md:text-4xl opacity-80">Unveil the Untold History</span>
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+                    <TopicItem
+                      icon={<MessageSquare className="w-6 h-6" />}
+                      title="The Legends' Perspective"
+                      description="Direct conversations with the pioneers who built the industry from the ground up, sharing the raw truth of creating global hits from the edge of the world."
+                    />
+                    <TopicItem
+                      icon={<History className="w-6 h-6" />}
+                      title="Systemic Roadblocks"
+                      description="An unflinching look at the hurdles of a limited local industry, where small funding and isolation forced a unique brand of Aussie innovation."
+                    />
+                    <TopicItem
+                      icon={<Cpu className="w-6 h-6" />}
+                      title="The Funding Battle"
+                      description="Uncovering the constant fight for legitimacy and financial backing in a landscape that was often decades behind the global curve."
+                    />
+                    <TopicItem
+                      icon={<Sparkles className="w-6 h-6" />}
+                      title="Resilience & Legacy"
+                      description="The stories of the studios that survived, the ones that didn't, and the enduring spirit of the developers who put Australia on the map against all odds."
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* The Team Section */}
-        <section id="team" className="py-24 px-6 bg-oxford-navy/5">
-          <div className="max-w-7xl mx-auto space-y-16">
-            <div className="text-center space-y-4">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Team</h2>
-              <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
-                The visionaries behind the lens, dedicated to preserving Australia's digital heritage.
-              </p>
+        {sectionsConfig.team && (
+          <section id="team" className="py-24 px-6 bg-oxford-navy/5">
+            <div className="max-w-7xl mx-auto space-y-16">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Team</h2>
+                <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
+                  The visionaries behind the lens, dedicated to preserving Australia's digital heritage.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <TeamMember 
+                  name="David Tucker"
+                  role="Director / Executive Producer"
+                  bio="Dave is a true titan of the entertainment industry, bringing nearly three decades of unparalleled expertise to the table. During his tenure at the ABC, he was a driving force behind the success of the iconic television series' Good Game and Spawn Point, showcasing his dynamic talents as a writer, producer, and editor. Having honed his craft on a multitude of compelling documentaries, Dave possesses the perfect, proven skills to transform any subject matter, especially history, into an unforgettable, engaging, and genuinely fun learning experience."
+                  firstGame="Space Invaders"
+                  favGame="Rocket League"
+                  linkedin="https://www.linkedin.com/in/david-tucker-a4670356"
+                  imdb="https://m.imdb.com/name/nm5198731/?ref_=fn_t_8"
+                  credits={[
+                    "Good Game & Good Game Spawn Point (Writer / Producer / Editor)",
+                    "Catalyst (Producer / Editor)",
+                    "At The Movies (Producer / Editor)"
+                  ]}
+                />
+                <TeamMember 
+                  name="Michael Refalo"
+                  role="Creative Lead / Executive Producer"
+                  bio="Michael is a versatile and highly accomplished visionary whose sprawling career defines innovation across marketing, consumer products, retail, and visual merchandising. His expertise was sharpened as a creative leader at Toys 'R' Us Australia, where he developed the passion for designing dynamic, interactive spaces that instantly capture attention and drive deep consumer engagement. Fusing his lifelong enthusiasm for science, technology, storytelling, and entertainment, Michael now champions a powerful vision: to ignite the imaginations of the next generation of storytellers."
+                  firstGame="Final Fantasy: Mystic Quest"
+                  favGame="Half Life: Alyx"
+                  linkedin="https://www.linkedin.com/in/michael-refalo"
+                  imdb="https://www.imdb.com/name/nm15881952/?ref_=ra_sb_ln"
+                  credits={[
+                    "Wiggles Ready Steady Wiggle (Creative Lead)",
+                    "Wiggle Up Giddy Up (Creative Lead)",
+                    "iiNet's 'Business Help Hub' (Campaign Manager & Director)"
+                  ]}
+                />
+              </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <TeamMember 
-                name="David Tucker"
-                role="Director / Executive Producer"
-                bio="Dave is a true titan of the entertainment industry, bringing nearly three decades of unparalleled expertise to the table. During his tenure at the ABC, he was a driving force behind the success of the iconic television series' Good Game and Spawn Point, showcasing his dynamic talents as a writer, producer, and editor. Having honed his craft on a multitude of compelling documentaries, Dave possesses the perfect, proven skills to transform any subject matter, especially history, into an unforgettable, engaging, and genuinely fun learning experience."
-                firstGame="Space Invaders"
-                favGame="Rocket League"
-                linkedin="https://www.linkedin.com/in/david-tucker-a4670356"
-                imdb="https://m.imdb.com/name/nm5198731/?ref_=fn_t_8"
-                credits={[
-                  "Good Game & Good Game Spawn Point (Writer / Producer / Editor)",
-                  "Catalyst (Producer / Editor)",
-                  "At The Movies (Producer / Editor)"
-                ]}
-              />
-              <TeamMember 
-                name="Michael Refalo"
-                role="Creative Lead / Executive Producer"
-                bio="Michael is a versatile and highly accomplished visionary whose sprawling career defines innovation across marketing, consumer products, retail, and visual merchandising. His expertise was sharpened as a creative leader at Toys 'R' Us Australia, where he developed the passion for designing dynamic, interactive spaces that instantly capture attention and drive deep consumer engagement. Fusing his lifelong enthusiasm for science, technology, storytelling, and entertainment, Michael now champions a powerful vision: to ignite the imaginations of the next generation of storytellers."
-                firstGame="Final Fantasy: Mystic Quest"
-                favGame="Half Life: Alyx"
-                linkedin="https://www.linkedin.com/in/michael-refalo"
-                imdb="https://www.imdb.com/name/nm15881952/?ref_=ra_sb_ln"
-                credits={[
-                  "Wiggles Ready Steady Wiggle (Creative Lead)",
-                  "Wiggle Up Giddy Up (Creative Lead)",
-                  "iiNet's 'Business Help Hub' (Campaign Manager & Director)"
-                ]}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Pledge Tiers Preview */}
-        <section id="pledge" className="py-24 px-6 bg-oxford-navy/10">
-          <div className="max-w-4xl mx-auto space-y-16">
-            <div className="text-center space-y-4">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Value Ladder</h2>
-              <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
-                Unlock higher tiers to gain legendary status and exclusive physical rewards.
-              </p>
-            </div>
-            
-            <div className="space-y-4 relative">
-              {/* Connecting Line */}
-              <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-steel-blue/0 via-steel-blue/20 to-steel-blue/0 hidden md:block" />
+        {sectionsConfig.pledge && (
+          <section id="pledge" className="py-24 px-6 bg-oxford-navy/10">
+            <div className="max-w-4xl mx-auto space-y-16">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Value Ladder</h2>
+                <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
+                  Unlock higher tiers to gain legendary status and exclusive physical rewards.
+                </p>
+              </div>
               
-              {PLEDGE_TIERS.map((tier, i) => (
-                <PledgeRow key={i} tier={tier} />
-              ))}
-            </div>
+              <div className="space-y-4 relative">
+                {/* Connecting Line */}
+                <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-steel-blue/0 via-steel-blue/20 to-steel-blue/0 hidden md:block" />
+                
+                {PLEDGE_TIERS.map((tier, i) => (
+                  <PledgeRow key={i} tier={tier} />
+                ))}
+              </div>
 
-            <div className="pt-12 text-center">
-              <p className="text-steel-blue font-mono text-sm uppercase tracking-[0.3em] animate-pulse">
-                Stretch goals to be revealed soon
-              </p>
+              <div className="pt-12 text-center">
+                <p className="text-steel-blue font-mono text-sm uppercase tracking-[0.3em] animate-pulse">
+                  Stretch goals to be revealed soon
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* FAQ Section */}
-        <section id="faq" className="py-24 px-6 relative overflow-hidden">
-          <TronBackground opacity={0.1} />
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16 space-y-4">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Frequently Asked</h2>
-              <p className="text-mint-cream/70 font-normal">Everything you need to know about the project.</p>
+        {sectionsConfig.faq && (
+          <section id="faq" className="py-24 px-6 relative overflow-hidden">
+            <TronBackground opacity={0.1} />
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className="text-center mb-16 space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Frequently Asked</h2>
+                <p className="text-mint-cream/70 font-normal">Everything you need to know about the project.</p>
+              </div>
+              <FAQ />
             </div>
-            <FAQ />
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Contact Section */}
-        <section id="contact" className="relative py-24 px-6 bg-gradient-to-t from-steel-blue/10 to-transparent">
-          <TronBackground opacity={0.2} />
-          <div className="relative z-10 max-w-3xl mx-auto space-y-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Stay Updated</h2>
-              <p className="text-mint-cream/70 font-normal">Be the first to know when we launch on July 1.</p>
+        {sectionsConfig.contact && (
+          <section id="contact" className="relative py-24 px-6 bg-gradient-to-t from-steel-blue/10 to-transparent">
+            <TronBackground opacity={0.2} />
+            <div className="relative z-10 max-w-3xl mx-auto space-y-12">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Stay Updated</h2>
+                <p className="text-mint-cream/70 font-normal">Be the first to know when we launch on July 1.</p>
+              </div>
+              <ContactForm />
             </div>
-            <ContactForm />
-          </div>
-        </section>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
@@ -361,15 +416,33 @@ export default function App() {
           </div>
 
           <div className="flex gap-8">
-            <a href="#" className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50">
+            <button 
+              onClick={() => {
+                setShowSocialToast(true);
+                setTimeout(() => setShowSocialToast(false), 3000);
+              }}
+              className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+            >
               <Twitter className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50">
+            </button>
+            <button 
+              onClick={() => {
+                setShowSocialToast(true);
+                setTimeout(() => setShowSocialToast(false), 3000);
+              }}
+              className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+            >
               <Instagram className="w-5 h-5" />
-            </a>
-            <a href="#" className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50">
+            </button>
+            <button 
+              onClick={() => {
+                setShowSocialToast(true);
+                setTimeout(() => setShowSocialToast(false), 3000);
+              }}
+              className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+            >
               <MessageSquare className="w-5 h-5" />
-            </a>
+            </button>
           </div>
 
           <div className="space-y-6 max-w-4xl">
@@ -388,6 +461,20 @@ export default function App() {
         onClose={() => setIsVideoOpen(false)} 
         videoUrl="https://drive.google.com/file/d/1YY8LJ4elGmu220-l-upVu1oOdpEDU0Yv/preview"
       />
+
+      {/* Social Media Coming Soon Toast */}
+      <AnimatePresence>
+        {showSocialToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 bg-steel-blue text-ink-black rounded-full font-mono text-xs font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(61,122,184,0.4)] border border-mint-cream/20 text-center whitespace-nowrap"
+          >
+            Social Media Coming Soon
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

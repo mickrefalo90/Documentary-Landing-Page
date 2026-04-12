@@ -1,0 +1,9 @@
+{
+  "hero": true,
+  "mission": true,
+  "about": true,
+  "team": true,
+  "pledge": false,
+  "faq": true,
+  "contact": false
+}

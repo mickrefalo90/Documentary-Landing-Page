@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 
 interface FAQItem {
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 const faqs: FAQItem[] = [
@@ -13,16 +13,26 @@ const faqs: FAQItem[] = [
     answer: "Region Locked is a feature-length documentary exploring the hidden history of the Australian video game industry, from the early 70s to the turn of the millennium."
   },
   {
-    question: "When does the Kickstarter launch?",
-    answer: "The campaign officially goes live on July 1. Sign up for our newsletter to be notified the second we launch."
+    question: "What games will be featured?",
+    answer: "We're diving deep into the archives to cover everything from the early text-adventure era (like The Hobbit) to the 90s boom and the modern indie revolution. Expect to see classics, cult hits, and the stories behind games you never knew were made in Australia."
   },
   {
-    question: "What are the pledge tiers?",
-    answer: "Tiers will start at $20 AUD. Rewards include digital copies of the film, exclusive behind-the-scenes content, physical memorabilia, and even producer credits."
+    question: "Who are you interviewing?",
+    answer: "We are speaking with the original pioneers, studio founders, and developers who were on the front lines. Our goal is to capture the raw, first-hand accounts of the people who built this industry from the ground up."
   },
   {
-    question: "Why $350,000?",
-    answer: "This goal covers high-end production costs, archival footage licensing, interviews across the country, and post-production to ensure this history is preserved in the highest quality possible. Stretch goals will be revealed as the campaign progresses."
+    question: "How can I participate or share my story?",
+    answer: (
+      <div className="space-y-4">
+        <p>We are always looking for unique stories, rare archival footage, or insights from those who were part of the Aussie gaming scene. If you have something to share or would like to participate, please reach out to David or Michael.</p>
+        <a 
+          href="mailto:regionlocked.doco@gmail.com"
+          className="inline-flex items-center gap-2 bg-steel-blue text-ink-black px-4 py-2 rounded-lg font-bold hover:bg-mint-cream transition-all text-sm"
+        >
+          Email the Team
+        </a>
+      </div>
+    )
   }
 ];
 

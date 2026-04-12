@@ -1,46 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // NOTE: You need to replace these entry IDs with the actual ones from your Google Form.
+  // To find them: 
+  // 1. Open your Google Form in a browser.
+  // 2. Right-click on a field and select "Inspect".
+  // 3. Look for the 'name' attribute, which will be something like 'entry.123456789'.
+  const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd2XQdhXbh3TiIuyP4T3swwyV2Fp3k5Lxnkl9cKyr9IxAuy9Q/formResponse";
+  const ENTRY_IDS = {
+    name: "entry.105151515", // Placeholder: Replace with actual ID
+    email: "entry.105151516", // Placeholder: Replace with actual ID
+    message: "entry.105151517", // Placeholder: Replace with actual ID
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // We don't preventDefault here because we want the form to submit to the hidden iframe
     setStatus("submitting");
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch("https://formspree.io/regionlocked.doco@gmail.com", {
-        method: "POST",
-        body: JSON.stringify({
-          ...data,
-          _subject: "New Region Locked Lead",
-        }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setStatus("success");
-      } else {
-        // Formspree returns specific errors if the email isn't verified
-        if (result.error && result.error.includes("is not set up")) {
-          throw new Error("Formspree setup incomplete: Please check regionlocked.doco@gmail.com for a confirmation email from Formspree and click the link to activate the form.");
-        }
-        throw new Error(result.error || "Form submission failed");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setStatus("idle");
-      const message = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
-      alert(message);
-    }
+    
+    // We'll use a timeout to show the success state since we can't easily detect 
+    // the iframe's load event across origins for a Google Form response.
+    setTimeout(() => {
+      setStatus("success");
+    }, 1000);
   };
 
   if (status === "success") {
@@ -57,47 +42,61 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Hidden field for spam protection */}
-        <input type="text" name="_gotcha" style={{ display: "none" }} />
-        <div className="space-y-2">
-          <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Name</label>
-          <input
-            required
-            name="name"
-            type="text"
-            placeholder="Your Name"
-            className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
-          />
-        </div>
-        <div className="space-y-2">
-          <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Email</label>
-          <input
-            required
-            name="email"
-            type="email"
-            placeholder="your@email.com"
-            className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
-          />
-        </div>
-      </div>
-      <div className="space-y-2">
-        <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Message (Optional)</label>
-        <textarea
-          rows={4}
-          name="message"
-          placeholder="Tell us why you're excited about the project..."
-          className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors resize-none"
-        />
-      </div>
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full bg-steel-blue hover:bg-mint-cream text-ink-black font-bold py-3 md:py-4 rounded-xl transition-all transform active:scale-[0.98] disabled:opacity-50 text-sm md:text-base"
+    <>
+      {/* Hidden iframe to handle the form submission without page reload */}
+      <iframe
+        name="hidden_iframe"
+        id="hidden_iframe"
+        style={{ display: "none" }}
+        ref={iframeRef}
+      />
+      
+      <form 
+        action={GOOGLE_FORM_URL}
+        method="POST"
+        target="hidden_iframe"
+        onSubmit={handleSubmit} 
+        className="space-y-6"
       >
-        {status === "submitting" ? "Registering..." : "Notify Me at Launch"}
-      </button>
-    </form>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Name</label>
+            <input
+              required
+              name={ENTRY_IDS.name}
+              type="text"
+              placeholder="Your Name"
+              className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Email</label>
+            <input
+              required
+              name={ENTRY_IDS.email}
+              type="email"
+              placeholder="your@email.com"
+              className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
+            />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <label className="text-[10px] font-mono uppercase tracking-widest text-white/40 ml-1">Message (Optional)</label>
+          <textarea
+            rows={4}
+            name={ENTRY_IDS.message}
+            placeholder="Tell us why you're excited about the project..."
+            className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors resize-none"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="w-full bg-steel-blue hover:bg-mint-cream text-ink-black font-bold py-3 md:py-4 rounded-xl transition-all transform active:scale-[0.98] disabled:opacity-50 text-sm md:text-base"
+        >
+          {status === "submitting" ? "Registering..." : "Notify Me at Launch"}
+        </button>
+      </form>
+    </>
   );
 }
