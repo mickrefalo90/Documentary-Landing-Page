@@ -23,14 +23,16 @@ const faqs: FAQItem[] = [
   {
     question: "How can I participate or share my story?",
     answer: (
-      <div className="space-y-4">
-        <p>We are always looking for unique stories, rare archival footage, or insights from those who were part of the Aussie gaming scene. If you have something to share or would like to participate, please reach out to David or Michael.</p>
-        <a 
-          href="mailto:regionlocked.doco@gmail.com"
-          className="inline-flex items-center gap-2 bg-steel-blue text-ink-black px-4 py-2 rounded-lg font-bold hover:bg-mint-cream transition-all text-sm"
-        >
-          Email the Team
-        </a>
+      <div className="space-y-6">
+        <p className="text-left">We are always looking for unique stories, rare archival footage, or insights from those who were part of the Aussie gaming scene. If you would like to participate, share content and design documents, concept art or footage; please reach out to <strong>David</strong> or <strong>Michael</strong> to see how you can be a part of the journey.</p>
+        <div className="flex justify-center">
+          <a 
+            href="mailto:regionlocked.doco@gmail.com"
+            className="inline-flex items-center gap-2 bg-steel-blue text-ink-black px-6 py-3 rounded-lg font-bold hover:bg-mint-cream transition-all text-sm"
+          >
+            Email the Team
+          </a>
+        </div>
       </div>
     )
   }

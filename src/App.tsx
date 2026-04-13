@@ -8,7 +8,7 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X } from "lucide-react";
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
 
 const NAV_ITEMS = [
@@ -163,7 +163,7 @@ export default function App() {
             </div>
             <motion.div
               style={{ opacity, scale }}
-              className="relative z-10 w-full max-w-5xl mx-auto space-y-12"
+              className="relative z-10 w-full max-w-5xl mx-auto space-y-12 flex flex-col items-center"
             >
               <div className="flex justify-center mb-8">
                 <CoinLogo className="w-24 h-24 md:w-32 md:h-32" />
@@ -192,24 +192,29 @@ export default function App() {
                   transition={{ delay: 0.4 }}
                   className="text-lg md:text-xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
                 >
-                  Unlocking the untold history of Australian video games.
+                  Unlocking the History of Australian Video Games
                 </motion.p>
               </div>
 
-              <motion.div
+              <motion.button
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
+                transition={{ delay: 0.8 }}
+                onClick={() => {
+                  const missionSection = document.getElementById('goal');
+                  missionSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center justify-center gap-4 pt-12 group cursor-pointer mx-auto"
               >
-                <button
-                  onClick={() => setIsVideoOpen(true)}
-                  className="group flex items-center gap-2 bg-mint-cream text-ink-black px-6 py-3 md:px-8 md:py-4 rounded-full font-bold hover:bg-steel-blue transition-all text-sm md:text-base"
+                <p className="text-steel-blue font-mono text-xs uppercase tracking-[0.3em] group-hover:text-mint-cream transition-colors">Ready to join?</p>
+                <motion.div
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-mint-cream/40 group-hover:text-steel-blue transition-colors"
                 >
-                  Watch Teaser
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </motion.div>
+                  <ChevronDown className="w-6 h-6" />
+                </motion.div>
+              </motion.button>
             </motion.div>
 
             {/* Floating Image Flow Elements */}
@@ -269,7 +274,7 @@ export default function App() {
                 <div className="space-y-12">
                   <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
                     The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
-                    <span className="text-2xl md:text-4xl opacity-80">Unveil the Untold History</span>
+                    <span className="text-2xl md:text-4xl opacity-80">Unlock the History of Australian Video Games</span>
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
                     <TopicItem
@@ -279,8 +284,8 @@ export default function App() {
                     />
                     <TopicItem
                       icon={<History className="w-6 h-6" />}
-                      title="Systemic Roadblocks"
-                      description="An unflinching look at the hurdles of a limited local industry, where small funding and isolation forced a unique brand of Aussie innovation."
+                      title="Preserve the Oral History"
+                      description="Preserve, document, and champion the events and history that made Australian video games legendary, ensuring our impact is not lost to time."
                     />
                     <TopicItem
                       icon={<Cpu className="w-6 h-6" />}
@@ -411,7 +416,7 @@ export default function App() {
               Region Locked
             </span>
             <p className="text-xs font-mono uppercase tracking-[0.3em] text-steel-blue/60">
-              Unlocking the untold history of Australian video games
+              Unlocking the History of Australian Video Games
             </p>
           </div>
 
