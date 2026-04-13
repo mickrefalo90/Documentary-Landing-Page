@@ -175,7 +175,7 @@ export default function App() {
                   transition={{ delay: 0.2 }}
                   className="text-steel-blue font-mono text-sm tracking-[0.5em] uppercase"
                 >
-                  Launching July 1 on Kickstarter
+                  Launching Q1 FY27 on Kickstarter
                 </motion.p>
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
@@ -399,7 +399,7 @@ export default function App() {
             <div className="relative z-10 max-w-3xl mx-auto space-y-12">
               <div className="text-center space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Stay Updated</h2>
-                <p className="text-mint-cream/70 font-normal">Be the first to know when we launch on July 1.</p>
+                <p className="text-mint-cream/70 font-normal">Be the first to know when we launch in Q1 FY27.</p>
               </div>
               <ContactForm />
             </div>

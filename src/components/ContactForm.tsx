@@ -36,7 +36,7 @@ export default function ContactForm() {
         className="p-8 text-center border border-steel-blue/30 rounded-2xl bg-steel-blue/5"
       >
         <h3 className="text-2xl font-bold text-steel-blue mb-2">You're on the list!</h3>
-        <p className="text-white/60">We'll notify you when the Kickstarter goes live on July 1.</p>
+        <p className="text-white/60">We'll notify you when the Kickstarter goes live in Q1 FY27.</p>
       </motion.div>
     );
   }
