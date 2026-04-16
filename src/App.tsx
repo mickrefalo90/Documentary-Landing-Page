@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import ReactGA from "react-ga4";
 import CoinLogo from "./components/CoinLogo";
 import StarField from "./components/StarField";
 import GoalTracker from "./components/GoalTracker";
@@ -83,6 +84,14 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSocialToast, setShowSocialToast] = useState(false);
   const targetRef = useRef(null);
+
+  useEffect(() => {
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+    if (measurementId) {
+      ReactGA.initialize(measurementId);
+      ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+    }
+  }, []);
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end end"],
@@ -201,6 +210,11 @@ export default function App() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
                 onClick={() => {
+                  ReactGA.event({
+                    category: "Navigation",
+                    action: "Scroll to Mission",
+                    label: "Ready to join?"
+                  });
                   const missionSection = document.getElementById('goal');
                   missionSection?.scrollIntoView({ behavior: 'smooth' });
                 }}
@@ -423,6 +437,10 @@ export default function App() {
           <div className="flex gap-8">
             <button 
               onClick={() => {
+                ReactGA.event({
+                  category: "Social",
+                  action: "Click Twitter"
+                });
                 setShowSocialToast(true);
                 setTimeout(() => setShowSocialToast(false), 3000);
               }}
@@ -432,6 +450,10 @@ export default function App() {
             </button>
             <button 
               onClick={() => {
+                ReactGA.event({
+                  category: "Social",
+                  action: "Click Instagram"
+                });
                 setShowSocialToast(true);
                 setTimeout(() => setShowSocialToast(false), 3000);
               }}
@@ -441,6 +463,10 @@ export default function App() {
             </button>
             <button 
               onClick={() => {
+                ReactGA.event({
+                  category: "Social",
+                  action: "Click Discord"
+                });
                 setShowSocialToast(true);
                 setTimeout(() => setShowSocialToast(false), 3000);
               }}

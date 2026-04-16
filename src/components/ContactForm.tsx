@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
+import ReactGA from "react-ga4";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -21,6 +22,12 @@ export default function ContactForm() {
     // We don't preventDefault here because we want the form to submit to the hidden iframe
     setStatus("submitting");
     
+    ReactGA.event({
+      category: "Contact",
+      action: "Form Submission",
+      label: "Notify Me"
+    });
+
     // We'll use a timeout to show the success state since we can't easily detect 
     // the iframe's load event across origins for a Google Form response.
     setTimeout(() => {
