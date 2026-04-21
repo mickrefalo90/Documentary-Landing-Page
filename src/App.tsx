@@ -199,7 +199,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-lg md:text-xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
+                  className="text-xl md:text-2xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
                 >
                   Unlocking the History of Australian Video Games
                 </motion.p>
@@ -268,10 +268,10 @@ export default function App() {
               <div className="space-y-6">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
                 <div className="max-w-3xl mx-auto space-y-4">
-                  <p className="text-mint-cream/80 text-lg font-normal leading-relaxed">
+                  <p className="text-mint-cream/80 text-xl font-normal leading-relaxed">
                     We intend to create feature documentary that showcases the Australian video game industry in a detailed, cinematic and entertaining way.
                   </p>
-                  <p className="text-mint-cream/60 text-base font-light leading-relaxed">
+                  <p className="text-mint-cream/60 text-lg font-light leading-relaxed">
                     From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers, artists, musicians and legends that birthed the landscape of Australian video games and gave Australia spotlight in the global industry.
                   </p>
                 </div>
@@ -533,10 +533,10 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
             {name}
           </h3>
           <div className="space-y-1">
-            <p className="text-steel-blue font-mono text-xs uppercase tracking-[0.3em]">
+            <p className="text-steel-blue font-mono text-sm uppercase tracking-[0.3em]">
               {role}
             </p>
-            <div className="space-y-1 font-mono text-[10px] uppercase tracking-widest">
+            <div className="space-y-1 font-mono text-xs uppercase tracking-widest">
               <p className="text-mint-cream/40">
                 <span className="font-bold text-steel-blue/60">First Game:</span> <span className="text-mint-cream/70">{firstGame}</span>
               </p>
@@ -547,13 +547,13 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
           </div>
         </div>
         
-        <p className="text-mint-cream/70 leading-relaxed font-light text-sm">
+        <p className="text-mint-cream/70 leading-relaxed font-light text-base">
           {bio}
         </p>
 
         <div className="space-y-3">
-          <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em]">Key Credits</p>
-          <ul className="space-y-1 text-xs font-mono text-mint-cream/60 uppercase tracking-wider">
+          <p className="text-xs font-mono text-steel-blue/40 uppercase tracking-[0.2em]">Key Credits</p>
+          <ul className="space-y-1 text-sm font-mono text-mint-cream/60 uppercase tracking-wider">
             {credits.map((credit, idx) => (
               <li key={idx} className="flex items-center gap-2">
                 <span className="w-1 h-1 bg-steel-blue/30 rounded-full" />
@@ -601,7 +601,7 @@ function TopicItem({ icon, title, description }: { icon: React.ReactNode; title:
       </div>
       <div className="space-y-2">
         <h3 className="text-2xl font-display font-normal tracking-widest uppercase">{title}</h3>
-        <p className="text-mint-cream/60 leading-relaxed font-light text-sm">{description}</p>
+        <p className="text-mint-cream/60 leading-relaxed font-light text-base">{description}</p>
       </div>
     </div>
   );
@@ -642,17 +642,17 @@ const PledgeRow: React.FC<{ tier: PledgeTier }> = ({ tier }) => {
       {/* Content */}
       <div className="flex-grow text-left space-y-2">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-          <h3 className="text-lg md:text-xl font-display font-normal tracking-widest uppercase leading-tight">{tier.title}</h3>
+          <h3 className="text-xl md:text-2xl font-display font-normal tracking-widest uppercase leading-tight">{tier.title}</h3>
           <div className="flex items-baseline gap-1">
-            <span className="text-xl font-bold text-steel-blue">${tier.price}</span>
-            <span className="text-mint-cream/40 text-[9px] font-sans uppercase">AUD</span>
+            <span className="text-2xl font-bold text-steel-blue">${tier.price}</span>
+            <span className="text-mint-cream/40 text-xs font-sans uppercase">AUD</span>
           </div>
         </div>
         
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <ul className="flex flex-wrap gap-x-3 gap-y-1">
             {tier.perks.map((perk, idx) => (
-              <li key={idx} className="text-[9px] md:text-[10px] font-mono text-mint-cream/60 uppercase tracking-wider flex items-center gap-1.5">
+              <li key={idx} className="text-xs md:text-sm font-mono text-mint-cream/60 uppercase tracking-wider flex items-center gap-1.5">
                 <span className="w-1 h-1 bg-steel-blue/30 rounded-full" />
                 {perk}
               </li>

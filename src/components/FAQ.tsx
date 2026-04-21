@@ -52,7 +52,7 @@ export default function FAQ() {
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
             className="w-full px-6 py-5 flex justify-between items-center text-left hover:bg-white/5 transition-colors"
           >
-            <span className="text-lg font-medium text-white/90">{faq.question}</span>
+            <span className="text-xl font-medium text-white/90">{faq.question}</span>
             <motion.div
               animate={{ rotate: openIndex === index ? 180 : 0 }}
               transition={{ duration: 0.3 }}
@@ -68,7 +68,7 @@ export default function FAQ() {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="px-6 pb-5 text-white/60 leading-relaxed font-light">
+                <div className="px-6 pt-5 pb-5 text-mint-cream/60 leading-relaxed font-light text-lg">
                   {faq.answer}
                 </div>
               </motion.div>
