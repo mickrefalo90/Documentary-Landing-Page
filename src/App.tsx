@@ -9,7 +9,7 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown } from "lucide-react";
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
 
 const NAV_ITEMS = [
@@ -266,13 +266,13 @@ export default function App() {
           <section id="goal" className="py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20">
             <div className="max-w-7xl mx-auto text-center space-y-12">
               <div className="space-y-6">
-                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Mission</h2>
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
                 <div className="max-w-3xl mx-auto space-y-4">
                   <p className="text-mint-cream/80 text-lg font-normal leading-relaxed">
-                    We intend to create a detailed, cinematic and entertaining feature - showcasing the contributions that Australians have made to the video game industry, from the very early days.
+                    We intend to create feature documentary that showcases the Australian video game industry in a detailed, cinematic and entertaining way.
                   </p>
                   <p className="text-mint-cream/60 text-base font-light leading-relaxed">
-                    From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers and artists that gave Australia a spotlight in the industry, and the unfortunate situations that lead to a less productive landscape for Aussie game development.
+                    From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers, artists, musicians and legends that birthed the landscape of Australian video games and gave Australia spotlight in the global industry.
                   </p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function App() {
                     <TopicItem
                       icon={<MessageSquare className="w-6 h-6" />}
                       title="The Legends' Perspective"
-                      description="Direct conversations with the pioneers who built the industry from the ground up, sharing the raw truth of creating global hits from the edge of the world."
+                      description="Direct conversations with the pioneers who built the Aussie industry from the ground up, sharing their raw truth of creating global hits."
                     />
                     <TopicItem
                       icon={<History className="w-6 h-6" />}
@@ -302,14 +302,14 @@ export default function App() {
                       description="Preserve, document, and champion the events and history that made Australian video games legendary, ensuring our impact is not lost to time."
                     />
                     <TopicItem
-                      icon={<Cpu className="w-6 h-6" />}
-                      title="The Funding Battle"
-                      description="Uncovering the constant fight for legitimacy and financial backing in a landscape that was often decades behind the global curve."
+                      icon={<Briefcase className="w-6 h-6" />}
+                      title="From Bits to Business"
+                      description="The hustle, challenges, and hurdles that gave Aussie devs' momentum; fuelling their passion and making Australian games some of the most innovative in the world."
                     />
                     <TopicItem
                       icon={<Sparkles className="w-6 h-6" />}
                       title="Resilience & Legacy"
-                      description="The stories of the studios that survived, the ones that didn't, and the enduring spirit of the developers who put Australia on the map against all odds."
+                      description="The stories behind the studios that continue to this day, and the ones that dwindled away... Highlighting the ever-enduring spirit of the people that created the games we love today."
                     />
                   </div>
                 </div>
