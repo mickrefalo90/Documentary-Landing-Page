@@ -9,8 +9,21 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Twitter, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase } from "lucide-react";
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase, Facebook, Youtube } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
+
+function BlueskyIcon({ className }: { className?: string }) {
+  return (
+    <svg 
+      viewBox="0 0 600 530" 
+      fill="currentColor" 
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z" />
+    </svg>
+  );
+}
 
 const NAV_ITEMS = [
   { key: 'hero', label: 'Home', id: '#' },
@@ -82,7 +95,6 @@ const PLEDGE_TIERS = [
 export default function App() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showSocialToast, setShowSocialToast] = useState(false);
   const targetRef = useRef(null);
 
   useEffect(() => {
@@ -269,7 +281,7 @@ export default function App() {
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
                 <div className="max-w-3xl mx-auto space-y-4">
                   <p className="text-mint-cream/80 text-xl font-normal leading-relaxed">
-                    We intend to create feature documentary that showcases the Australian video game industry in a detailed, cinematic and entertaining way.
+                    We are creating a feature documentary that showcases the Australian video game industry in a detailed, cinematic and entertaining way.
                   </p>
                   <p className="text-mint-cream/60 text-lg font-light leading-relaxed">
                     From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers, artists, musicians and legends that birthed the landscape of Australian video games and gave Australia spotlight in the global industry.
@@ -347,7 +359,7 @@ export default function App() {
                 <TeamMember 
                   name="Michael Refalo"
                   role="Creative Lead / Executive Producer"
-                  bio="Michael is a versatile and highly accomplished visionary whose sprawling career defines innovation across marketing, consumer products, retail, and visual merchandising. His expertise was sharpened as a creative leader at Toys 'R' Us Australia, where he developed the passion for designing dynamic, interactive spaces that instantly capture attention and drive deep consumer engagement. Fusing his lifelong enthusiasm for science, technology, storytelling, and entertainment, Michael now champions a powerful vision: to ignite the imaginations of the next generation of storytellers."
+                  bio="Michael is a versatile visionary whose career defines innovation in visual communications and audience engagement. Sharpening his expertise as a creative leader at Toys 'R' Us Australia, he mastered the mechanics of visual storytelling—specifically framing, emotional pacing, and guiding a unified creative vision. Translating his proven ability to construct compelling, immersive narratives across dynamic visual mediums, Michael now directs creative projects designed to ignite the imaginations of the next generation."
                   firstGame="Final Fantasy: Mystic Quest"
                   favGame="Half Life: Alyx"
                   linkedin="https://www.linkedin.com/in/michael-refalo"
@@ -435,45 +447,66 @@ export default function App() {
           </div>
 
           <div className="flex gap-8">
-            <button 
+            <a 
+              href="https://www.facebook.com/regionlocked.doco/"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
                 ReactGA.event({
                   category: "Social",
-                  action: "Click Twitter"
+                  action: "Click Facebook"
                 });
-                setShowSocialToast(true);
-                setTimeout(() => setShowSocialToast(false), 3000);
               }}
               className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+              title="Facebook"
             >
-              <Twitter className="w-5 h-5" />
-            </button>
-            <button 
+              <Facebook className="w-5 h-5" />
+            </a>
+            <a 
+              href="https://www.instagram.com/regionlocked.doco/"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
                 ReactGA.event({
                   category: "Social",
                   action: "Click Instagram"
                 });
-                setShowSocialToast(true);
-                setTimeout(() => setShowSocialToast(false), 3000);
               }}
               className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+              title="Instagram"
             >
               <Instagram className="w-5 h-5" />
-            </button>
-            <button 
+            </a>
+            <a 
+              href="https://www.youtube.com/@RegionLocked-doco"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
                 ReactGA.event({
                   category: "Social",
-                  action: "Click Discord"
+                  action: "Click YouTube"
                 });
-                setShowSocialToast(true);
-                setTimeout(() => setShowSocialToast(false), 3000);
               }}
               className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+              title="YouTube"
             >
-              <MessageSquare className="w-5 h-5" />
-            </button>
+              <Youtube className="w-5 h-5" />
+            </a>
+            <a 
+              href="https://bsky.app/profile/regionlocked-doco.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                ReactGA.event({
+                  category: "Social",
+                  action: "Click BlueSky"
+                });
+              }}
+              className="text-white hover:text-steel-blue transition-colors p-2 rounded-full border border-white/10 hover:border-steel-blue/50 cursor-pointer"
+              title="BlueSky"
+            >
+              <BlueskyIcon className="w-5 h-5" />
+            </a>
           </div>
 
           <div className="space-y-6 max-w-4xl">
@@ -492,20 +525,6 @@ export default function App() {
         onClose={() => setIsVideoOpen(false)} 
         videoUrl="https://drive.google.com/file/d/1YY8LJ4elGmu220-l-upVu1oOdpEDU0Yv/preview"
       />
-
-      {/* Social Media Coming Soon Toast */}
-      <AnimatePresence>
-        {showSocialToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 bg-steel-blue text-ink-black rounded-full font-mono text-xs font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(61,122,184,0.4)] border border-mint-cream/20 text-center whitespace-nowrap"
-          >
-            Social Media Coming Soon
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
