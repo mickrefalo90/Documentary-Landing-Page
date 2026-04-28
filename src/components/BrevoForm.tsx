@@ -60,13 +60,13 @@ const BrevoForm: React.FC = () => {
     };
 
     const mainScript = loadScript("https://sibforms.com/forms/end-form/build/main.js", false, true);
-    const recaptchaScript = loadScript("https://www.google.com/recaptcha/api.js?hl=en", false, false);
+    const recaptchaScript = loadScript("https://www.google.com/recaptcha/api.js?render=6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc&hl=en", true, true);
     const sibStyles = loadStyle("https://sibforms.com/forms/end-form/build/sib-styles.css");
 
     return () => {
-      document.body.removeChild(mainScript);
-      document.body.removeChild(recaptchaScript);
-      document.head.removeChild(sibStyles);
+      if (document.body.contains(mainScript)) document.body.removeChild(mainScript);
+      if (document.body.contains(recaptchaScript)) document.body.removeChild(recaptchaScript);
+      if (document.head.contains(sibStyles)) document.head.removeChild(sibStyles);
     };
   }, []);
 
@@ -220,14 +220,7 @@ const BrevoForm: React.FC = () => {
 
                   <div className="entry__field">
                     <input 
-                      className="input w-full border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-mint-cream/30 focus:outline-none focus:border-steel-blue transition-all" 
-                      style={{ 
-                        backgroundColor: "#333333", 
-                        color: "#ffffff", 
-                        fontWeight: "bold", 
-                        fontFamily: "Arial, sans-serif",
-                        fontSize: "1.125rem"
-                      }}
+                      className="input w-full bg-ink-black/60 border border-steel-blue/40 rounded-xl px-5 py-4 text-white placeholder:text-white focus:outline-none focus:border-steel-blue transition-all font-sans text-lg" 
                       type="email" 
                       id="EMAIL" 
                       name="EMAIL" 
@@ -247,22 +240,9 @@ const BrevoForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Captcha Section */}
-          <div className="mb-8 flex justify-center scale-90 md:scale-100 origin-center">
-            <div className="sib-captcha sib-form-block">
-              <div className="form__entry entry_block">
-                <div className="form__label-row">
-                  <div 
-                    className="g-recaptcha sib-visible-recaptcha" 
-                    id="sib-captcha" 
-                    data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc" 
-                    data-callback="handleCaptchaResponse" 
-                    style={{ direction: "ltr" }}
-                  ></div>
-                </div>
-                <label className="entry__error entry__error--primary mt-2 block text-xs font-sans text-red-500"></label>
-              </div>
-            </div>
+          {/* Hidden Captcha Section for v3 */}
+          <div className="hidden">
+            <div className="g-recaptcha-v3" data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc"></div>
           </div>
 
           {/* Submit Section */}

@@ -105,6 +105,16 @@ export default function App() {
       ReactGA.send({ hitType: "pageview", page: window.location.pathname });
     }
   }, []);
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const bannerMessages = ["Sign up for updates!", "Follow our Kickstarter"];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBannerIndex((prev) => (prev + 1) % bannerMessages.length);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start start", "end end"],
@@ -126,9 +136,20 @@ export default function App() {
           {/* Subtle Shine Effect */}
           <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shine pointer-events-none" />
           
-          <span className="relative flex items-center justify-center gap-2" style={{ fontSize: "16px" }}>
-            Sign up for updates!
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          <span className="relative flex items-center justify-center gap-2 overflow-hidden" style={{ fontSize: "16px" }}>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={bannerIndex}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex items-center gap-2"
+              >
+                {bannerMessages[bannerIndex]}
+                <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              </motion.span>
+            </AnimatePresence>
           </span>
         </a>
       </div>
@@ -420,12 +441,12 @@ export default function App() {
           <section id="follow" className="py-24 px-6 relative bg-steel-blue/5 overflow-hidden">
             <TronBackground opacity={0.1} />
             <div className="max-w-7xl mx-auto relative z-10">
-              <div className="text-center mb-16 space-y-4">
+              <div className="text-center mb-8 space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Follow The Project</h2>
                 <div className="w-12 h-1 bg-steel-blue mx-auto" />
               </div>
               
-              <div className="relative max-w-4xl mx-auto py-12">
+              <div className="relative max-w-4xl mx-auto py-6">
                 <BrevoForm />
               </div>
             </div>
