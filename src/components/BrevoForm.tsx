@@ -73,11 +73,15 @@ const BrevoForm: React.FC = () => {
   return (
     <div className="sib-form" style={{ textAlign: "center", backgroundColor: "transparent" }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        #sib-container input#EMAIL {
+        #sib-container input#EMAIL,
+        #sib-container input#FIRSTNAME,
+        #sib-container input#LASTNAME {
           color: #000000 !important;
           -webkit-text-fill-color: #000000 !important;
         }
-        #sib-container input#EMAIL::placeholder {
+        #sib-container input#EMAIL::placeholder,
+        #sib-container input#FIRSTNAME::placeholder,
+        #sib-container input#LASTNAME::placeholder {
           color: #9ca3af !important;
           -webkit-text-fill-color: #9ca3af !important;
         }
@@ -158,6 +162,65 @@ const BrevoForm: React.FC = () => {
               >
                 <div className="sib-text-form-block space-y-4">
                   <p>Sign up to stay updated on all things Region Locked!</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Name Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="sib-input sib-form-block">
+                <div className="form__entry entry_block">
+                  <div className="form__label-row space-y-3">
+                    <label 
+                      className="entry__label block uppercase tracking-[0.2em] font-mono text-left font-bold text-steel-blue" 
+                      style={{ fontSize: "13px" }}
+                      htmlFor="FIRSTNAME" 
+                      data-required="*"
+                    >
+                      First Name
+                    </label>
+                    <div className="entry__field">
+                      <input 
+                        className="input w-full bg-white border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-gray-400 focus:outline-none focus:border-steel-blue transition-all font-sans text-lg font-bold" 
+                        type="text" 
+                        id="FIRSTNAME" 
+                        name="FIRSTNAME" 
+                        autoComplete="given-name" 
+                        placeholder="First Name" 
+                        data-required="true" 
+                        required 
+                      />
+                    </div>
+                  </div>
+                  <label className="entry__error entry__error--primary mt-2 block text-sm font-sans text-red-400 text-left px-2" style={{ borderRadius: "8px" }}></label>
+                </div>
+              </div>
+
+              <div className="sib-input sib-form-block">
+                <div className="form__entry entry_block">
+                  <div className="form__label-row space-y-3">
+                    <label 
+                      className="entry__label block uppercase tracking-[0.2em] font-mono text-left font-bold text-steel-blue" 
+                      style={{ fontSize: "13px" }}
+                      htmlFor="LASTNAME" 
+                      data-required="*"
+                    >
+                      Last Name
+                    </label>
+                    <div className="entry__field">
+                      <input 
+                        className="input w-full bg-white border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-gray-400 focus:outline-none focus:border-steel-blue transition-all font-sans text-lg font-bold" 
+                        type="text" 
+                        id="LASTNAME" 
+                        name="LASTNAME" 
+                        autoComplete="family-name" 
+                        placeholder="Last Name" 
+                        data-required="true" 
+                        required 
+                      />
+                    </div>
+                  </div>
+                  <label className="entry__error entry__error--primary mt-2 block text-sm font-sans text-red-400 text-left px-2" style={{ borderRadius: "8px" }}></label>
                 </div>
               </div>
             </div>
