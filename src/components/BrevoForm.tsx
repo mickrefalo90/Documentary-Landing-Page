@@ -83,7 +83,151 @@ const BrevoForm: React.FC = () => {
         }
       ` }} />
       <div id="sib-form-container" className="sib-form-container">
-        {/* Error Message */}
+        {/* Form Container */}
+        <div 
+          id="sib-container" 
+          className="sib-container--large sib-container--vertical shadow-2xl" 
+          style={{ 
+            textAlign: "center", 
+            backgroundColor: "rgba(20, 24, 32, 0.8)", 
+            maxWidth: "540px", 
+            borderRadius: "24px", 
+            borderWidth: "1px", 
+            borderColor: "rgba(61, 122, 184, 0.3)", 
+            borderStyle: "solid", 
+            direction: "ltr",
+            margin: "0 auto",
+            padding: "2rem",
+            backdropBlur: "12px"
+          }}
+        >
+          <form 
+            id="sib-form" 
+            method="POST" 
+            action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A==" 
+            data-type="subscription"
+          >
+            {/* Marquee Banner - Moved to Top */}
+            <div className="bg-steel-blue overflow-hidden whitespace-nowrap py-2.5 -mx-8 -mt-8 mb-8 relative rounded-t-[23px] border-b border-white/10">
+              <div 
+                className="inline-block whitespace-nowrap"
+                style={{ 
+                  animation: "marquee 30s linear infinite",
+                  display: "inline-block"
+                }}
+              >
+                {[...Array(8)].map((_, i) => (
+                  <span key={i} className="text-white font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs pr-[50px]">
+                    Kickstarter Date Announcement Soon!
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Title Section */}
+            <div className="mb-6">
+              <div 
+                className="sib-form-block" 
+                style={{ 
+                  fontSize: "36px", 
+                  textAlign: "center", 
+                  fontWeight: "400", 
+                  fontFamily: "var(--font-display)", 
+                  color: "var(--color-mint-cream)", 
+                  textTransform: "uppercase",
+                  letterSpacing: "0.15em",
+                  lineHeight: "1.2"
+                }}
+              >
+                <p>Sign up for updates!</p>
+              </div>
+            </div>
+
+            {/* Subtitle Section */}
+            <div className="mb-8 border-b border-steel-blue/10 pb-6">
+              <div 
+                className="sib-form-block" 
+                style={{ 
+                  fontSize: "20px", 
+                  textAlign: "center", 
+                  fontFamily: "var(--font-sans)", 
+                  color: "rgba(238, 243, 239, 0.8)", 
+                  fontWeight: "300",
+                  lineHeight: "1.6"
+                }}
+              >
+                <div className="sib-text-form-block space-y-4">
+                  <p>Sign up to stay updated on all things Region Locked!</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Input Section */}
+            <div className="mb-8">
+              <div className="sib-input sib-form-block">
+                <div className="form__entry entry_block">
+                  <div className="form__label-row space-y-3">
+                    <label 
+                      className="entry__label block uppercase tracking-[0.2em] font-mono text-left font-bold text-steel-blue" 
+                      style={{ fontSize: "13px" }}
+                      htmlFor="EMAIL" 
+                      data-required="*"
+                    >
+                      Enter your email address to subscribe
+                    </label>
+
+                    <div className="entry__field">
+                      <input 
+                        className="input w-full bg-white border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-gray-400 focus:outline-none focus:border-steel-blue transition-all font-sans text-lg font-bold" 
+                        type="email" 
+                        id="EMAIL" 
+                        name="EMAIL" 
+                        autoComplete="email" 
+                        placeholder="your@email.com" 
+                        data-required="true" 
+                        required 
+                      />
+                    </div>
+                  </div>
+
+                  <label className="entry__error entry__error--primary mt-2 block text-sm font-sans text-red-400 text-left px-2" style={{ borderRadius: "8px" }}></label>
+                  <label className="entry__specification mt-3 block text-xs uppercase tracking-wider font-mono text-left px-2" style={{ color: "#c5c5c5" }}>
+                    Provide your email address to subscribe.
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Hidden Captcha Section for v3 */}
+            <div className="hidden">
+              <div className="g-recaptcha-v3" data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc"></div>
+            </div>
+
+            {/* Submit Section */}
+            <div className="mt-4">
+              <div className="sib-form-block" style={{ textAlign: "center" }}>
+                <button 
+                  className="sib-form-block__button sib-form-block__button-with-loader w-full bg-steel-blue hover:bg-mint-cream text-ink-black font-display text-2xl py-4 rounded-xl transition-all transform active:scale-[0.98] tracking-widest flex items-center justify-center gap-3 group" 
+                  form="sib-form" 
+                  type="submit"
+                >
+                  <svg 
+                    className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon w-6 h-6 animate-spin hidden" 
+                    viewBox="0 0 512 512"
+                  >
+                    <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" fill="currentColor" />
+                  </svg>
+                  <span>FOLLOW PROJECT</span>
+                </button>
+              </div>
+            </div>
+
+            <input type="text" name="email_address_check" defaultValue="" className="hidden" />
+            <input type="hidden" name="locale" value="en" />
+          </form>
+        </div>
+
+        {/* Error Message - Moved below container */}
         <div 
           id="error-message" 
           className="sib-form-message-panel hidden" 
@@ -96,7 +240,7 @@ const BrevoForm: React.FC = () => {
             borderRadius: "12px", 
             borderColor: "#ff4949", 
             maxWidth: "540px",
-            margin: "0 auto 1.5rem"
+            margin: "1.5rem auto 0"
           }}
         >
           <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
@@ -109,7 +253,7 @@ const BrevoForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Success Message */}
+        {/* Success Message - Moved below container */}
         <div 
           id="success-message" 
           className="sib-form-message-panel hidden" 
@@ -122,7 +266,7 @@ const BrevoForm: React.FC = () => {
             borderRadius: "12px", 
             borderColor: "#13ce66", 
             maxWidth: "540px",
-            margin: "0 auto 1.5rem"
+            margin: "1.5rem auto 0"
           }}
         >
           <div className="sib-form-message-panel__text sib-form-message-panel__text--center">
@@ -134,150 +278,6 @@ const BrevoForm: React.FC = () => {
             </span>
           </div>
         </div>
-
-      {/* Form Container */}
-      <div 
-        id="sib-container" 
-        className="sib-container--large sib-container--vertical shadow-2xl" 
-        style={{ 
-          textAlign: "center", 
-          backgroundColor: "rgba(20, 24, 32, 0.8)", 
-          maxWidth: "540px", 
-          borderRadius: "24px", 
-          borderWidth: "1px", 
-          borderColor: "rgba(61, 122, 184, 0.3)", 
-          borderStyle: "solid", 
-          direction: "ltr",
-          margin: "0 auto",
-          padding: "2rem",
-          backdropBlur: "12px"
-        }}
-      >
-        <form 
-          id="sib-form" 
-          method="POST" 
-          action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A==" 
-          data-type="subscription"
-        >
-          {/* Marquee Banner - Moved to Top */}
-          <div className="bg-steel-blue overflow-hidden whitespace-nowrap py-2.5 -mx-8 -mt-8 mb-8 relative rounded-t-[23px] border-b border-white/10">
-            <div 
-              className="inline-block whitespace-nowrap"
-              style={{ 
-                animation: "marquee 30s linear infinite",
-                display: "inline-block"
-              }}
-            >
-              {[...Array(8)].map((_, i) => (
-                <span key={i} className="text-white font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs pr-[50px]">
-                  Kickstarter Date Announcement Soon!
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Title Section */}
-          <div className="mb-6">
-            <div 
-              className="sib-form-block" 
-              style={{ 
-                fontSize: "36px", 
-                textAlign: "center", 
-                fontWeight: "400", 
-                fontFamily: "var(--font-display)", 
-                color: "var(--color-mint-cream)", 
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                lineHeight: "1.2"
-              }}
-            >
-              <p>Sign up for updates!</p>
-            </div>
-          </div>
-
-          {/* Subtitle Section */}
-          <div className="mb-8 border-b border-steel-blue/10 pb-6">
-            <div 
-              className="sib-form-block" 
-              style={{ 
-                fontSize: "20px", 
-                textAlign: "center", 
-                fontFamily: "var(--font-sans)", 
-                color: "rgba(238, 243, 239, 0.8)", 
-                fontWeight: "300",
-                lineHeight: "1.6"
-              }}
-            >
-              <div className="sib-text-form-block space-y-4">
-                <p>Sign up to stay updated on all things Region Locked!</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Input Section */}
-          <div className="mb-8">
-            <div className="sib-input sib-form-block">
-              <div className="form__entry entry_block">
-                <div className="form__label-row space-y-3">
-                  <label 
-                    className="entry__label block uppercase tracking-[0.2em] font-mono text-left font-bold text-steel-blue" 
-                    style={{ fontSize: "13px" }}
-                    htmlFor="EMAIL" 
-                    data-required="*"
-                  >
-                    Enter your email address to subscribe
-                  </label>
-
-                  <div className="entry__field">
-                    <input 
-                      className="input w-full bg-white border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-gray-400 focus:outline-none focus:border-steel-blue transition-all font-sans text-lg font-bold" 
-                      type="email" 
-                      id="EMAIL" 
-                      name="EMAIL" 
-                      autoComplete="email" 
-                      placeholder="your@email.com" 
-                      data-required="true" 
-                      required 
-                    />
-                  </div>
-                </div>
-
-                <label className="entry__error entry__error--primary mt-2 block text-sm font-sans text-red-400 text-left px-2" style={{ borderRadius: "8px" }}></label>
-                <label className="entry__specification mt-3 block text-xs uppercase tracking-wider font-mono text-left px-2" style={{ color: "#c5c5c5" }}>
-                  Provide your email address to subscribe.
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Hidden Captcha Section for v3 */}
-          <div className="hidden">
-            <div className="g-recaptcha-v3" data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc"></div>
-          </div>
-
-          {/* Submit Section */}
-          <div className="mt-4">
-            <div className="sib-form-block" style={{ textAlign: "center" }}>
-              <button 
-                className="sib-form-block__button sib-form-block__button-with-loader w-full bg-steel-blue hover:bg-mint-cream text-ink-black font-display text-2xl py-4 rounded-xl transition-all transform active:scale-[0.98] tracking-widest flex items-center justify-center gap-3 group" 
-                form="sib-form" 
-                type="submit"
-              >
-                <svg 
-                  className="icon clickable__icon progress-indicator__icon sib-hide-loader-icon w-6 h-6 animate-spin hidden" 
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" fill="currentColor" />
-                </svg>
-                <span>FOLLOW PROJECT</span>
-              </button>
-            </div>
-          </div>
-
-          <input type="text" name="email_address_check" defaultValue="" className="hidden" />
-          <input type="hidden" name="locale" value="en" />
-        </form>
-      </div>
     </div>
   </div>
 );
