@@ -72,6 +72,16 @@ const BrevoForm: React.FC = () => {
 
   return (
     <div className="sib-form" style={{ textAlign: "center", backgroundColor: "transparent" }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        #sib-container input#EMAIL {
+          color: #000000 !important;
+          -webkit-text-fill-color: #000000 !important;
+        }
+        #sib-container input#EMAIL::placeholder {
+          color: #9ca3af !important;
+          -webkit-text-fill-color: #9ca3af !important;
+        }
+      ` }} />
       <div id="sib-form-container" className="sib-form-container">
         {/* Error Message */}
         <div 
@@ -220,7 +230,7 @@ const BrevoForm: React.FC = () => {
 
                   <div className="entry__field">
                     <input 
-                      className="input w-full bg-ink-black/60 border border-steel-blue/40 rounded-xl px-5 py-4 text-white placeholder:text-white focus:outline-none focus:border-steel-blue transition-all font-sans text-lg" 
+                      className="input w-full bg-white border border-steel-blue/40 rounded-xl px-5 py-4 placeholder:text-gray-400 focus:outline-none focus:border-steel-blue transition-all font-sans text-lg font-bold" 
                       type="email" 
                       id="EMAIL" 
                       name="EMAIL" 
