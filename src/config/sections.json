@@ -4,6 +4,7 @@
   "about": true,
   "team": true,
   "pledge": false,
+  "follow": true,
   "faq": true,
   "contact": false
 }

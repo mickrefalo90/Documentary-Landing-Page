@@ -9,6 +9,7 @@ import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
+import BrevoForm from "./components/BrevoForm";
 import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase, Facebook, Youtube } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
 
@@ -116,25 +117,35 @@ export default function App() {
 
   return (
     <div ref={targetRef} className="min-h-screen bg-ink-black text-mint-cream selection:bg-steel-blue selection:text-ink-black overflow-x-hidden">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 backdrop-blur-md border-b border-steel-blue/10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <CoinLogo animated={false} className="w-8 h-8" />
-            <span className="font-mono text-xs font-bold tracking-[0.3em] uppercase hidden sm:block">
-              Region Locked
-            </span>
-          </div>
+      {/* Top Banner */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <a 
+          href="#follow" 
+          className="relative block w-full bg-steel-blue text-white py-2.5 text-center text-xs md:text-sm font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all duration-300 cursor-pointer overflow-hidden group shadow-[0_2px_15px_rgba(61,122,184,0.3)]"
+        >
+          {/* Subtle Shine Effect */}
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shine pointer-events-none" />
           
-          {/* Menu Button (All screen sizes) */}
-          <button 
-            className="text-mint-cream p-2 hover:text-steel-blue transition-colors"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
-          </button>
+          <span className="relative flex items-center justify-center gap-2" style={{ fontSize: "16px" }}>
+            Sign up for updates!
+            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+          </span>
+        </a>
+      </div>
+
+      {/* Floating Menu Trigger - Top Left */}
+      <button 
+        onClick={() => setIsMenuOpen(true)}
+        className="fixed top-20 left-6 md:top-24 md:left-10 lg:left-12 z-[60] flex items-center gap-4 group cursor-pointer drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
+      >
+        <div className="p-2 border border-white/20 rounded-full group-hover:border-steel-blue transition-all duration-300 bg-ink-black/40 backdrop-blur-md md:hidden">
+          <Menu className="w-7 h-7 text-white group-hover:text-steel-blue transition-colors" />
         </div>
-      </nav>
+        <span className="hidden md:block font-display text-xl tracking-[0.4em] uppercase text-white group-hover:text-steel-blue transition-all duration-300 relative">
+          Menu
+          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-steel-blue group-hover:w-full transition-all duration-300"></span>
+        </span>
+      </button>
 
       {/* Full-Screen Navigation Overlay */}
       <AnimatePresence>
@@ -146,10 +157,10 @@ export default function App() {
             className="fixed inset-0 z-[100] bg-ink-black flex flex-col items-center justify-center glitch-overlay"
           >
             <button 
-              className="absolute top-6 right-6 text-mint-cream p-2 z-[110]"
+              className="absolute top-8 left-8 md:top-12 md:left-12 text-mint-cream p-2 z-[110] border border-white/10 rounded-full hover:border-steel-blue hover:text-steel-blue transition-all"
               onClick={() => setIsMenuOpen(false)}
             >
-              <X className="w-10 h-10" />
+              <X className="w-8 h-8 md:w-10 md:h-10" />
             </button>
 
             <div className="flex flex-col gap-4 text-center relative z-[110]">
@@ -404,6 +415,23 @@ export default function App() {
           </section>
         )}
 
+        {/* Follow The Project Section */}
+        {sectionsConfig.follow && (
+          <section id="follow" className="py-24 px-6 relative bg-steel-blue/5 overflow-hidden">
+            <TronBackground opacity={0.1} />
+            <div className="max-w-7xl mx-auto relative z-10">
+              <div className="text-center mb-16 space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Follow The Project</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
+              </div>
+              
+              <div className="relative max-w-4xl mx-auto py-12">
+                <BrevoForm />
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* FAQ Section */}
         {sectionsConfig.faq && (
           <section id="faq" className="py-24 px-6 relative overflow-hidden">
@@ -411,7 +439,7 @@ export default function App() {
             <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-16 space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Frequently Asked</h2>
-                <p className="text-mint-cream/70 font-normal">Everything you need to know about the project.</p>
+                <p className="text-mint-cream/70 font-normal" style={{ fontSize: "18px" }}>Everything you need to know about the project.</p>
               </div>
               <FAQ />
             </div>
