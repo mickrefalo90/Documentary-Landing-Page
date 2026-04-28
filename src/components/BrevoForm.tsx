@@ -85,6 +85,9 @@ const BrevoForm: React.FC = () => {
           color: #9ca3af !important;
           -webkit-text-fill-color: #9ca3af !important;
         }
+        .grecaptcha-badge { 
+          visibility: hidden; 
+        }
       ` }} />
       <div id="sib-form-container" className="sib-form-container">
         {/* Form Container */}
@@ -287,6 +290,13 @@ const BrevoForm: React.FC = () => {
 
             <input type="text" name="email_address_check" defaultValue="" className="hidden" />
             <input type="hidden" name="locale" value="en" />
+            
+            {/* ReCAPTCHA Legal Notice */}
+            <div className="mt-8 text-[10px] text-mint-cream/40 font-sans leading-relaxed">
+              This site is protected by reCAPTCHA and the Google{' '}
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-steel-blue transition-colors">Privacy Policy</a> and{' '}
+              <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-steel-blue transition-colors">Terms of Service</a> apply.
+            </div>
           </form>
         </div>
 
