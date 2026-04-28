@@ -29,7 +29,7 @@ const BrevoForm: React.FC = () => {
       }
     };
 
-    // Load Scripts
+    // Load Scripts and Styles
     const loadScript = (src: string, isAsync = false, defer = false) => {
       const script = document.createElement("script");
       script.src = src;
@@ -39,12 +39,22 @@ const BrevoForm: React.FC = () => {
       return script;
     };
 
+    const loadStyle = (href: string) => {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      document.head.appendChild(link);
+      return link;
+    };
+
     const mainScript = loadScript("https://sibforms.com/forms/end-form/build/main.js", false, true);
     const recaptchaScript = loadScript("https://www.google.com/recaptcha/api.js?hl=en", false, false);
+    const sibStyles = loadStyle("https://sibforms.com/forms/end-form/build/sib-styles.css");
 
     return () => {
       document.body.removeChild(mainScript);
       document.body.removeChild(recaptchaScript);
+      document.head.removeChild(sibStyles);
     };
   }, []);
 
@@ -124,7 +134,7 @@ const BrevoForm: React.FC = () => {
           <form 
             id="sib-form" 
             method="POST" 
-            action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A==" 
+            action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A==" 
             data-type="subscription"
           >
             {/* Marquee Banner - Moved to Top */}
@@ -177,7 +187,7 @@ const BrevoForm: React.FC = () => {
                 }}
               >
                 <div className="sib-text-form-block space-y-4">
-                  <p>Stay updated on all things Region Locked!</p>
+                  <p>Sign up to stay updated on all things Region Locked!</p>
                 </div>
               </div>
             </div>
@@ -193,7 +203,7 @@ const BrevoForm: React.FC = () => {
                       htmlFor="EMAIL" 
                       data-required="*"
                     >
-                      Enter your email address
+                      Enter your email address to subscribe
                     </label>
 
                     <div className="entry__field">
@@ -233,7 +243,7 @@ const BrevoForm: React.FC = () => {
                     <div 
                       className="g-recaptcha sib-visible-recaptcha" 
                       id="sib-captcha" 
-                      data-sitekey="6LejyM0sAAAAADQMHhr3CYXPMmfu4dJmBCyHQ2h2" 
+                      data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc" 
                       data-callback="handleCaptchaResponse" 
                       style={{ direction: "ltr" }}
                     ></div>
