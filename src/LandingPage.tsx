@@ -568,7 +568,7 @@ export default function LandingPage() {
             </p>
             <div className="pt-4 flex justify-center">
               <Link 
-                to="/vault.html" 
+                to="/vault" 
                 className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/5 hover:text-steel-blue/40 transition-all duration-700 cursor-pointer"
               >
                 vault

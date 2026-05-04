@@ -172,12 +172,6 @@ export default function VaultPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleIframeLoad = () => {
-    if (isSubmitting) {
-      setIsSubmitted(true);
-    }
-  };
-
   useEffect(() => {
     // Brevo Configuration
     window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
@@ -204,152 +198,160 @@ export default function VaultPage() {
       }
     };
 
-    // Load Scripts
-    const script = document.createElement("script");
-    script.src = "https://sibforms.com/forms/end-form/build/main.js";
-    script.async = false;
-    script.defer = true;
-    document.body.appendChild(script);
+    // Load Scripts (official Brevo scripts)
+    const loadScript = (src: string, isAsync = false, defer = false) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = isAsync;
+      script.defer = defer;
+      document.body.appendChild(script);
+      return script;
+    };
 
-    // Load Styles
-    const sibStyles = document.createElement("link");
-    sibStyles.rel = "stylesheet";
-    sibStyles.href = "https://sibforms.com/forms/end-form/build/sib-styles.css";
-    document.head.appendChild(sibStyles);
+    const mainScript = loadScript("https://sibforms.com/forms/end-form/build/main.js", false, true);
+    const recaptchaScript = loadScript("https://www.google.com/recaptcha/api.js?render=6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc&hl=en", true, true);
 
     // Watch for success message to trigger glitch overlay
     const observer = new MutationObserver((mutations) => {
       const successMsg = document.getElementById('success-message');
       if (successMsg && !successMsg.classList.contains('hidden')) {
         setIsSubmitted(true);
+        setIsSubmitting(false);
       }
     });
 
     observer.observe(document.body, { attributes: true, subtree: true, childList: true });
 
     return () => {
-      if (document.body.contains(script)) document.body.removeChild(script);
-      if (document.head.contains(sibStyles)) document.head.removeChild(sibStyles);
+      if (document.body.contains(mainScript)) document.body.removeChild(mainScript);
+      if (document.body.contains(recaptchaScript)) document.body.removeChild(recaptchaScript);
       observer.disconnect();
     };
   }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    setIsSubmitting(true);
+  };
 
   if (isSubmitted) return <GlitchOverlay />;
 
   return (
     <main className="min-h-screen bg-[#030711] flex flex-col items-center justify-center p-6 relative overflow-hidden text-white font-sans selection:bg-yellow-500/30">
-      <div id="sib-form-container">
-        <div id="sib-container">
-          <div className="absolute inset-0 z-0 opacity-20">
-            <StarField />
-          </div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,#0d1932_0%,#030711_100%)] pointer-events-none" />
-          
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-0" 
-               style={{ 
-                 backgroundImage: 'linear-gradient(rgba(100, 150, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(100, 150, 255, 0.2) 1px, transparent 1px)',
-                 backgroundSize: '50px 50px'
-               }} />
+      <div className="absolute inset-0 z-0 opacity-20">
+        <StarField />
+      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,#0d1932_0%,#030711_100%)] pointer-events-none" />
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-0" 
+           style={{ 
+             backgroundImage: 'linear-gradient(rgba(100, 150, 255, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(100, 150, 255, 0.2) 1px, transparent 1px)',
+             backgroundSize: '50px 50px'
+           }} />
 
-          <div className="relative z-10 flex flex-col items-center max-w-2xl w-full text-center">
-            <Coin />
-            
-            <h1 className="text-2xl md:text-5xl font-retro tracking-widest mb-4 text-yellow-50/90 uppercase leading-snug">
-              The Australian Video Game history is <br className="hidden md:block" /> being lost to time.
-            </h1>
-            
-            <p className="text-white font-mono-jb text-[10px] md:text-xs uppercase tracking-[0.4em] mb-12 opacity-80 animate-pulse">
-              Unlock the Vault
-            </p>
+      <div id="sib-form-container" className="relative z-10 flex flex-col items-center max-w-2xl w-full text-center">
+        <Coin />
+        
+        <h1 className="text-2xl md:text-5xl font-retro tracking-widest mb-4 text-yellow-50/90 uppercase leading-snug">
+          The Australian Video Game history is <br className="hidden md:block" /> being lost to time.
+        </h1>
+        
+        <p className="text-white font-mono-jb text-[10px] md:text-xs uppercase tracking-[0.4em] mb-12 opacity-80 animate-pulse">
+          Unlock the Vault
+        </p>
 
-            <div className="w-full max-w-sm">
-              <iframe 
-                name="brevo_frame" 
-                className="hidden" 
-                onLoad={handleIframeLoad}
-              ></iframe>
-              <form
-                id="sib-form"
-                method="POST"
-                action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A=="
-                data-type="subscription"
-                target="brevo_frame"
-                className="space-y-3"
-                onSubmit={() => setIsSubmitting(true)}
-              >
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="sib-input">
-                    <div className="form__entry">
-                      <input 
-                        id="FIRSTNAME"
-                        name="FIRSTNAME" 
-                        placeholder="FIRST NAME" 
-                        required 
-                        data-required="true"
-                        className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
-                      />
-                    </div>
-                  </div>
-                  <div className="sib-input">
-                    <div className="form__entry">
-                      <input 
-                        id="LASTNAME"
-                        name="LASTNAME" 
-                        placeholder="LAST NAME" 
-                        required 
-                        data-required="true"
-                        className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
-                      />
-                    </div>
+        <div className="w-full max-w-sm">
+          <div id="sib-container">
+            <form
+              id="sib-form"
+              method="POST"
+              action="https://b8804975.sibforms.com/serve/MUIFACvMwoAVNzSECkaRBDPzAdsI8ogjopZoYRb9MtrW7xvTuS7-FBROgTNpbiiLOcZ8NMNFOROxgRWjlvYm93NatFHdhSD_hSg1v85ATkXUJa9Uaof8-JYFaU7nb3vtfwzgwcffrEYPsFcOTp3xJARxOYJZ8hqhOgdZpEex0H31C-JBxad2JAENi-EM1CIBo9dyOlyT6-pKsmU-3A=="
+              data-type="subscription"
+              onSubmit={handleSubmit}
+              className="space-y-3"
+            >
+              <div className="grid grid-cols-2 gap-3">
+                <div className="sib-input">
+                  <div className="form__entry">
+                    <input 
+                      id="FIRSTNAME"
+                      name="FIRSTNAME" 
+                      placeholder="FIRST NAME" 
+                      required 
+                      data-required="true"
+                      className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                    />
+                    <label className="entry__error entry__error--primary hidden mt-2 text-[8px] text-red-500 font-mono uppercase"></label>
                   </div>
                 </div>
                 <div className="sib-input">
                   <div className="form__entry">
                     <input 
-                      id="EMAIL"
-                      name="EMAIL" 
-                      type="email" 
-                      placeholder="ENTER YOUR EMAIL:" 
+                      id="LASTNAME"
+                      name="LASTNAME" 
+                      placeholder="LAST NAME" 
                       required 
                       data-required="true"
-                      className="w-full bg-black/40 border border-yellow-900/30 p-3 text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                      className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
                     />
+                    <label className="entry__error entry__error--primary hidden mt-2 text-[8px] text-red-500 font-mono uppercase"></label>
                   </div>
                 </div>
-
-                <div className="hidden">
-                  <div className="g-recaptcha-v3" data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc"></div>
-                </div>
-
-                <button 
-                  type="submit" 
-                  form="sib-form"
-                  disabled={isSubmitting}
-                  className="w-full bg-yellow-600/10 border border-yellow-600/30 p-3 text-yellow-600 font-pixel text-[10px] uppercase hover:bg-yellow-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "DECRYPTING..." : "SUBMIT"}
-                </button>
-                <input type="hidden" name="email_address_check" defaultValue="" />
-                <input type="hidden" name="locale" value="en" />
-              </form>
-              
-              <div className="mt-8 text-[8px] font-mono uppercase tracking-widest text-white/20">
-                Secure Encryption Protocol // Vault v2.04
               </div>
+              <div className="sib-input">
+                <div className="form__entry">
+                  <input 
+                    id="EMAIL"
+                    name="EMAIL" 
+                    type="email" 
+                    placeholder="ENTER YOUR EMAIL:" 
+                    required 
+                    data-required="true"
+                    className="w-full bg-black/40 border border-yellow-900/30 p-3 text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                  />
+                  <label className="entry__error entry__error--primary hidden mt-2 text-[8px] text-red-500 font-mono uppercase"></label>
+                </div>
+              </div>
+
+              {/* Hidden Captcha Section for v3 */}
+              <div className="hidden">
+                <div className="g-recaptcha-v3" data-sitekey="6LdU0M0sAAAAAGDWgRryotUmGdCTTku8c0un_WUc"></div>
+              </div>
+
+              <button 
+                type="submit" 
+                form="sib-form"
+                disabled={isSubmitting}
+                className="w-full bg-yellow-600/10 border border-yellow-600/30 p-3 text-yellow-600 font-pixel text-[10px] uppercase hover:bg-yellow-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "DECRYPTING..." : "SUBMIT"}
+              </button>
+              
+              <input type="text" name="email_address_check" defaultValue="" className="hidden" />
+              <input type="hidden" name="locale" value="en" />
+            </form>
+
+            {/* Success/Error Panels (Script will toggle hidden class) */}
+            <div id="success-message" className="hidden sib-form-message-panel mt-6 p-4 border border-green-500/30 bg-green-500/5 text-green-400 font-mono text-[10px] uppercase tracking-widest">
+              Success. Data sequence initiated.
+            </div>
+            <div id="error-message" className="hidden sib-form-message-panel mt-6 p-4 border border-red-500/30 bg-red-500/5 text-red-400 font-mono text-[10px] uppercase tracking-widest">
+              Failure. Encryption error detected.
+            </div>
+            
+            <div className="mt-8 text-[8px] font-mono uppercase tracking-widest text-white/20">
+              Secure Encryption Protocol // Vault v2.04
             </div>
           </div>
         </div>
       </div>
 
-      {/* Secret hidden success message for the observer to catch */}
-      <div id="success-message" className="hidden"></div>
-      <div id="error-message" className="hidden"></div>
-
-      {/* Global CSS for utilities used in provided code */}
       <style dangerouslySetInnerHTML={{ __html: `
         .backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
         .perspective-1000 { perspective: 1000px; }
+        /* Hide Sib Default Styles that might leak */
+        #sib-container .sib-form-block { margin: 0 !important; }
+        #sib-container .form__entry { margin-bottom: 0 !important; }
       ` }} />
     </main>
   );
