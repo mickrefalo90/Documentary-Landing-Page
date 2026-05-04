@@ -1,10 +1,29 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import ReactGA from "react-ga4";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const savedFirstName = localStorage.getItem('vault_firstName');
+    const savedLastName = localStorage.getItem('vault_lastName');
+    const savedEmail = localStorage.getItem('vault_email');
+
+    if (savedFirstName || savedLastName || savedEmail) {
+      setFormData(prev => ({
+        ...prev,
+        name: `${savedFirstName || ''} ${savedLastName || ''}`.trim(),
+        email: savedEmail || ''
+      }));
+    }
+  }, []);
 
   // NOTE: You need to replace these entry IDs with the actual ones from your Google Form.
   // To find them: 
@@ -73,6 +92,8 @@ export default function ContactForm() {
               name={ENTRY_IDS.name}
               type="text"
               placeholder="Your Name"
+              value={formData.name}
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-lg text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
             />
           </div>
@@ -83,6 +104,8 @@ export default function ContactForm() {
               name={ENTRY_IDS.email}
               type="email"
               placeholder="your@email.com"
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-lg text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors"
             />
           </div>
@@ -93,6 +116,8 @@ export default function ContactForm() {
             rows={4}
             name={ENTRY_IDS.message}
             placeholder="Tell us why you're excited about the project..."
+            value={formData.message}
+            onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
             className="w-full bg-ink-black border border-white/10 rounded-xl px-4 py-3 text-lg text-white placeholder:text-white/80 focus:outline-none focus:border-steel-blue/50 transition-colors resize-none"
           />
         </div>

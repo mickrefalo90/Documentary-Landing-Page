@@ -97,9 +97,18 @@ const PLEDGE_TIERS = [
 export default function LandingPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showVaultPopup, setShowVaultPopup] = useState(false);
   const targetRef = useRef(null);
 
   useEffect(() => {
+    // Check if user came from vault
+    const fromVault = localStorage.getItem('from_vault');
+    if (fromVault === 'true') {
+      setShowVaultPopup(true);
+      // Remove flag so it doesn't show on every refresh
+      localStorage.removeItem('from_vault');
+    }
+
     const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
     if (measurementId) {
       ReactGA.initialize(measurementId);
@@ -124,10 +133,57 @@ export default function LandingPage() {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
 
+  const handlePopupClose = () => {
+    setShowVaultPopup(false);
+  };
+
   const visibleNavItems = NAV_ITEMS.filter(item => (sectionsConfig as any)[item.key]);
 
   return (
     <div ref={targetRef} className="min-h-screen bg-ink-black text-mint-cream selection:bg-steel-blue selection:text-ink-black overflow-x-hidden">
+      <AnimatePresence>
+        {showVaultPopup && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="bg-black border-2 border-yellow-600/50 p-8 max-w-md w-full relative shadow-[0_0_50px_rgba(202,138,4,0.3)]"
+            >
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-600/50 to-transparent" />
+              
+              <h2 className="text-2xl font-retro text-yellow-500 uppercase tracking-widest mb-4">
+                Transmission Received
+              </h2>
+              
+              <p className="font-mono text-sm text-yellow-100/80 leading-relaxed mb-8">
+                Thank you for joining the mission. 
+                <br /><br />
+                If you are interested in following the project development,{" "}
+                <a 
+                  href="#follow" 
+                  onClick={handlePopupClose}
+                  className="text-yellow-500 underline underline-offset-4 hover:text-yellow-400 transition-colors cursor-pointer"
+                >
+                  click here
+                </a>.
+              </p>
+
+              <button 
+                onClick={handlePopupClose}
+                className="w-full border border-yellow-600/30 py-3 text-[10px] font-pixel text-yellow-600/60 hover:bg-yellow-600/10 transition-all uppercase"
+              >
+                Close Connection
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Top Banner */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <a 

@@ -15,7 +15,26 @@ declare global {
 }
 
 const BrevoForm: React.FC = () => {
+  const [formData, setFormData] = React.useState({
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+
   useEffect(() => {
+    // Check localStorage for saved data
+    const savedFirstName = localStorage.getItem('vault_firstName');
+    const savedLastName = localStorage.getItem('vault_lastName');
+    const savedEmail = localStorage.getItem('vault_email');
+
+    if (savedFirstName || savedLastName || savedEmail) {
+      setFormData({
+        firstName: savedFirstName || '',
+        lastName: savedLastName || '',
+        email: savedEmail || ''
+      });
+    }
+
     // Brevo Configuration
     window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
     window.LOCALE = 'en';
@@ -192,6 +211,8 @@ const BrevoForm: React.FC = () => {
                         placeholder="First Name" 
                         data-required="true" 
                         required 
+                        value={formData.firstName}
+                        onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
                       />
                     </div>
                   </div>
@@ -220,6 +241,8 @@ const BrevoForm: React.FC = () => {
                         placeholder="Last Name" 
                         data-required="true" 
                         required 
+                        value={formData.lastName}
+                        onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
                       />
                     </div>
                   </div>
@@ -252,6 +275,8 @@ const BrevoForm: React.FC = () => {
                         placeholder="your@email.com" 
                         data-required="true" 
                         required 
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                       />
                     </div>
                   </div>
