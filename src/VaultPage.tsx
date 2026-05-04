@@ -99,10 +99,10 @@ const GlitchOverlay = () => {
         x: { duration: 0.1, repeat: phase === 'crashing' ? Infinity : 0 },
         y: { duration: 0.1, repeat: phase === 'crashing' ? Infinity : 0 }
       }}
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-4 md:p-12 overflow-hidden"
+      className="fixed inset-0 z-[100] bg-black flex items-center justify-center md:p-12 overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none z-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(0,255,0,0.02),rgba(0,0,0,0),rgba(0,255,0,0.02))] bg-[length:100%_4px,3px_100%]" />
-      <div className="relative w-full max-w-2xl aspect-video border-2 border-emerald-500/80 bg-black p-1 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+      <div className="relative w-full h-full md:h-auto md:max-w-2xl md:aspect-video border-2 border-emerald-500/80 bg-black p-1 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
         <div className="w-full h-full border-2 border-emerald-500/40 flex flex-col relative">
           <div className="border-b-2 border-emerald-500/40 p-2 flex justify-between items-center bg-emerald-500/10">
             <div className="font-retro text-emerald-500 uppercase tracking-widest text-sm px-2">Region Locked Protocol v1.0</div>
@@ -242,7 +242,7 @@ export default function VaultPage() {
                   onChange={handleInputChange}
                   placeholder="FIRST NAME" 
                   required 
-                  className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                  className="bg-black/40 border border-yellow-900/30 p-4 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-lg uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
                 />
                 <input 
                   type="text"
@@ -251,7 +251,7 @@ export default function VaultPage() {
                   onChange={handleInputChange}
                   placeholder="LAST NAME" 
                   required 
-                  className="bg-black/40 border border-yellow-900/30 p-3 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                  className="bg-black/40 border border-yellow-900/30 p-4 w-full text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-lg uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
                 />
               </div>
               
@@ -262,13 +262,13 @@ export default function VaultPage() {
                 onChange={handleInputChange}
                 placeholder="ENTER YOUR EMAIL:" 
                 required 
-                className="w-full bg-black/40 border border-yellow-900/30 p-3 text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-[10px] uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
+                className="w-full bg-black/40 border border-yellow-900/30 p-4 text-yellow-100 placeholder:text-yellow-600/60 font-mono-jb text-lg uppercase focus:outline-none focus:border-yellow-600/50 transition-colors" 
               />
               
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full bg-yellow-600/10 border border-yellow-600/30 p-3 text-yellow-600 font-pixel text-[10px] uppercase hover:bg-yellow-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-yellow-600/10 border border-yellow-600/30 p-4 text-yellow-600 font-pixel text-xs uppercase hover:bg-yellow-600/20 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "DECRYPTING..." : "SUBMIT"}
               </button>
