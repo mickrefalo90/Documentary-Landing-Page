@@ -5,7 +5,6 @@ import CoinLogo from "./components/CoinLogo";
 import StarField from "./components/StarField";
 import GoalTracker from "./components/GoalTracker";
 import FAQ from "./components/FAQ";
-import ContactForm from "./components/ContactForm";
 import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
@@ -31,74 +30,104 @@ const NAV_ITEMS = [
   { key: 'hero', label: 'Home', id: '#' },
   { key: 'mission', label: 'Mission', id: '#goal' },
   { key: 'about', label: 'About', id: '#about' },
+  { key: 'roster', label: 'Roster', id: '#roster' },
+  { key: 'narrative', label: 'Narrative', id: '#narrative' },
   { key: 'team', label: 'Team', id: '#team' },
-  { key: 'pledge', label: 'Pledge', id: '#pledge' },
+  { key: 'follow', label: 'Follow', id: '#follow' },
   { key: 'faq', label: 'FAQ', id: '#faq' },
-  { key: 'contact', label: 'Notify Me', id: '#contact' },
 ];
 
-const PLEDGE_TIERS = [
+const ROSTER_GAMES = [
   {
-    level: "01",
-    title: "Your Name in Pixels",
-    price: "25",
-    perks: ["Film + Name in Credits"],
-    icon: User,
-    intensity: 0.05
+    title: "The Hobbit",
+    developer: "Beam Software",
+    year: "1982",
+    talents: ["Veronika Megler - Programmer", "Russel Comte - Art"],
+    image: "https://images.launchbox-app.com//c71997e7-bf6e-41ba-8efa-4319e9837a41.jpg"
   },
   {
-    level: "02",
-    title: "In Your Hands",
-    price: "60",
-    perks: ["Blu-ray/DVD"],
-    icon: Disc,
-    intensity: 0.1,
-    includesLowerTiers: true
+    title: "The Way of the Exploding Fist",
+    developer: "Beam Software",
+    year: "1985",
+    talents: ["Greg Barnett - Designer and Programmer"],
+    image: "https://images.launchbox-app.com//b072ac15-f83f-4d53-b1b0-7d4832363bf3.jpg"
   },
   {
-    level: "03",
-    title: "Wear the Doco",
-    price: "120",
-    perks: ["Exclusive Shirt"],
-    icon: Shirt,
-    intensity: 0.15,
-    includesLowerTiers: true
+    title: "The Dame was Loaded",
+    developer: "Beam Software",
+    year: "1996",
+    talents: ["Marshall Parker - Sound"],
+    image: "https://images.launchbox-app.com//7154084e-64a4-477a-93ea-4c65a9016e44.jpg"
   },
   {
-    level: "04",
-    title: "Collector's Tome",
-    price: "550",
-    perks: ["Hardcover Book (Limit 50)"],
-    icon: BookOpen,
-    intensity: 0.2,
-    featured: true,
-    includesLowerTiers: true
-  },
-  {
-    level: "05",
-    title: "Assoc. Producer Credit",
-    price: "1,000",
-    perks: ["Higher Screen Credit", "Additional benefits to be revealed soon"],
-    icon: Star,
-    intensity: 0.3,
-    includesLowerTiers: true
-  },
-  {
-    level: "06",
-    title: "Exec. Producer Credit",
-    price: "2,500",
-    perks: ["Executive Producer Credit (Limit 4)", "Additional benefits to be revealed soon"],
-    icon: Crown,
-    intensity: 0.4,
-    includesLowerTiers: true
-  },
+    title: "Ty the Tasmanian Tiger",
+    developer: "Krome Studios",
+    year: "2002",
+    talents: ["John Passfield - Development Director"],
+    image: "https://images.launchbox-app.com//cde3aa98-c416-4988-9565-4989061e7a6e.png"
+  }
 ];
+
+const NARRATIVE_ACTS = [
+  {
+    id: "act-1",
+    act: "Act I",
+    title: "The Technical Innovators",
+    year: "1980s – 1990s",
+    theme: "The raw ingenuity that drove the Australian developers to innovate their way onto the global stage.",
+    moments: [
+      "Imaginative storytelling.",
+      "Innovative solutions.", 
+      "Risky and rewarding leaps of faith."
+    ],
+    color: "steel-blue"
+  },
+  {
+    id: "act-2",
+    act: "Act II",
+    title: "The Outsourcing Machine",
+    year: "1990s – Late 2000s",
+    theme: "The navigation of global integration. The rise of work-for-hire and the grind that led to the eventual collapse of a thriving industry.",
+    moments: [
+      "Global recognition of skill and grit.",
+      "Cinematic conversions for international fame.",
+      "The grind that put on the brakes."
+    ],
+    color: "red-500"
+  },
+  {
+    id: "act-3",
+    act: "Act III",
+    title: "Unlocked & Unleashed",
+    year: "2000 – 2015+",
+    theme: "Rising from the ashes, bypassing the gatekeepers, and the explosion of the global indie powerhouse.",
+    moments: [
+      "Gaming in the real world.",
+      "Putting a finger on digital chicken and fruit.",
+      "Indie rises from the ashes of legends."
+    ],
+    color: "emerald-500"
+  }
+];
+
+const ACT_LABELS = ["Act One", "Act Two", "Act Three"];
 
 export default function LandingPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showVaultPopup, setShowVaultPopup] = useState(false);
   const targetRef = useRef(null);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   useEffect(() => {
     // Check if user came from vault
@@ -232,31 +261,63 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-ink-black flex flex-col items-center justify-center glitch-overlay"
+            className="fixed inset-0 z-[100] bg-ink-black flex flex-col glitch-overlay"
           >
-            <button 
-              className="absolute top-8 left-8 md:top-12 md:left-12 text-mint-cream p-2 z-[110] border border-white/10 rounded-full hover:border-steel-blue hover:text-steel-blue transition-all"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <X className="w-8 h-8 md:w-10 md:h-10" />
-            </button>
+            {/* Header Area */}
+            <div className="fixed top-20 left-6 md:top-24 md:left-10 lg:left-12 z-[150]">
+              <button 
+                className="text-mint-cream p-3 border border-white/10 rounded-full hover:border-steel-blue hover:text-steel-blue transition-all group bg-ink-black/60 backdrop-blur-xl active:scale-90"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Close Menu"
+              >
+                <X className="w-7 h-7 md:w-8 md:h-8 group-hover:rotate-90 transition-transform duration-500" />
+              </button>
+            </div>
 
-            <div className="flex flex-col gap-4 text-center relative z-[110]">
-              {visibleNavItems.map((item, i) => (
-                <motion.div
-                  key={item.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + i * 0.1 }}
-                >
-                  <a 
-                    href={item.id} 
-                    onClick={() => setIsMenuOpen(false)}
-                    className="text-6xl md:text-9xl font-display uppercase tracking-tighter text-white hover:text-steel-blue transition-colors inline-block"
+            {/* Central Navigation */}
+            <nav className="flex-1 flex flex-col items-center justify-center relative z-[110] px-6 py-20 md:py-32">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 md:gap-y-4 max-w-6xl w-full">
+                {visibleNavItems.map((item, i) => (
+                  <motion.div
+                    key={item.key}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.05 }}
+                    className="text-center md:text-left"
                   >
-                    {item.label}
-                  </a>
-                </motion.div>
+                    <a 
+                      href={item.id} 
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-4xl md:text-6xl lg:text-7xl font-display uppercase tracking-tight text-white hover:text-steel-blue transition-all duration-300 hover:translate-x-4 inline-block"
+                    >
+                      {item.label}
+                    </a>
+                  </motion.div>
+                ))}
+              </div>
+            </nav>
+
+            {/* Socials - Centered on mobile, Bottom Right on desktop */}
+            <div className="fixed bottom-12 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:bottom-12 md:right-12 z-[150] flex gap-8">
+              {[
+                { icon: Facebook, href: "https://www.facebook.com/regionlocked.doco/", title: "Facebook" },
+                { icon: Instagram, href: "https://www.instagram.com/regionlocked.doco/", title: "Instagram" },
+                { icon: Youtube, href: "https://www.youtube.com/@RegionLocked-doco", title: "YouTube" },
+                { icon: BlueskyIcon, href: "https://bsky.app/profile/regionlocked-doco.bsky.social", title: "BlueSky" }
+              ].map((social, i) => (
+                <motion.a
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 + i * 0.1 }}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/40 hover:text-steel-blue transition-all duration-300 hover:scale-125"
+                  title={social.title}
+                >
+                  <social.icon className="w-6 h-6 md:w-7 md:h-7" />
+                </motion.a>
               ))}
             </div>
           </motion.div>
@@ -364,16 +425,19 @@ export default function LandingPage() {
 
         {/* Goal Tracker Section */}
         {sectionsConfig.mission && (
-          <section id="goal" className="py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20">
+          <section id="goal" className="py-16 md:py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20 scroll-mt-20">
             <div className="max-w-7xl mx-auto text-center space-y-12">
               <div className="space-y-6">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
-                <div className="max-w-3xl mx-auto space-y-4">
-                  <p className="text-mint-cream/80 text-xl font-normal leading-relaxed">
-                    We are creating a feature documentary that showcases the Australian video game industry in a detailed, cinematic and entertaining way.
+                <div className="max-w-3xl mx-auto space-y-8">
+                  <p className="text-mint-cream/90 text-2xl font-light leading-relaxed">
+                    Video games are portals to another reality. Worlds where you can traverse perilous dungeons, create civilisations that span decades, or chart unknown planets across the universe. They entertain, educate, and inspire us. But behind the pixels and polygons lies an untold story of resilience. 
                   </p>
-                  <p className="text-mint-cream/60 text-lg font-light leading-relaxed">
-                    From The Hobbit, to Crossy Road and beyond, our documentary will focus on the developers, artists, musicians and legends that birthed the landscape of Australian video games and gave Australia spotlight in the global industry.
+                  <p className="text-mint-cream/70 text-lg font-light leading-relaxed italic">
+                    In the early days of video games, when technology was restrictive and the global market felt lightyears away, Australian developers were quietly changing the game. They were innovating, hacking, and pushing the boundaries of early hardware to make the impossible a reality.
+                  </p>
+                  <p className="text-mint-cream/80 text-xl font-normal leading-relaxed">
+                    We are making this documentary to tell their story, and to prove that while Aussie developers may have been remote... their talent and passion was never <span className="font-bold italic text-white underline underline-offset-8 decoration-steel-blue/40">Region Locked</span>.
                   </p>
                 </div>
               </div>
@@ -383,7 +447,7 @@ export default function LandingPage() {
 
         {/* Topics Section */}
         {sectionsConfig.about && (
-          <section id="about" className="py-24 px-6">
+          <section id="about" className="py-16 md:py-24 px-6 scroll-mt-20">
             <div className="max-w-7xl mx-auto">
               <div className="max-w-4xl mx-auto">
                 <div className="space-y-12">
@@ -419,9 +483,85 @@ export default function LandingPage() {
           </section>
         )}
 
+        {/* The Roster Section */}
+        {sectionsConfig.roster && (
+          <section id="roster" className="py-16 md:py-24 px-6 relative overflow-hidden bg-oxford-navy/5 scroll-mt-20">
+            <TronBackground opacity={0.05} />
+            <div className="max-w-7xl mx-auto space-y-16 relative z-10">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Roster</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
+                <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
+                  A selection of the legendary titles being immortalised in our documentary.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                {ROSTER_GAMES.map((game, i) => (
+                  <RosterCard 
+                    key={i} 
+                    game={game} 
+                    className={i === ROSTER_GAMES.length - 1 && ROSTER_GAMES.length % 2 !== 0 ? 'md:col-span-2' : 'col-span-1'}
+                  />
+                ))}
+              </div>
+
+              <div className="pt-6 text-center flex flex-col items-center gap-4">
+                <span className="text-4xl md:text-6xl text-white font-display leading-none select-none">
+                  +
+                </span>
+                <h3 className="text-xl md:text-3xl font-display font-normal tracking-[0.2em] text-white uppercase">
+                  Plus many more Australian classics
+                </h3>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* The Narrative Section */}
+        {sectionsConfig.narrative && (
+          <section id="narrative" className="py-16 md:py-24 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
+            {/* Background elements */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-steel-blue to-transparent" />
+            </div>
+
+            <div className="max-w-7xl mx-auto space-y-20 relative z-10">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Narrative</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
+              </div>
+
+              {/* Timeline Graphic Container */}
+              <div className="relative pt-12 md:pt-24 pb-12 overflow-hidden">
+                {/* Horizontal Progress Track (Desktop) */}
+                <div className="absolute top-[88px] left-0 w-full h-1 bg-white/5 hidden md:block rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    className="h-full bg-gradient-to-r from-steel-blue via-emerald-500 to-red-500 opacity-60"
+                  />
+                </div>
+                
+                {/* Vertical Progress Track (Mobile Rainbow Scroll) */}
+                <div className="absolute top-0 left-8 w-1 h-full bg-white/5 md:hidden rounded-full" />
+                <RainbowScrollLine />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative">
+                  {NARRATIVE_ACTS.map((act, i) => (
+                    <NarrativeAct key={act.id} act={act} index={i} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* The Team Section */}
         {sectionsConfig.team && (
-          <section id="team" className="py-24 px-6 bg-oxford-navy/5">
+          <section id="team" className="py-16 md:py-24 px-6 bg-oxford-navy/5 scroll-mt-20">
             <div className="max-w-7xl mx-auto space-y-16">
               <div className="text-center space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Team</h2>
@@ -454,9 +594,9 @@ export default function LandingPage() {
                   linkedin="https://www.linkedin.com/in/michael-refalo"
                   imdb="https://www.imdb.com/name/nm15881952/?ref_=ra_sb_ln"
                   credits={[
-                    "Wiggles Ready Steady Wiggle (Creative Lead)",
-                    "Wiggle Up Giddy Up (Creative Lead)",
-                    "iiNet's 'Business Help Hub' (Campaign Manager & Director)"
+                    "iiNet's 'Business Help Hub' (Campaign and Creative Director)",
+                    "Toys 'R' Us Australia (Art Direction and Manager)",
+                    "The Wiggles - Various Projects (Creative Lead)"
                   ]}
                 />
               </div>
@@ -464,38 +604,11 @@ export default function LandingPage() {
           </section>
         )}
 
-        {/* Pledge Tiers Preview */}
-        {sectionsConfig.pledge && (
-          <section id="pledge" className="py-24 px-6 bg-oxford-navy/10">
-            <div className="max-w-4xl mx-auto space-y-16">
-              <div className="text-center space-y-4">
-                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Value Ladder</h2>
-                <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
-                  Unlock higher tiers to gain legendary status and exclusive physical rewards.
-                </p>
-              </div>
-              
-              <div className="space-y-4 relative">
-                {/* Connecting Line */}
-                <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-steel-blue/0 via-steel-blue/20 to-steel-blue/0 hidden md:block" />
-                
-                {PLEDGE_TIERS.map((tier, i) => (
-                  <PledgeRow key={i} tier={tier} />
-                ))}
-              </div>
 
-              <div className="pt-12 text-center">
-                <p className="text-steel-blue font-mono text-sm uppercase tracking-[0.3em] animate-pulse">
-                  Stretch goals to be revealed soon
-                </p>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* Follow The Project Section */}
         {sectionsConfig.follow && (
-          <section id="follow" className="py-24 px-6 relative bg-steel-blue/5 overflow-hidden">
+          <section id="follow" className="py-16 md:py-24 px-6 relative bg-steel-blue/5 overflow-hidden scroll-mt-20">
             <TronBackground opacity={0.1} />
             <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-8 space-y-4">
@@ -512,7 +625,7 @@ export default function LandingPage() {
 
         {/* FAQ Section */}
         {sectionsConfig.faq && (
-          <section id="faq" className="py-24 px-6 relative overflow-hidden">
+          <section id="faq" className="py-16 md:py-24 px-6 relative overflow-hidden scroll-mt-20">
             <TronBackground opacity={0.1} />
             <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-16 space-y-4">
@@ -524,19 +637,7 @@ export default function LandingPage() {
           </section>
         )}
 
-        {/* Contact Section */}
-        {sectionsConfig.contact && (
-          <section id="contact" className="relative py-24 px-6 bg-gradient-to-t from-steel-blue/10 to-transparent">
-            <TronBackground opacity={0.2} />
-            <div className="relative z-10 max-w-3xl mx-auto space-y-12">
-              <div className="text-center space-y-4">
-                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Stay Updated</h2>
-                <p className="text-mint-cream/70 font-normal">Be the first to know when we launch in Q1 FY27.</p>
-              </div>
-              <ContactForm />
-            </div>
-          </section>
-        )}
+
       </main>
 
       {/* Footer */}
@@ -639,6 +740,53 @@ export default function LandingPage() {
         onClose={() => setIsVideoOpen(false)} 
         videoUrl="https://drive.google.com/file/d/1YY8LJ4elGmu220-l-upVu1oOdpEDU0Yv/preview"
       />
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .glitch-overlay {
+          background-image: 
+            linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+            linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+          background-size: 100% 2px, 3px 100%;
+        }
+        @keyframes shine {
+          to { transform: translateX(100%); }
+        }
+        .animate-shine {
+          animation: shine 3s infinite;
+        }
+
+        /* Slimy Pug Inspired Card */
+        .slimy-card {
+          position: relative;
+          background-color: rgba(61, 122, 184, 0.05);
+          padding: 2px;
+          transition: all 0.3s ease;
+          overflow: hidden;
+        }
+        .slimy-card::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: conic-gradient(transparent, #3d7ab8, transparent, transparent, #3d7ab8, transparent);
+          animation: slimy-rotate 4s linear infinite;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .slimy-card:hover::before {
+          opacity: 1;
+        }
+        .slimy-inner {
+          position: relative;
+          z-index: 10;
+        }
+        @keyframes slimy-rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      ` }} />
     </div>
   );
 }
@@ -726,6 +874,199 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
   );
 }
 
+function RosterCard({ game, className }: { 
+  game: {
+    title: string;
+    developer: string;
+    year: string;
+    talents: string[];
+    image: string;
+  }, 
+  className?: string;
+  key?: any;
+}) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className={`slimy-card group rounded-2xl ${className}`}
+    >
+      <div className="slimy-inner bg-[#030711] rounded-[14px] overflow-hidden flex flex-col md:flex-row relative h-full">
+        {/* Year Watermark */}
+        <div className="absolute right-0 bottom-0 text-[100px] md:text-[180px] font-display font-black text-steel-blue/5 leading-none select-none pointer-events-none group-hover:text-steel-blue/15 transition-all duration-700 uppercase z-0 translate-x-8 translate-y-8">
+          {game.year}
+        </div>
+
+        {/* Image Area */}
+        <div className="w-full md:w-[35%] bg-black/40 flex items-center justify-center p-6 md:p-8 relative z-10 border-b md:border-b-0 md:border-r border-white/5">
+          <img 
+            src={game.image} 
+            alt={game.title} 
+            className="w-full h-48 md:h-64 object-contain drop-shadow-[0_0_20px_rgba(61,122,184,0.3)] transition-transform duration-700 group-hover:scale-110"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
+        {/* Info Area */}
+        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between relative z-10 min-h-[220px]">
+          <div className="space-y-2">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-medium tracking-widest text-white uppercase leading-tight line-clamp-2">
+              {game.title}
+            </h3>
+            <p className="text-lg md:text-xl font-mono text-steel-blue uppercase tracking-widest">
+              {game.developer}
+            </p>
+          </div>
+
+          <div className="pt-6 md:pt-4">
+            <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold mb-2">Key Talent</p>
+            <div className="flex flex-wrap gap-x-4 gap-y-1">
+              {game.talents.map((talent, idx) => (
+                <span key={idx} className="text-xs md:text-sm font-mono text-mint-cream/70 uppercase tracking-tight">
+                  {talent}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function RainbowScrollLine() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  return (
+    <div ref={containerRef} className="absolute top-0 left-8 w-1 h-full md:hidden z-20 pointer-events-none">
+      <motion.div 
+        style={{ height }}
+        className="w-full bg-gradient-to-b from-steel-blue via-emerald-500 to-red-500 rounded-full"
+      />
+    </div>
+  );
+}
+
+function NarrativeAct({ act, index }: { 
+  act: {
+    id: string;
+    act: string;
+    title: string;
+    year: string;
+    theme: string;
+    moments: string[];
+    color: string;
+  }, 
+  index: number;
+  key?: string;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.3 }}
+      viewport={{ once: true }}
+      onClick={() => setIsExpanded(!isExpanded)}
+      className="relative pl-20 md:pl-0 md:text-center group"
+    >
+      {/* Node & Number */}
+      <div className="absolute top-0 left-0 md:left-1/2 md:-translate-x-1/2 md:-top-16 z-30">
+        <div className="relative">
+          {/* Outer circle */}
+          <div className={`w-16 h-16 rounded-full border-2 border-white/10 bg-ink-black flex items-center justify-center group-hover:border-${act.color} transition-all duration-500 shadow-[0_0_30px_rgba(3,7,17,1)]`}>
+            {/* Inner act number */}
+            <span className="text-2xl font-display text-white group-hover:text-steel-blue transition-colors">
+              0{index + 1}
+            </span>
+          </div>
+          
+          {/* Active Glow */}
+          <div className={`absolute -inset-2 bg-${act.color}/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+        </div>
+      </div>
+
+        {/* Content Card */}
+        <div className={`space-y-6 pt-2 md:pt-8 flex flex-col transition-all duration-500 ${isExpanded ? 'min-h-[420px]' : 'min-h-[200px] md:min-h-[420px]'}`}>
+          <div className="space-y-2">
+            <span className="block text-steel-blue font-mono text-xs uppercase tracking-[0.3em] font-bold">
+              {ACT_LABELS[index]}:
+            </span>
+            <h3 className="text-2xl md:text-3xl font-display uppercase tracking-widest text-white leading-tight px-0 md:px-4">
+              {act.title}
+            </h3>
+          </div>
+
+          {/* Theme text - always visible */}
+          <div className="space-y-4">
+            <p className="text-sm text-mint-cream/50 leading-relaxed italic max-w-sm mx-auto md:px-6">
+              "{act.theme}"
+            </p>
+
+            {/* Interaction hint - Styled as a button */}
+            <motion.div
+              initial={false}
+              animate={{ 
+                opacity: isExpanded ? 0 : 1,
+                y: isExpanded ? -10 : 0,
+                height: isExpanded ? 0 : 'auto',
+                scale: isExpanded ? 0.9 : 1
+              }}
+              transition={{ duration: 0.3 }}
+              className="flex justify-center"
+            >
+              <div className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono text-white/60 uppercase tracking-[0.2em] group-hover:bg-steel-blue/20 group-hover:border-steel-blue/40 group-hover:text-white transition-all duration-300">
+                <span className="text-steel-blue font-bold">+</span> Expand
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Moments - Interactive reveal with stable layout */}
+          <div className="relative flex-1">
+            <motion.div 
+              initial={false}
+              animate={{ 
+                opacity: isExpanded ? 1 : 0,
+                y: isExpanded ? 0 : 10,
+                height: isExpanded ? 'auto' : 0
+              }}
+              style={{
+                visibility: isExpanded ? 'visible' : 'hidden',
+                pointerEvents: isExpanded ? 'auto' : 'none'
+              }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="pt-6 space-y-4 border-t border-white/5 mt-4 md:px-6"
+            >
+              <ul className="space-y-4">
+                {act.moments.map((moment, i) => (
+                  <li key={i} className="flex gap-4 items-start text-xs font-mono text-mint-cream/80 uppercase tracking-[0.1em] text-left">
+                    <div className="flex-shrink-0 mt-1">
+                      <span className="block w-1.5 h-1.5 bg-steel-blue rounded-full animate-pulse" />
+                    </div>
+                    <span className="flex-1 leading-relaxed">
+                      {moment}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+
+      {/* Connection Line Mobile */}
+      <div className="absolute top-8 left-8 w-px h-full bg-white/5 -z-10 md:hidden" />
+    </motion.div>
+  );
+}
+
 function TopicItem({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
     <div className="flex gap-6 group">
@@ -737,80 +1078,6 @@ function TopicItem({ icon, title, description }: { icon: React.ReactNode; title:
         <p className="text-mint-cream/60 leading-relaxed font-light text-base">{description}</p>
       </div>
     </div>
-  );
-}
-interface PledgeTier {
-  level: string;
-  title: string;
-  price: string;
-  perks: string[];
-  icon: any;
-  intensity: number;
-  featured?: boolean;
-  includesLowerTiers?: boolean;
-}
-
-const PledgeRow: React.FC<{ tier: PledgeTier }> = ({ tier }) => {
-  const Icon = tier.icon;
-  return (
-    <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      className={`group relative flex flex-row items-start gap-4 md:gap-6 p-4 md:p-5 rounded-xl border transition-all duration-500 ${tier.featured ? 'border-steel-blue bg-steel-blue/5' : 'border-steel-blue/10 bg-oxford-navy/5 hover:border-steel-blue/30'}`}
-    >
-      {tier.featured && (
-        <div className="absolute -top-2.5 right-4 bg-steel-blue text-ink-black text-[8px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-widest z-20 shadow-[0_0_15px_rgba(147,197,253,0.3)]">
-          Most Popular
-        </div>
-      )}
-
-      {/* Level Indicator */}
-      <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-oxford-navy/20 flex items-center justify-center border border-steel-blue/10 group-hover:border-steel-blue/50 transition-colors relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-steel-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        <Icon className="w-5 h-5 text-steel-blue relative z-10" />
-        <div className="absolute top-0.5 left-1 text-[7px] font-mono text-steel-blue/40 uppercase">LVL_{tier.level}</div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-grow text-left space-y-2">
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-          <h3 className="text-xl md:text-2xl font-display font-normal tracking-widest uppercase leading-tight">{tier.title}</h3>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-steel-blue">${tier.price}</span>
-            <span className="text-mint-cream/40 text-xs font-sans uppercase">AUD</span>
-          </div>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <ul className="flex flex-wrap gap-x-3 gap-y-1">
-            {tier.perks.map((perk, idx) => (
-              <li key={idx} className="text-xs md:text-sm font-mono text-mint-cream/60 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-1 h-1 bg-steel-blue/30 rounded-full" />
-                {perk}
-              </li>
-            ))}
-          </ul>
-
-          {tier.includesLowerTiers && (
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-steel-blue/10 border border-steel-blue/20 group-hover:border-steel-blue/40 transition-colors">
-              <Layers className="w-2.5 h-2.5 text-steel-blue" />
-              <span className="text-[8px] font-mono text-steel-blue uppercase tracking-widest font-bold">
-                + All Lower Tiers
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Value Indicator (Glow) */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-        style={{ 
-          background: `radial-gradient(circle at center, rgba(147, 197, 253, ${tier.intensity / 2}) 0%, transparent 70%)` 
-        }} 
-      />
-    </motion.div>
   );
 }
 

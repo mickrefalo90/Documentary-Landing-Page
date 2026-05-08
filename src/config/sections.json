@@ -2,9 +2,9 @@
   "hero": true,
   "mission": true,
   "about": true,
+  "roster": true,
+  "narrative": true,
   "team": true,
-  "pledge": false,
   "follow": true,
-  "faq": true,
-  "contact": false
+  "faq": true
 }
