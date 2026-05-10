@@ -166,7 +166,7 @@ export default function LandingPage() {
     }
 
     // Check if first time for signup popup
-    const hasSeenSignup = getStorageItem('has_seen_signup_popup_v2');
+    const hasSeenSignup = getStorageItem('has_seen_signup_popup_v3');
     if (!hasSeenSignup) {
       const timer = setTimeout(() => {
         setShowSignupPopup(true);
@@ -255,12 +255,13 @@ export default function LandingPage() {
                 onClick={() => {
                   setShowSignupPopup(false);
                   try {
-                    localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                    localStorage.setItem('has_seen_signup_popup_v3', 'true');
                   } catch (e) { /* ignore */ }
                 }}
-                className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-2 cursor-pointer z-10"
+                className="absolute top-2 right-2 text-white/40 hover:text-white transition-colors p-4 cursor-pointer z-20 group"
+                aria-label="Close popup"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6 group-active:scale-95 transition-transform" />
               </button>
 
               <div className="text-center space-y-4 relative z-10">
@@ -282,7 +283,7 @@ export default function LandingPage() {
                       e.preventDefault();
                       setShowSignupPopup(false);
                       try {
-                        localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                        localStorage.setItem('has_seen_signup_popup_v3', 'true');
                       } catch (e) { /* ignore */ }
                       smoothScrollTo('#follow');
                     }}
@@ -296,7 +297,7 @@ export default function LandingPage() {
                     onClick={() => {
                       setShowSignupPopup(false);
                       try {
-                        localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                        localStorage.setItem('has_seen_signup_popup_v3', 'true');
                       } catch (e) { /* ignore */ }
                     }}
                     className="text-[10px] font-mono text-mint-cream/30 hover:text-mint-cream/60 uppercase tracking-widest transition-colors py-1 cursor-pointer"
