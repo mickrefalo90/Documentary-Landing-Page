@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence, animate } from "motion/react";
 import ReactGA from "react-ga4";
 import CoinLogo from "./components/CoinLogo";
 import StarField from "./components/StarField";
@@ -116,6 +116,7 @@ export default function LandingPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showVaultPopup, setShowVaultPopup] = useState(false);
+  const [showSignupPopup, setShowSignupPopup] = useState(false);
   const targetRef = useRef(null);
 
   useEffect(() => {
@@ -130,12 +131,47 @@ export default function LandingPage() {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    // Safely check localStorage
+    const getStorageItem = (key: string) => {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        console.warn(`Local storage access denied for key: ${key}`, e);
+        return null;
+      }
+    };
+
+    const removeStorageItem = (key: string) => {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {
+        // ignore
+      }
+    };
+
+    const setStorageItem = (key: string, value: string) => {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        // ignore
+      }
+    };
+
     // Check if user came from vault
-    const fromVault = localStorage.getItem('from_vault');
+    const fromVault = getStorageItem('from_vault');
     if (fromVault === 'true') {
       setShowVaultPopup(true);
       // Remove flag so it doesn't show on every refresh
-      localStorage.removeItem('from_vault');
+      removeStorageItem('from_vault');
+    }
+
+    // Check if first time for signup popup
+    const hasSeenSignup = getStorageItem('has_seen_signup_popup_v2');
+    if (!hasSeenSignup) {
+      const timer = setTimeout(() => {
+        setShowSignupPopup(true);
+      }, 2000);
+      return () => clearTimeout(timer);
     }
 
     const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
@@ -168,9 +204,111 @@ export default function LandingPage() {
 
   const visibleNavItems = NAV_ITEMS.filter(item => (sectionsConfig as any)[item.key]);
 
+  const smoothScrollTo = (targetId: string) => {
+    if (!targetId || targetId === '#') {
+      const startPosition = window.scrollY;
+      const animation = animate(startPosition, 0, {
+        duration: 1.5,
+        ease: [0.32, 0.23, 0, 1],
+        onUpdate: (value) => window.scrollTo(0, value),
+      });
+      animation.then(() => {}, () => {});
+      return;
+    }
+
+    try {
+      const target = document.querySelector(targetId);
+      if (!target) return;
+
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY - 80;
+      const startPosition = window.scrollY;
+
+      const animation = animate(startPosition, targetPosition, {
+        duration: 1.5,
+        ease: [0.32, 0.23, 0, 1],
+        onUpdate: (value) => window.scrollTo(0, value),
+      });
+
+      // Handle promise rejection (interrupted animations)
+      animation.then(() => {}, () => {});
+    } catch (e) {
+      console.error(`Failed to scroll to ${targetId}:`, e);
+    }
+  };
+
   return (
     <div ref={targetRef} className="min-h-screen bg-ink-black text-mint-cream selection:bg-steel-blue selection:text-ink-black overflow-x-hidden">
       <AnimatePresence>
+        {showSignupPopup && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[200] w-full max-w-[calc(100%-3rem)] md:max-w-sm"
+          >
+            <div className="bg-oxford-navy/80 backdrop-blur-xl border border-steel-blue/30 p-6 md:p-8 relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-3xl overflow-hidden">
+              {/* Subtle background glow */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-steel-blue/10 blur-[60px] rounded-full pointer-events-none" />
+              
+              {/* Close Button */}
+              <button 
+                onClick={() => {
+                  setShowSignupPopup(false);
+                  try {
+                    localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                  } catch (e) { /* ignore */ }
+                }}
+                className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-2 cursor-pointer z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="text-center space-y-4 relative z-10">
+                <div className="w-12 h-12 bg-steel-blue/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-steel-blue/10">
+                  <Sparkles className="w-6 h-6 text-steel-blue" />
+                </div>
+                
+                <h2 className="text-xl font-display text-white uppercase tracking-widest leading-tight">
+                  Join the Mission
+                </h2>
+                
+                <p className="text-sm text-mint-cream/80 font-light leading-relaxed">
+                  Sign up for updates on the documentary's progress and campaign news.
+                </p>
+
+                <div className="pt-2 flex flex-col gap-3">
+                  <button 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowSignupPopup(false);
+                      try {
+                        localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                      } catch (e) { /* ignore */ }
+                      smoothScrollTo('#follow');
+                    }}
+                    className="w-full bg-steel-blue hover:bg-steel-blue/90 text-white py-3 rounded-xl font-display uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 group text-xs cursor-pointer shadow-lg shadow-steel-blue/20"
+                  >
+                    Click Here to Sign Up
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      setShowSignupPopup(false);
+                      try {
+                        localStorage.setItem('has_seen_signup_popup_v2', 'true');
+                      } catch (e) { /* ignore */ }
+                    }}
+                    className="text-[10px] font-mono text-mint-cream/30 hover:text-mint-cream/60 uppercase tracking-widest transition-colors py-1 cursor-pointer"
+                  >
+                    Maybe later
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {showVaultPopup && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -195,7 +333,11 @@ export default function LandingPage() {
                 If you are interested in following the project development,{" "}
                 <a 
                   href="#follow" 
-                  onClick={handlePopupClose}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePopupClose();
+                    smoothScrollTo('#follow');
+                  }}
                   className="text-yellow-500 underline underline-offset-4 hover:text-yellow-400 transition-colors cursor-pointer"
                 >
                   click here
@@ -215,8 +357,10 @@ export default function LandingPage() {
 
       {/* Top Banner */}
       <div className="fixed top-0 left-0 right-0 z-50">
-        <a 
-          href="#follow" 
+        <div 
+          onClick={() => {
+            smoothScrollTo('#follow');
+          }}
           className="relative block w-full bg-steel-blue text-white py-2.5 text-center text-xs md:text-sm font-bold uppercase tracking-[0.2em] hover:brightness-110 transition-all duration-300 cursor-pointer overflow-hidden group shadow-[0_2px_15px_rgba(61,122,184,0.3)]"
         >
           {/* Subtle Shine Effect */}
@@ -237,7 +381,7 @@ export default function LandingPage() {
               </motion.span>
             </AnimatePresence>
           </span>
-        </a>
+        </div>
       </div>
 
       {/* Floating Menu Trigger - Top Left */}
@@ -377,8 +521,7 @@ export default function LandingPage() {
                     action: "Scroll to Mission",
                     label: "Ready to join?"
                   });
-                  const missionSection = document.getElementById('goal');
-                  missionSection?.scrollIntoView({ behavior: 'smooth' });
+                  smoothScrollTo('#goal');
                 }}
                 className="flex flex-col items-center justify-center gap-4 pt-12 group cursor-pointer mx-auto"
               >

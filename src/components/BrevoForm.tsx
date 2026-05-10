@@ -23,9 +23,17 @@ const BrevoForm: React.FC = () => {
 
   useEffect(() => {
     // Check localStorage for saved data
-    const savedFirstName = localStorage.getItem('vault_firstName');
-    const savedLastName = localStorage.getItem('vault_lastName');
-    const savedEmail = localStorage.getItem('vault_email');
+    const safeGetItem = (key: string) => {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    };
+
+    const savedFirstName = safeGetItem('vault_firstName');
+    const savedLastName = safeGetItem('vault_lastName');
+    const savedEmail = safeGetItem('vault_email');
 
     if (savedFirstName || savedLastName || savedEmail) {
       setFormData({
