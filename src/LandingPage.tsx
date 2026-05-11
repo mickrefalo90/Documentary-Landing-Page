@@ -41,15 +41,15 @@ const ROSTER_GAMES = [
   {
     title: "The Hobbit",
     developer: "Beam Software",
-    year: "1982",
-    talents: ["Veronika Megler - Programmer", "Russel Comte - Art"],
+    year: "1983",
+    talents: ["Veronika Megler - Programmer", "Russel Comte - Art", "Neil Brennan - Music"],
     image: "https://images.launchbox-app.com//c71997e7-bf6e-41ba-8efa-4319e9837a41.jpg"
   },
   {
     title: "The Way of the Exploding Fist",
     developer: "Beam Software",
     year: "1985",
-    talents: ["Greg Barnett - Designer and Programmer"],
+    talents: ["Greg Barnett - Designer and Programmer", "Neil Brennan - Music"],
     image: "https://images.launchbox-app.com//b072ac15-f83f-4d53-b1b0-7d4832363bf3.jpg"
   },
   {
