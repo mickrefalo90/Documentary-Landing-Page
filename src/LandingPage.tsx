@@ -56,15 +56,29 @@ const ROSTER_GAMES = [
     title: "The Dame was Loaded",
     developer: "Beam Software",
     year: "1996",
-    talents: ["Marshall Parker - Sound"],
+    talents: ["Marshall Parker - Sound", "David Giles - Producer", "Craig Duturbure - Design Assistant / Writer"],
     image: "https://images.launchbox-app.com//7154084e-64a4-477a-93ea-4c65a9016e44.jpg"
   },
   {
     title: "Ty the Tasmanian Tiger",
     developer: "Krome Studios",
     year: "2002",
-    talents: ["John Passfield - Development Director"],
+    talents: ["John Passfield - Development Director", "Steven Stamatiadis - Creative Director"],
     image: "https://images.launchbox-app.com//cde3aa98-c416-4988-9565-4989061e7a6e.png"
+  },
+  {
+    title: "Destroy All Humans",
+    developer: "Pandemic Studios",
+    year: "2005",
+    talents: ["Matt Harding - Creator", "Brad Welch - Director", "Tom Abernathy - Writer"],
+    image: "https://images.launchbox-app.com//c1ddc0fd-2f29-434d-9814-235b324045e3.jpg"
+  },
+  {
+    title: "Crossy Road",
+    developer: "Hipster Whale",
+    year: "2014",
+    talents: ["Clara Reeves - President of Hipster Whale"],
+    image: "https://images.launchbox-app.com//860abd97-134f-486b-9f13-c8d534880f3e.png"
   }
 ];
 
