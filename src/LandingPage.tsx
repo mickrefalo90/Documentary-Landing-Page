@@ -1079,9 +1079,9 @@ function RosterCard({ game, className }: {
 
           <div className="pt-6 md:pt-4">
             <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold mb-2">Key Talent</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <div className="flex flex-col gap-y-2">
               {game.talents.map((talent, idx) => (
-                <span key={idx} className="text-xs md:text-sm font-mono text-mint-cream/70 uppercase tracking-tight">
+                <span key={idx} className="text-xs md:text-sm font-mono text-mint-cream/70 uppercase tracking-tight block">
                   {talent}
                 </span>
               ))}
