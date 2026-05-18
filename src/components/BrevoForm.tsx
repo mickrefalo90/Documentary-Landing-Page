@@ -10,7 +10,6 @@ declare global {
     GENERIC_INVALID_MESSAGE: string;
     translation: any;
     AUTOHIDE: boolean;
-    handleCaptchaResponse: () => void;
   }
 }
 
@@ -56,15 +55,6 @@ const BrevoForm: React.FC = () => {
         selectedLists: '{quantity} lists selected',
         selectedOption: '{quantity} selected',
         selectedOptions: '{quantity} selected',
-      }
-    };
-
-    // Global Captcha Handler
-    window.handleCaptchaResponse = function() {
-      const captchaEl = document.getElementById('sib-captcha');
-      if (captchaEl) {
-        const event = new Event('captchaChange');
-        captchaEl.dispatchEvent(event);
       }
     };
 
@@ -173,7 +163,7 @@ const BrevoForm: React.FC = () => {
                   lineHeight: "1.2"
                 }}
               >
-                <p>Sign up for updates!</p>
+                <p>Preserve the Legend</p>
               </div>
             </div>
 
@@ -191,7 +181,7 @@ const BrevoForm: React.FC = () => {
                 }}
               >
                 <div className="sib-text-form-block space-y-4">
-                  <p>Sign up to stay updated on all things Region Locked!</p>
+                  <p>Help us capture and preserve the oral history of Australian video games before it's too late. Sign up for updates on our mission.</p>
                 </div>
               </div>
             </div>

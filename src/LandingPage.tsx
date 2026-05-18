@@ -41,46 +41,87 @@ const ROSTER_GAMES = [
   {
     title: "The Hobbit",
     developer: "Beam Software",
+    publisher: "Melbourne House",
     year: "1983",
+    genre: "Adventure",
+    overview: "Relive Tolkien's The Hobbit as Bilbo Baggins. A piece of Interactive fiction (with graphics to illustrate locations), you follow the plot of Tolkien's book (before the Lord of the Rings trilogy), starting with an encounter with Gandalf and Thorin. The other characters can make their own moves independently of the player and their actions can sometimes result in a situation where it is not possible to complete the game. Also, gameplay happens in realtime, uncommon for interactive fiction.",
     talents: ["Veronika Megler - Programmer", "Russel Comte - Art", "Neil Brennan - Music"],
     image: "https://images.launchbox-app.com//c71997e7-bf6e-41ba-8efa-4319e9837a41.jpg"
   },
   {
     title: "The Way of the Exploding Fist",
     developer: "Beam Software",
+    publisher: "Melbourne House",
     year: "1985",
+    genre: "Fighting",
+    overview: "A combat simulation where players participate in karate matches. Winning matches requires scoring two points (one solid hit) against an opponent. The game set a high standard for martial arts games at the time with its fluid animation and deep mechanics.",
     talents: ["Greg Barnett - Designer and Programmer", "Neil Brennan - Music"],
     image: "https://images.launchbox-app.com//b072ac15-f83f-4d53-b1b0-7d4832363bf3.jpg"
   },
   {
     title: "The Dame was Loaded",
     developer: "Beam Software",
+    publisher: "Ziggurat Interactive",
     year: "1996",
+    genre: "Adventure / Puzzle",
+    overview: "The Dame Was Loaded is a detective mystery adventure game reminiscent of private eye movies of the 1940's. The player controls detective Scott Anger, a Sam Spade type of character, who is hired by a mysterious woman to find her missing brother, Dan. What at first appears to be just another missing persons case, Anger's investigation soon reveals that Dan was somehow involved in some much larger crimes including several murders and a bank robbery.",
     talents: ["Marshall Parker - Sound", "David Giles - Producer", "Craig Duturbure - Design Assistant / Writer"],
     image: "https://images.launchbox-app.com//7154084e-64a4-477a-93ea-4c65a9016e44.jpg"
   },
   {
     title: "Ty the Tasmanian Tiger",
     developer: "Krome Studios",
+    publisher: "Krome Studios",
     year: "2002",
+    genre: "Platformer",
+    overview: "Explore the wilds of Australia with TY the Tasmanian Tiger, the charming Aussie platformer. Join TY on an exciting new adventure in the great Aussie Outback. Use your wits and boomerangs to find hidden treasures, help the colorful locals, and uncover the mysteries of the land Down Under.",
     talents: ["John Passfield - Development Director", "Steven Stamatiadis - Creative Director"],
     image: "https://images.launchbox-app.com//cde3aa98-c416-4988-9565-4989061e7a6e.png"
   },
   {
     title: "Destroy All Humans",
     developer: "Pandemic Studios",
+    publisher: "THQ",
     year: "2005",
+    genre: "Action",
+    overview: "Destroy All Humans! is an action-adventure game developed by Pandemic Studios and published by THQ. Set in 1959 in the U.S., it parodies the lifestyles, pop culture, and politics of this time period. The player controls Cryptosporidium 137, a member of the fictional Furon race of alien life, who has come to Earth to harvest DNA from humans to continue the cloning process of his species.",
     talents: ["Matt Harding - Creator", "Brad Welch - Director", "Tom Abernathy - Writer"],
     image: "https://images.launchbox-app.com//c1ddc0fd-2f29-434d-9814-235b324045e3.jpg"
   },
   {
     title: "Crossy Road",
     developer: "Hipster Whale",
+    publisher: "Hipster Whale",
     year: "2014",
+    genre: "Action",
+    overview: "Crossy Road is a mobile game developed by Hipster Whale. The concept stems from the joke 'Why did the chicken cross the road?', although it is also described as 'endless Frogger'. Guide a mascot around obstacles such as rivers, trees, boulders and moving vehicles as many steps as possible.",
     talents: ["Clara Reeves - President of Hipster Whale"],
     image: "https://images.launchbox-app.com//860abd97-134f-486b-9f13-c8d534880f3e.png"
   }
 ];
+
+const STUDIO_LOGOS = [
+  { name: "BEAM SOFTWARE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Beam.png" },
+  { name: "HIPSTER WHALE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Hipster_Whale.webp" },
+  { name: "KROME STUDIOS", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Krome.png" },
+  { name: "MELBOURNE HOUSE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Melbourne_House.png" },
+  { name: "PANDEMIC", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Pandemic.svg" },
+  { name: "BONDI", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Bondi.png" },
+  { name: "TANTALUS", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Tantalus.png" },
+  { name: "BND", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/bnd.png" },
+  { name: "MF", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/MFlogo.png" }
+];
+
+const MARQUEE_ITEMS = (() => {
+  const items: any[] = [];
+  STUDIO_LOGOS.forEach((studio, index) => {
+    items.push(studio);
+    if ((index + 1) % 3 === 0) {
+      items.push({ type: 'reveal' });
+    }
+  });
+  return items;
+})();
 
 const NARRATIVE_ACTS = [
   {
@@ -131,6 +172,7 @@ export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showVaultPopup, setShowVaultPopup] = useState(false);
   const [showSignupPopup, setShowSignupPopup] = useState(false);
+  const [selectedGame, setSelectedGame] = useState<typeof ROSTER_GAMES[0] | null>(null);
   const targetRef = useRef(null);
 
   useEffect(() => {
@@ -184,7 +226,7 @@ export default function LandingPage() {
     if (!hasSeenSignup) {
       const timer = setTimeout(() => {
         setShowSignupPopup(true);
-      }, 2000);
+      }, 7000); // Increased delay to 7 seconds for a more subtle approach
       return () => clearTimeout(timer);
     }
 
@@ -255,14 +297,14 @@ export default function LandingPage() {
       <AnimatePresence>
         {showSignupPopup && (
           <motion.div 
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[200] w-full max-w-[calc(100%-3rem)] md:max-w-sm"
+            initial={{ opacity: 0, x: 100, y: 0 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[200] w-full max-w-[calc(100%-3rem)] md:max-w-md"
           >
-            <div className="bg-oxford-navy/80 backdrop-blur-xl border border-steel-blue/30 p-6 md:p-8 relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-3xl overflow-hidden">
-              {/* Subtle background glow */}
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-steel-blue/10 blur-[60px] rounded-full pointer-events-none" />
+            <div className="bg-ink-black/95 backdrop-blur-2xl border-l-4 border-steel-blue p-6 md:p-8 relative shadow-[0_30px_60px_rgba(0,0,0,0.8)] rounded-r-2xl overflow-hidden group/popup">
+              {/* Scanline effect for retro feel */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%]" />
               
               {/* Close Button */}
               <button 
@@ -272,52 +314,64 @@ export default function LandingPage() {
                     localStorage.setItem('has_seen_signup_popup_v3', 'true');
                   } catch (e) { /* ignore */ }
                 }}
-                className="absolute top-2 right-2 text-white/40 hover:text-white transition-colors p-4 cursor-pointer z-20 group"
+                className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors p-1 cursor-pointer z-20"
                 aria-label="Close popup"
               >
-                <X className="w-6 h-6 group-active:scale-95 transition-transform" />
+                <X className="w-5 h-5" />
               </button>
 
-              <div className="text-center space-y-4 relative z-10">
-                <div className="w-12 h-12 bg-steel-blue/20 rounded-full flex items-center justify-center mx-auto mb-2 border border-steel-blue/10">
-                  <Sparkles className="w-6 h-6 text-steel-blue" />
+              <div className="flex gap-6 items-start relative z-10">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 bg-steel-blue/10 border border-steel-blue/30 rounded-xl flex items-center justify-center text-steel-blue relative overflow-hidden">
+                    <Database className="w-6 h-6 z-10" />
+                    <motion.div 
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0 bg-steel-blue/20"
+                    />
+                  </div>
                 </div>
-                
-                <h2 className="text-xl font-display text-white uppercase tracking-widest leading-tight">
-                  Join the Mission
-                </h2>
-                
-                <p className="text-sm text-mint-cream/80 font-light leading-relaxed">
-                  Sign up for updates on the documentary's progress and campaign news.
-                </p>
 
-                <div className="pt-2 flex flex-col gap-3">
-                  <button 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowSignupPopup(false);
-                      try {
-                        localStorage.setItem('has_seen_signup_popup_v3', 'true');
-                      } catch (e) { /* ignore */ }
-                      smoothScrollTo('#follow');
-                    }}
-                    className="w-full bg-steel-blue hover:bg-steel-blue/90 text-white py-3 rounded-xl font-display uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 group text-xs cursor-pointer shadow-lg shadow-steel-blue/20"
-                  >
-                    Click Here to Sign Up
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono text-steel-blue uppercase tracking-[0.3em] font-bold">Preservation Alert</p>
+                    <h2 className="text-xl font-display text-white uppercase tracking-wider leading-tight">
+                      Before it's too late...
+                    </h2>
+                  </div>
                   
-                  <button 
-                    onClick={() => {
-                      setShowSignupPopup(false);
-                      try {
-                        localStorage.setItem('has_seen_signup_popup_v3', 'true');
-                      } catch (e) { /* ignore */ }
-                    }}
-                    className="text-[10px] font-mono text-mint-cream/30 hover:text-mint-cream/60 uppercase tracking-widest transition-colors py-1 cursor-pointer"
-                  >
-                    Maybe later
-                  </button>
+                  <p className="text-sm text-mint-cream/80 font-light leading-relaxed">
+                    Australia's video game history is evaporating. Help us <span className="text-steel-blue font-medium">save the oral history</span> of the legends who built it all before their stories are lost forever.
+                  </p>
+
+                  <div className="pt-2 flex items-center gap-4">
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowSignupPopup(false);
+                        try {
+                          localStorage.setItem('has_seen_signup_popup_v3', 'true');
+                        } catch (e) { /* ignore */ }
+                        smoothScrollTo('#follow');
+                      }}
+                      className="bg-steel-blue hover:bg-steel-blue/90 text-white px-6 py-2.5 rounded-lg font-display uppercase tracking-[0.15em] transition-all flex items-center gap-2 text-xs cursor-pointer shadow-lg shadow-steel-blue/20 active:scale-95"
+                    >
+                      Join the Mission
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    
+                    <button 
+                      onClick={() => {
+                        setShowSignupPopup(false);
+                        try {
+                          localStorage.setItem('has_seen_signup_popup_v3', 'true');
+                        } catch (e) { /* ignore */ }
+                      }}
+                      className="text-[10px] font-mono text-mint-cream/30 hover:text-mint-cream/60 uppercase tracking-widest transition-colors py-1 cursor-pointer"
+                    >
+                      Maybe later
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -583,8 +637,21 @@ export default function LandingPage() {
 
         {/* Goal Tracker Section */}
         {sectionsConfig.mission && (
-          <section id="goal" className="py-16 md:py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20 scroll-mt-20">
-            <div className="max-w-7xl mx-auto text-center space-y-12">
+          <section id="goal" className="py-16 md:py-24 px-6 bg-gradient-to-b from-transparent to-oxford-navy/20 scroll-mt-20 overflow-hidden relative">
+            {/* Background elements */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-steel-blue/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+            
+            <div className="max-w-7xl mx-auto text-center space-y-12 relative z-10">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-steel-blue/10 border border-steel-blue/20 text-steel-blue font-mono text-[10px] uppercase tracking-[0.3em] mb-8"
+              >
+                <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                Time is Running Out
+              </motion.div>
+
               <div className="space-y-6">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
                 <div className="max-w-3xl mx-auto space-y-8">
@@ -649,18 +716,84 @@ export default function LandingPage() {
               <div className="text-center space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Roster</h2>
                 <div className="w-12 h-1 bg-steel-blue mx-auto" />
-                <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
-                  A selection of the legendary titles being immortalised in our documentary.
+                
+                <p className="text-mint-cream/70 max-w-2xl mx-auto font-light text-sm md:text-base leading-relaxed pt-4">
+                  Region Locked will focus on a wide variety of creators across the many disciplines of video game development. From veterans to professionals still working in the industry - we will tell their stories and highlight the classic titles that call Australia home.
                 </p>
+
+                {/* Logo Marquee */}
+                <div className="pt-12 overflow-hidden relative">
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-ink-black to-transparent z-10" />
+                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-ink-black to-transparent z-10" />
+                  <motion.div 
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{ 
+                      duration: 40, 
+                      repeat: Infinity, 
+                      ease: "linear" 
+                    }}
+                    className="flex gap-20 whitespace-nowrap items-center py-4 min-w-max"
+                  >
+                    {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+                      <div key={i} className="flex-shrink-0 flex items-center justify-center">
+                        {item.type === 'reveal' ? (
+                          <div className="text-center font-mono font-black text-steel-blue text-3xl leading-[0.8] tracking-tighter uppercase border-r border-steel-blue/10 pr-20 last:border-0 h-20 flex items-center justify-center">
+                            <span>MORE TO BE<br />REVEALED</span>
+                          </div>
+                        ) : (
+                          <div className="h-20 flex items-center border-r border-steel-blue/10 pr-20 last:border-0">
+                            <img 
+                              src={(item as any).logo} 
+                              alt={(item as any).name} 
+                              className="h-full w-auto object-contain" 
+                              referrerPolicy="no-referrer"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </motion.div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
                 {ROSTER_GAMES.map((game, i) => (
-                  <RosterCard 
-                    key={i} 
-                    game={game} 
-                    className={i === ROSTER_GAMES.length - 1 && ROSTER_GAMES.length % 2 !== 0 ? 'md:col-span-2' : 'col-span-1'}
-                  />
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    viewport={{ once: true }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 400, 
+                      damping: 17,
+                      delay: i * 0.05 
+                    }}
+                    onClick={() => setSelectedGame(game)}
+                    className="group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer border border-white/5 hover:border-steel-blue/50 transition-all shadow-xl hover:shadow-[0_0_40px_rgba(61,122,184,0.3)]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-black via-transparent to-transparent opacity-60 z-10 transition-opacity group-hover:opacity-40" />
+                    <img 
+                      src={game.image} 
+                      alt={game.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                    />
+                    {/* Inner selective glow */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,rgba(61,122,184,0.1)_0%,transparent_70%)] z-15" />
+                    
+                    <div className="absolute inset-0 bg-steel-blue/10 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                      <motion.span 
+                        initial={{ opacity: 0, y: 10 }}
+                        whileHover={{ scale: 1.1 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="px-4 py-2 bg-ink-black/90 border border-steel-blue/40 text-[10px] font-mono text-steel-blue uppercase tracking-widest rounded-full shadow-[0_0_20px_rgba(61,122,184,0.3)]"
+                      >
+                        Unlock Data
+                      </motion.span>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -893,6 +1026,101 @@ export default function LandingPage() {
         </div>
       </footer>
 
+      <AnimatePresence>
+        {selectedGame && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md"
+            onClick={() => setSelectedGame(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="bg-ink-black border border-white/10 rounded-3xl overflow-hidden max-w-5xl w-full max-h-[95vh] md:max-h-[90vh] flex flex-col md:flex-row shadow-[0_0_100px_rgba(61,122,184,0.2)] relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Scanline overlay for modal */}
+              <div className="absolute inset-0 pointer-events-none opacity-5 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] z-50" />
+              
+              {/* Close Button Modal */}
+              <button 
+                onClick={() => setSelectedGame(null)}
+                className="absolute top-6 right-6 text-white/40 hover:text-steel-blue transition-colors z-50 p-2 border border-white/10 rounded-full bg-ink-black/80 cursor-pointer"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Image Rail */}
+              <div className="w-full md:w-2/5 h-48 md:h-auto bg-black/40 p-6 md:p-12 flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 shrink-0">
+                <img 
+                  src={selectedGame.image} 
+                  alt={selectedGame.title} 
+                  className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(61,122,184,0.3)]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              {/* Data Display */}
+              <div className="flex-1 p-6 md:p-12 overflow-y-auto space-y-6 md:space-y-8 no-scrollbar">
+                <div className="space-y-3 md:space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="px-3 py-1 bg-steel-blue/10 border border-steel-blue/30 text-[10px] font-mono text-steel-blue uppercase tracking-widest rounded-full">
+                      Archive Entry #{ROSTER_GAMES.indexOf(selectedGame) + 1}
+                    </span>
+                    <span className="text-white/20 font-mono text-xs">|</span>
+                    <span className="text-white/40 font-mono text-xs uppercase tracking-widest">{selectedGame.year}</span>
+                  </div>
+                  <h2 className="text-3xl md:text-5xl font-display text-white uppercase tracking-wider leading-tight">
+                    {selectedGame.title}
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 md:gap-8 border-y border-white/5 py-6 md:py-8">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Developer</p>
+                    <p className="text-base text-mint-cream font-mono uppercase tracking-tight">{selectedGame.developer}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Publisher</p>
+                    <p className="text-base text-mint-cream font-mono uppercase tracking-tight">{(selectedGame as any).publisher}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Genre</p>
+                    <p className="text-base text-mint-cream font-mono uppercase tracking-tight">{(selectedGame as any).genre}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Location</p>
+                    <p className="text-base text-mint-cream font-mono uppercase tracking-tight">Australia</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Overview</p>
+                  <p className="text-mint-cream/70 text-sm md:text-base leading-relaxed font-light">
+                    {(selectedGame as any).overview}
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold">Key Talent</p>
+                  <div className="flex flex-col gap-2">
+                    {selectedGame.talents.map((talent, idx) => (
+                      <div key={idx} className="flex items-center gap-3 text-xs md:text-sm font-mono text-mint-cream/80 uppercase tracking-tight">
+                        <div className="w-1.5 h-1.5 bg-steel-blue rounded-full opacity-40" />
+                        {talent}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <VideoLightbox 
         isOpen={isVideoOpen} 
         onClose={() => setIsVideoOpen(false)} 
@@ -1027,67 +1255,6 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
       {/* Decorative corner */}
       <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden rounded-tr-3xl">
         <div className="absolute top-[-1px] right-[-1px] w-8 h-8 border-t border-r border-steel-blue/20" />
-      </div>
-    </motion.div>
-  );
-}
-
-function RosterCard({ game, className }: { 
-  game: {
-    title: string;
-    developer: string;
-    year: string;
-    talents: string[];
-    image: string;
-  }, 
-  className?: string;
-  key?: any;
-}) {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className={`slimy-card group rounded-2xl ${className}`}
-    >
-      <div className="slimy-inner bg-[#030711] rounded-[14px] overflow-hidden flex flex-col md:flex-row relative h-full">
-        {/* Year Watermark */}
-        <div className="absolute right-0 bottom-0 text-[100px] md:text-[180px] font-display font-black text-steel-blue/5 leading-none select-none pointer-events-none group-hover:text-steel-blue/15 transition-all duration-700 uppercase z-0 translate-x-8 translate-y-8">
-          {game.year}
-        </div>
-
-        {/* Image Area */}
-        <div className="w-full md:w-[35%] bg-black/40 flex items-center justify-center p-6 md:p-8 relative z-10 border-b md:border-b-0 md:border-r border-white/5">
-          <img 
-            src={game.image} 
-            alt={game.title} 
-            className="w-full h-48 md:h-64 object-contain drop-shadow-[0_0_20px_rgba(61,122,184,0.3)] transition-transform duration-700 group-hover:scale-110"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-
-        {/* Info Area */}
-        <div className="flex-1 p-6 md:p-8 flex flex-col justify-between relative z-10 min-h-[220px]">
-          <div className="space-y-2">
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-medium tracking-widest text-white uppercase leading-tight line-clamp-2">
-              {game.title}
-            </h3>
-            <p className="text-lg md:text-xl font-mono text-steel-blue uppercase tracking-widest">
-              {game.developer}
-            </p>
-          </div>
-
-          <div className="pt-6 md:pt-4">
-            <p className="text-[10px] font-mono text-steel-blue/40 uppercase tracking-[0.2em] font-bold mb-2">Key Talent</p>
-            <div className="flex flex-col gap-y-2">
-              {game.talents.map((talent, idx) => (
-                <span key={idx} className="text-xs md:text-sm font-mono text-mint-cream/70 uppercase tracking-tight block">
-                  {talent}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     </motion.div>
   );
