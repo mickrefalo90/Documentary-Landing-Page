@@ -29,9 +29,9 @@ function BlueskyIcon({ className }: { className?: string }) {
 const NAV_ITEMS = [
   { key: 'hero', label: 'Home', id: '#' },
   { key: 'mission', label: 'Mission', id: '#goal' },
-  { key: 'about', label: 'About', id: '#about' },
-  { key: 'roster', label: 'Roster', id: '#roster' },
   { key: 'narrative', label: 'Narrative', id: '#narrative' },
+  { key: 'roster', label: 'Roster', id: '#roster' },
+  { key: 'about', label: 'About', id: '#about' },
   { key: 'team', label: 'Team', id: '#team' },
   { key: 'follow', label: 'Follow', id: '#follow' },
   { key: 'faq', label: 'FAQ', id: '#faq' },
@@ -670,38 +670,41 @@ export default function LandingPage() {
           </section>
         )}
 
-        {/* Topics Section */}
-        {sectionsConfig.about && (
-          <section id="about" className="py-16 md:py-24 px-6 scroll-mt-20">
-            <div className="max-w-7xl mx-auto">
-              <div className="max-w-4xl mx-auto">
-                <div className="space-y-12">
-                  <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
-                    The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
-                    <span className="text-2xl md:text-4xl opacity-80">Unlock the History of Australian Video Games</span>
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-                    <TopicItem
-                      icon={<MessageSquare className="w-6 h-6" />}
-                      title="The Legends' Perspective"
-                      description="Direct conversations with the pioneers who built the Aussie industry from the ground up, sharing their raw truth of creating global hits."
-                    />
-                    <TopicItem
-                      icon={<History className="w-6 h-6" />}
-                      title="Preserve the Oral History"
-                      description="Preserve, document, and champion the events and history that made Australian video games legendary, ensuring our impact is not lost to time."
-                    />
-                    <TopicItem
-                      icon={<Briefcase className="w-6 h-6" />}
-                      title="From Bits to Business"
-                      description="The hustle, challenges, and hurdles that gave Aussie devs' momentum; fuelling their passion and making Australian games some of the most innovative in the world."
-                    />
-                    <TopicItem
-                      icon={<Sparkles className="w-6 h-6" />}
-                      title="Resilience & Legacy"
-                      description="The stories behind the studios that continue to this day, and the ones that dwindled away... Highlighting the ever-enduring spirit of the people that created the games we love today."
-                    />
-                  </div>
+        {/* The Narrative Section */}
+        {sectionsConfig.narrative && (
+          <section id="narrative" className="py-16 md:py-24 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
+            {/* Background elements */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-steel-blue to-transparent" />
+            </div>
+
+            <div className="max-w-7xl mx-auto space-y-20 relative z-10">
+              <div className="text-center space-y-4">
+                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Narrative</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
+              </div>
+
+              {/* Timeline Graphic Container */}
+              <div className="relative pt-12 md:pt-24 pb-12 overflow-hidden">
+                {/* Horizontal Progress Track (Desktop) */}
+                <div className="absolute top-[88px] left-0 w-full h-1 bg-white/5 hidden md:block rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    className="h-full bg-gradient-to-r from-steel-blue via-emerald-500 to-red-500 opacity-60"
+                  />
+                </div>
+                
+                {/* Vertical Progress Track (Mobile Rainbow Scroll) */}
+                <div className="absolute top-0 left-8 w-1 h-full bg-white/5 md:hidden rounded-full" />
+                <RainbowScrollLine />
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative">
+                  {NARRATIVE_ACTS.map((act, i) => (
+                    <NarrativeAct key={act.id} act={act} index={i} />
+                  ))}
                 </div>
               </div>
             </div>
@@ -809,41 +812,38 @@ export default function LandingPage() {
           </section>
         )}
 
-        {/* The Narrative Section */}
-        {sectionsConfig.narrative && (
-          <section id="narrative" className="py-16 md:py-24 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
-            {/* Background elements */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-steel-blue to-transparent" />
-            </div>
-
-            <div className="max-w-7xl mx-auto space-y-20 relative z-10">
-              <div className="text-center space-y-4">
-                <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Narrative</h2>
-                <div className="w-12 h-1 bg-steel-blue mx-auto" />
-              </div>
-
-              {/* Timeline Graphic Container */}
-              <div className="relative pt-12 md:pt-24 pb-12 overflow-hidden">
-                {/* Horizontal Progress Track (Desktop) */}
-                <div className="absolute top-[88px] left-0 w-full h-1 bg-white/5 hidden md:block rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                    className="h-full bg-gradient-to-r from-steel-blue via-emerald-500 to-red-500 opacity-60"
-                  />
-                </div>
-                
-                {/* Vertical Progress Track (Mobile Rainbow Scroll) */}
-                <div className="absolute top-0 left-8 w-1 h-full bg-white/5 md:hidden rounded-full" />
-                <RainbowScrollLine />
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative">
-                  {NARRATIVE_ACTS.map((act, i) => (
-                    <NarrativeAct key={act.id} act={act} index={i} />
-                  ))}
+        {/* Topics Section */}
+        {sectionsConfig.about && (
+          <section id="about" className="py-16 md:py-24 px-6 scroll-mt-20">
+            <div className="max-w-7xl mx-auto">
+              <div className="max-w-4xl mx-auto">
+                <div className="space-y-12">
+                  <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
+                    The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
+                    <span className="text-2xl md:text-4xl opacity-80">Unlock the History of Australian Video Games</span>
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+                    <TopicItem
+                      icon={<MessageSquare className="w-6 h-6" />}
+                      title="The Legends' Perspective"
+                      description="Direct conversations with the pioneers who built the Aussie industry from the ground up, sharing their raw truth of creating global hits."
+                    />
+                    <TopicItem
+                      icon={<History className="w-6 h-6" />}
+                      title="Preserve the Oral History"
+                      description="Preserve, document, and champion the events and history that made Australian video games legendary, ensuring our impact is not lost to time."
+                    />
+                    <TopicItem
+                      icon={<Briefcase className="w-6 h-6" />}
+                      title="From Bits to Business"
+                      description="The hustle, challenges, and hurdles that gave Aussie devs' momentum; fuelling their passion and making Australian games some of the most innovative in the world."
+                    />
+                    <TopicItem
+                      icon={<Sparkles className="w-6 h-6" />}
+                      title="Resilience & Legacy"
+                      description="The stories behind the studios that continue to this day, and the ones that dwindled away... Highlighting the ever-enduring spirit of the people that created the games we love today."
+                    />
+                  </div>
                 </div>
               </div>
             </div>
