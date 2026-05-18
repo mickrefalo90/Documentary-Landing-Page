@@ -101,15 +101,15 @@ const ROSTER_GAMES = [
 ];
 
 const STUDIO_LOGOS = [
-  { name: "BEAM SOFTWARE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Beam.png" },
-  { name: "HIPSTER WHALE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Hipster_Whale.webp" },
-  { name: "KROME STUDIOS", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Krome.png" },
-  { name: "MELBOURNE HOUSE", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Melbourne_House.png" },
-  { name: "PANDEMIC", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Pandemic.svg" },
-  { name: "BONDI", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Bondi.png" },
-  { name: "TANTALUS", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/Tantalus.png" },
-  { name: "BND", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/bnd.png" },
-  { name: "MF", logo: "https://raw.githubusercontent.com/mickrefalo90/Documentary-Landing-Page/main/public/logos/MFlogo.png" }
+  { name: "BEAM SOFTWARE", logo: "/logos/Beam.png" },
+  { name: "HIPSTER WHALE", logo: "/logos/Hipster_Whale.webp" },
+  { name: "KROME STUDIOS", logo: "/logos/Krome.png" },
+  { name: "MELBOURNE HOUSE", logo: "/logos/Melbourne_House.png" },
+  { name: "PANDEMIC", logo: "/logos/Pandemic.svg" },
+  { name: "BONDI", logo: "/logos/Bondi.png" },
+  { name: "TANTALUS", logo: "/logos/Tantalus.png" },
+  { name: "BND", logo: "/logos/bnd.png" },
+  { name: "MF", logo: "/logos/MFlogo.png" }
 ];
 
 const MARQUEE_ITEMS = (() => {
