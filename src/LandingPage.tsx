@@ -176,7 +176,7 @@ export default function LandingPage() {
   const targetRef = useRef(null);
 
   useEffect(() => {
-    if (isMenuOpen) {
+    if (isMenuOpen || selectedGame || isVideoOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -184,7 +184,7 @@ export default function LandingPage() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, selectedGame, isVideoOpen]);
 
   useEffect(() => {
     // Safely check localStorage
@@ -654,6 +654,7 @@ export default function LandingPage() {
 
               <div className="space-y-6">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
                 <div className="max-w-3xl mx-auto space-y-8">
                   <p className="text-mint-cream/90 text-2xl font-light leading-relaxed">
                     Video games are portals to another reality. Worlds where you can traverse perilous dungeons, create civilisations that span decades, or chart unknown planets across the universe. They entertain, educate, and inspire us. But behind the pixels and polygons lies an untold story of resilience. 
@@ -672,7 +673,7 @@ export default function LandingPage() {
 
         {/* The Narrative Section */}
         {sectionsConfig.narrative && (
-          <section id="narrative" className="py-16 md:py-24 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
+          <section id="narrative" className="pt-16 md:pt-24 pb-8 md:pb-12 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
             {/* Background elements */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-steel-blue to-transparent" />
@@ -713,7 +714,7 @@ export default function LandingPage() {
 
         {/* The Roster Section */}
         {sectionsConfig.roster && (
-          <section id="roster" className="py-16 md:py-24 px-6 relative overflow-hidden bg-oxford-navy/5 scroll-mt-20">
+          <section id="roster" className="pt-8 md:pt-12 pb-16 md:pb-24 px-6 relative overflow-hidden bg-oxford-navy/5 scroll-mt-20">
             <TronBackground opacity={0.05} />
             <div className="max-w-7xl mx-auto space-y-16 relative z-10">
               <div className="text-center space-y-4">
@@ -822,6 +823,7 @@ export default function LandingPage() {
                     The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
                     <span className="text-2xl md:text-4xl opacity-80">Unlock the History of Australian Video Games</span>
                   </h2>
+                  <div className="w-12 h-1 bg-steel-blue mx-auto" />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
                     <TopicItem
                       icon={<MessageSquare className="w-6 h-6" />}
@@ -856,6 +858,7 @@ export default function LandingPage() {
             <div className="max-w-7xl mx-auto space-y-16">
               <div className="text-center space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">The Team</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
                 <p className="text-mint-cream/70 max-w-xl mx-auto font-normal">
                   The visionaries behind the lens, dedicated to preserving Australia's digital heritage.
                 </p>
@@ -921,6 +924,7 @@ export default function LandingPage() {
             <div className="max-w-7xl mx-auto relative z-10">
               <div className="text-center mb-16 space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Frequently Asked</h2>
+                <div className="w-12 h-1 bg-steel-blue mx-auto" />
                 <p className="text-mint-cream/70 font-normal" style={{ fontSize: "18px" }}>Everything you need to know about the project.</p>
               </div>
               <FAQ />
@@ -1346,7 +1350,7 @@ function NarrativeAct({ act, index }: {
                 scale: isExpanded ? 0.9 : 1
               }}
               transition={{ duration: 0.3 }}
-              className="flex justify-center"
+              className="flex justify-center md:hidden"
             >
               <div className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono text-white/60 uppercase tracking-[0.2em] group-hover:bg-steel-blue/20 group-hover:border-steel-blue/40 group-hover:text-white transition-all duration-300">
                 <span className="text-steel-blue font-bold">+</span> Expand
@@ -1354,25 +1358,44 @@ function NarrativeAct({ act, index }: {
             </motion.div>
           </div>
 
-          {/* Moments - Interactive reveal with stable layout */}
+          {/* Moments - Interactive reveal with stable layout on mobile, always visible on desktop */}
           <div className="relative flex-1">
-            <motion.div 
-              initial={false}
-              animate={{ 
-                opacity: isExpanded ? 1 : 0,
-                y: isExpanded ? 0 : 10,
-                height: isExpanded ? 'auto' : 0
-              }}
-              style={{
-                visibility: isExpanded ? 'visible' : 'hidden',
-                pointerEvents: isExpanded ? 'auto' : 'none'
-              }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="pt-6 space-y-4 border-t border-white/5 mt-4 md:px-6"
-            >
+            {/* Mobile View: Expandable */}
+            <div className="md:hidden">
+              <motion.div 
+                initial={false}
+                animate={{ 
+                  opacity: isExpanded ? 1 : 0,
+                  y: isExpanded ? 0 : 10,
+                  height: isExpanded ? 'auto' : 0
+                }}
+                style={{
+                  visibility: isExpanded ? 'visible' : 'hidden',
+                  pointerEvents: isExpanded ? 'auto' : 'none'
+                }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="pt-6 space-y-4 border-t border-white/5 mt-4"
+              >
+                <ul className="space-y-4">
+                  {act.moments.map((moment, i) => (
+                    <li key={i} className="flex gap-4 items-start text-xs font-mono text-mint-cream/80 uppercase tracking-[0.1em] text-left">
+                      <div className="flex-shrink-0 mt-1">
+                        <span className="block w-1.5 h-1.5 bg-steel-blue rounded-full animate-pulse" />
+                      </div>
+                      <span className="flex-1 leading-relaxed">
+                        {moment}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </div>
+
+            {/* Desktop View: Always Visible */}
+            <div className="hidden md:block pt-6 space-y-4 border-t border-white/5 mt-4 px-6">
               <ul className="space-y-4">
                 {act.moments.map((moment, i) => (
-                  <li key={i} className="flex gap-4 items-start text-xs font-mono text-mint-cream/80 uppercase tracking-[0.1em] text-left">
+                  <li key={i} className="flex gap-4 items-start text-xs font-mono text-mint-cream/80 uppercase tracking-[0.1em] text-center md:text-left">
                     <div className="flex-shrink-0 mt-1">
                       <span className="block w-1.5 h-1.5 bg-steel-blue rounded-full animate-pulse" />
                     </div>
@@ -1382,7 +1405,7 @@ function NarrativeAct({ act, index }: {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
         </div>
 
