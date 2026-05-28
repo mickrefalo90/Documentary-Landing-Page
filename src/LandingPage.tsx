@@ -666,6 +666,25 @@ export default function LandingPage() {
                     We are making this documentary to tell their story, and to prove that while Aussie developers may have been remote... their talent and passion was never <span className="font-bold italic text-white underline underline-offset-8 decoration-steel-blue/40">Region Locked</span>.
                   </p>
                 </div>
+
+                {/* Embedded Cinematic Trailer */}
+                <div className="max-w-4xl mx-auto pt-8 relative group">
+                  {/* Outer atmospheric neon blue/red glow behind the video card */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-steel-blue/40 to-red-500/20 rounded-2xl blur-xl opacity-40 group-hover:opacity-65 transition duration-1000" />
+                  
+                  {/* Glassmorphic border & container */}
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-oxford-navy/45 shadow-2xl shadow-black/80 aspect-video">
+                    {/* Retro line scanned overlay */}
+                    <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] z-10" />
+                    <iframe
+                      className="w-full h-full border-0 absolute inset-0"
+                      src="https://www.youtube.com/embed/hrsfSl_Dil4?rel=0&autoplay=0"
+                      title="Region Locked: Australian Video Games Documentary Trailer"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -1128,7 +1147,7 @@ export default function LandingPage() {
       <VideoLightbox 
         isOpen={isVideoOpen} 
         onClose={() => setIsVideoOpen(false)} 
-        videoUrl="https://drive.google.com/file/d/1YY8LJ4elGmu220-l-upVu1oOdpEDU0Yv/preview"
+        videoUrl="https://www.youtube.com/embed/hrsfSl_Dil4?rel=0"
       />
 
       <style dangerouslySetInnerHTML={{ __html: `
