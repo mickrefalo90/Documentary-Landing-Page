@@ -10,15 +10,15 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "What is 'Region Locked'?",
-    answer: "Region Locked is a feature-length documentary exploring the hidden history of the Australian video game industry, from the early 70s to the turn of the millennium."
+    answer: "Region Locked is a documentary project of large cinematic scale, exploring the hidden history of the Australian video game industry, from the early 70s to the turn of the millennium."
   },
   {
     question: "What games will be featured?",
-    answer: "We're diving deep into the archives to cover everything from the early text-adventure era (like The Hobbit) to the 90s boom and the modern indie revolution. Expect to see classics, cult hits, and the stories behind games you never knew were made in Australia."
+    answer: "We are charting a course through decades of digital triumph and creative defiance—unearthing the code, the stories, and the pixels that defined generations of players. Prepare to journey from the legendary text-adventure prose of The Hobbit (1983) and the pioneering combat mechanics of The Way of the Exploding Fist (1985), to the gritty FMV detective alleys of The Dame was Loaded (1996). We'll trace the lineage upward through the vibrant platforming heights of Ty the Tasmanian Tiger (2002), the irreverent alien chaos of Destroy All Humans! (2005), the global viral phenomenon of Crossy Road (2014), and many more."
   },
   {
     question: "Who are you interviewing?",
-    answer: "We are speaking with the original pioneers, studio founders, and developers who were on the front lines. Our goal is to capture the raw, first-hand accounts of the people who built this industry from the ground up."
+    answer: "We have over 60 industry legends lined up to participate in interviews. Artists, developers, musicians and management from Micro Forte, Beam Software, SSG, Team Bondi, Hipster Whale and more!"
   },
   {
     question: "How can I participate or share my story?",

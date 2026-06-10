@@ -576,7 +576,7 @@ export default function LandingPage() {
                   transition={{ delay: 0.4 }}
                   className="text-xl md:text-2xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
                 >
-                  Unlocking the History of Australian Video Games
+                  UNLOCKING AUSTRALIAN VIDEO GAMES
                 </motion.p>
               </div>
 
@@ -840,7 +840,7 @@ export default function LandingPage() {
                 <div className="space-y-12">
                   <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest leading-tight uppercase text-center">
                     The Legends of <span className="text-steel-blue">Aussie Games</span> <br />
-                    <span className="text-2xl md:text-4xl opacity-80">Unlock the History of Australian Video Games</span>
+                    <span className="text-2xl md:text-4xl opacity-80">UNLOCKING AUSTRALIAN VIDEO GAMES</span>
                   </h2>
                   <div className="w-12 h-1 bg-steel-blue mx-auto" />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
@@ -963,7 +963,7 @@ export default function LandingPage() {
               Region Locked
             </span>
             <p className="text-xs font-mono uppercase tracking-[0.3em] text-steel-blue/60">
-              Unlocking the History of Australian Video Games
+              UNLOCKING AUSTRALIAN VIDEO GAMES
             </p>
           </div>
 
