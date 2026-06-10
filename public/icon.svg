@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Gold gradient for the outer coin edge -->
+    <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B8860B" />
+      <stop offset="50%" stop-color="#FFD700" />
+      <stop offset="100%" stop-color="#B8860B" />
+    </linearGradient>
+    <!-- Gold gradient for the inner face -->
+    <linearGradient id="faceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD700" />
+      <stop offset="50%" stop-color="#DAA520" />
+      <stop offset="100%" stop-color="#B8860B" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Rim border edge -->
+  <circle cx="256" cy="256" r="240" fill="url(#edgeGrad)" stroke="#DAA520" stroke-width="4" />
+  
+  <!-- Coin Face -->
+  <circle cx="256" cy="256" r="220" fill="url(#faceGrad)" stroke="#FFFACD" stroke-width="6" stroke-opacity="0.5" />
+  
+  <!-- Inner ring detail -->
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#FFFACD" stroke-width="2" stroke-opacity="0.3" stroke-dasharray="10 5" />
+  
+  <!-- Star shape in the center -->
+  <path d="M256 100 L293 213 L412 213 L316 283 L353 396 L256 326 L159 396 L196 283 L100 213 L219 213 Z" fill="#FFFACD" stroke="#B8860B" stroke-width="6" stroke-linejoin="round" />
+</svg>
