@@ -20,6 +20,66 @@ const BrevoForm: React.FC = () => {
     email: ''
   });
 
+  React.useEffect(() => {
+    const handleHeaderSubscription = (event: Event) => {
+      const customEvent = event as CustomEvent<{ email: string }>;
+      const emailValue = customEvent.detail?.email;
+      if (!emailValue) return;
+
+      // Temporarily override scrolling functions to prevent Brevo's automatic layout adjustments
+      const originalScrollTo = window.scrollTo;
+      const originalScroll = window.scroll;
+      const originalScrollBy = window.scrollBy;
+      const originalScrollIntoView = Element.prototype.scrollIntoView;
+
+      try {
+        window.scrollTo = () => {};
+        window.scroll = () => {};
+        window.scrollBy = () => {};
+        Element.prototype.scrollIntoView = () => {};
+      } catch (err) {
+        console.warn("Could not temporarily disable scroll tools", err);
+      }
+
+      // Update state with default/friendly placeholder names and the user's email
+      setFormData({
+        firstName: "Supporter",
+        lastName: "Friend",
+        email: emailValue
+      });
+
+      // Submit through the robust, fully-configured Brevo validation and reCAPTCHA mechanism
+      setTimeout(() => {
+        const form = document.getElementById("sib-form") as HTMLFormElement;
+        if (form) {
+          const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+          if (submitBtn) {
+            submitBtn.click();
+          } else {
+            form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+          }
+        }
+      }, 150);
+
+      // Restore scrolling after 3 seconds to make sure any post-submission triggers are completed
+      setTimeout(() => {
+        try {
+          window.scrollTo = originalScrollTo;
+          window.scroll = originalScroll;
+          window.scrollBy = originalScrollBy;
+          Element.prototype.scrollIntoView = originalScrollIntoView;
+        } catch (err) {
+          console.warn("Could not restore scroll tools", err);
+        }
+      }, 3000);
+    };
+
+    window.addEventListener("submit-header-subscription", handleHeaderSubscription);
+    return () => {
+      window.removeEventListener("submit-header-subscription", handleHeaderSubscription);
+    };
+  }, []);
+
   useEffect(() => {
     // Check localStorage for saved data
     const safeGetItem = (key: string) => {

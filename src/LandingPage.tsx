@@ -174,8 +174,37 @@ export default function LandingPage() {
   const [selectedGame, setSelectedGame] = useState<typeof ROSTER_GAMES[0] | null>(null);
   const targetRef = useRef(null);
 
+  const [showVaultPopup, setShowVaultPopup] = useState(false);
+  const [vaultName, setVaultName] = useState("");
+  const [vaultEmail, setVaultEmail] = useState("");
+
+  const handleKeepUpToDate = () => {
+    setShowVaultPopup(false);
+    setTimeout(() => {
+      const followSection = document.getElementById("follow");
+      if (followSection) {
+        followSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 150);
+  };
+
   useEffect(() => {
-    if (isMenuOpen || selectedGame || isVideoOpen) {
+    const isFromVault = localStorage.getItem("from_vault");
+    if (isFromVault === "true") {
+      const firstName = localStorage.getItem("vault_firstName") || "";
+      const lastName = localStorage.getItem("vault_lastName") || "";
+      const email = localStorage.getItem("vault_email") || "";
+      
+      setVaultName(`${firstName} ${lastName}`.trim() || "Operative");
+      setVaultEmail(email);
+      setShowVaultPopup(true);
+      
+      localStorage.removeItem("from_vault");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isMenuOpen || selectedGame || isVideoOpen || showVaultPopup) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -183,7 +212,7 @@ export default function LandingPage() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isMenuOpen, selectedGame, isVideoOpen]);
+  }, [isMenuOpen, selectedGame, isVideoOpen, showVaultPopup]);
 
   useEffect(() => {
     const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
@@ -1023,7 +1052,105 @@ export default function LandingPage() {
         videoUrl="https://www.youtube.com/embed/hrsfSl_Dil4?rel=0"
       />
 
+      <AnimatePresence>
+        {showVaultPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[400] flex items-center justify-center p-4 md:p-8 bg-black/95 backdrop-blur-md"
+            onClick={() => setShowVaultPopup(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 30 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 30 }}
+              className="bg-[#030711] border-[3px] border-transparent animate-rainbow-border rounded-2xl overflow-hidden max-w-xl w-full relative p-0.5"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Scanline overlay for modal */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.08] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] z-50" />
+              
+              {/* TRON style grid in the background */}
+              <div className="absolute inset-0 pointer-events-none opacity-20 z-0 bg-[linear-gradient(rgba(61,122,184,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(61,122,184,0.18)_1px,transparent_1px)] bg-[size:32px_32px]" />
+
+              <div className="p-6 md:p-8 bg-[#090e17]/95 relative z-10 flex flex-col space-y-6">
+                <div className="flex justify-between items-center border-b border-steel-blue/30 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Database className="w-5 h-5 text-steel-blue animate-pulse shrink-0" />
+                    <span className="font-display text-[#3d7ab8] text-3xl uppercase tracking-widest leading-none">
+                      Vault Access Authorized
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => setShowVaultPopup(false)}
+                    className="text-steel-blue/60 hover:text-steel-blue transition-colors font-sans text-xl font-bold leading-none cursor-pointer p-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className="py-2 text-center">
+                  <p className="font-display text-[#3d7ab8] text-2xl md:text-3.5xl leading-relaxed uppercase tracking-wider text-center">
+                     Welcome to the mission. Please explore our website. Kickstarter launches July 2026.
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-steel-blue/20 flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={handleKeepUpToDate}
+                    className="flex-1 bg-steel-blue/15 hover:bg-steel-blue text-white hover:text-ink-black border border-steel-blue/65 font-display text-xl uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all duration-300 active:scale-95 cursor-pointer text-center font-bold shadow-[0_0_15px_rgba(61,122,184,0.2)] hover:shadow-[0_0_25px_rgba(61,122,184,0.4)]"
+                  >
+                    Click here to keep up to date
+                  </button>
+                  <button
+                    onClick={() => setShowVaultPopup(false)}
+                    className="bg-[#141820] hover:bg-[#1e2430] text-steel-blue/80 hover:text-[#3d7ab8] border border-steel-blue/30 font-display text-lg uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all duration-300 active:scale-95 cursor-pointer text-center font-medium"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes rainbow-border-pulse {
+          0%, 100% {
+            border-color: #3d7ab8;
+            box-shadow: 0 0 25px rgba(61, 122, 184, 0.6);
+          }
+          14% {
+            border-color: #ef4444;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+          }
+          28% {
+            border-color: #f97316;
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.6);
+          }
+          42% {
+            border-color: #eab308;
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.6);
+          }
+          56% {
+            border-color: #22c55e;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.6);
+          }
+          70% {
+            border-color: #06b6d4;
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.6);
+          }
+          84% {
+            border-color: #a855f7;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+          }
+        }
+        .animate-rainbow-border {
+          animation: rainbow-border-pulse 5s linear infinite;
+        }
+
         .glitch-overlay {
           background-image: 
             linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),

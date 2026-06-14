@@ -7,6 +7,7 @@ const HeaderForm: React.FC = () => {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
 
   const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setStatus("submitting");
     
     try {
@@ -15,7 +16,14 @@ const HeaderForm: React.FC = () => {
       console.warn("Storage write failed:", err);
     }
 
-    // Smooth inline transition after successful native POST
+    // Dispatch the custom event to the master BrevoForm to trigger official submission with Google reCAPTCHA
+    window.dispatchEvent(
+      new CustomEvent("submit-header-subscription", {
+        detail: { email: email }
+      })
+    );
+
+    // Smooth inline transition after simulating successful submission
     setTimeout(() => {
       setStatus("success");
     }, 1500);
@@ -101,7 +109,9 @@ const HeaderForm: React.FC = () => {
                 )}
               </button>
 
-              {/* Hidden spam protection & system parameters */}
+              {/* Hidden spam protection, default name attributes, & system parameters */}
+              <input type="hidden" name="FIRSTNAME" value="Supporter" />
+              <input type="hidden" name="LASTNAME" value="Friend" />
               <input type="text" name="email_address_check" defaultValue="" className="hidden" />
               <input type="hidden" name="locale" value="en" />
             </motion.form>
