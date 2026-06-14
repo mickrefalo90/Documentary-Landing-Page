@@ -171,8 +171,6 @@ const ACT_LABELS = ["Act One", "Act Two", "Act Three"];
 export default function LandingPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showVaultPopup, setShowVaultPopup] = useState(false);
-  const [showSignupPopup, setShowSignupPopup] = useState(false);
   const [selectedGame, setSelectedGame] = useState<typeof ROSTER_GAMES[0] | null>(null);
   const targetRef = useRef(null);
 
@@ -188,49 +186,6 @@ export default function LandingPage() {
   }, [isMenuOpen, selectedGame, isVideoOpen]);
 
   useEffect(() => {
-    // Safely check localStorage
-    const getStorageItem = (key: string) => {
-      try {
-        return localStorage.getItem(key);
-      } catch (e) {
-        console.warn(`Local storage access denied for key: ${key}`, e);
-        return null;
-      }
-    };
-
-    const removeStorageItem = (key: string) => {
-      try {
-        localStorage.removeItem(key);
-      } catch (e) {
-        // ignore
-      }
-    };
-
-    const setStorageItem = (key: string, value: string) => {
-      try {
-        localStorage.setItem(key, value);
-      } catch (e) {
-        // ignore
-      }
-    };
-
-    // Check if user came from vault
-    const fromVault = getStorageItem('from_vault');
-    if (fromVault === 'true') {
-      setShowVaultPopup(true);
-      // Remove flag so it doesn't show on every refresh
-      removeStorageItem('from_vault');
-    }
-
-    // Check if first time for signup popup
-    const hasSeenSignup = getStorageItem('has_seen_signup_popup_v3');
-    if (!hasSeenSignup) {
-      const timer = setTimeout(() => {
-        setShowSignupPopup(true);
-      }, 7000); // Increased delay to 7 seconds for a more subtle approach
-      return () => clearTimeout(timer);
-    }
-
     const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
     if (measurementId) {
       ReactGA.initialize(measurementId);
@@ -254,10 +209,6 @@ export default function LandingPage() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
-
-  const handlePopupClose = () => {
-    setShowVaultPopup(false);
-  };
 
   const visibleNavItems = NAV_ITEMS.filter(item => (sectionsConfig as any)[item.key]);
 
@@ -295,136 +246,6 @@ export default function LandingPage() {
 
   return (
     <div ref={targetRef} className="min-h-screen bg-ink-black text-mint-cream selection:bg-steel-blue selection:text-ink-black overflow-x-hidden">
-      <AnimatePresence>
-        {showSignupPopup && (
-          <motion.div 
-            initial={{ opacity: 0, x: 100, y: 0 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[200] w-full max-w-[calc(100%-3rem)] md:max-w-md"
-          >
-            <div className="bg-ink-black/95 backdrop-blur-2xl border-l-4 border-steel-blue p-6 md:p-8 relative shadow-[0_30px_60px_rgba(0,0,0,0.8)] rounded-r-2xl overflow-hidden group/popup">
-              {/* Scanline effect for retro feel */}
-              <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%]" />
-              
-              {/* Close Button */}
-              <button 
-                onClick={() => {
-                  setShowSignupPopup(false);
-                  try {
-                    localStorage.setItem('has_seen_signup_popup_v3', 'true');
-                  } catch (e) { /* ignore */ }
-                }}
-                className="absolute top-4 right-4 text-white/20 hover:text-white transition-colors p-1 cursor-pointer z-20"
-                aria-label="Close popup"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="flex gap-6 items-start relative z-10">
-                <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-steel-blue/10 border border-steel-blue/30 rounded-xl flex items-center justify-center text-steel-blue relative overflow-hidden">
-                    <Database className="w-6 h-6 z-10" />
-                    <motion.div 
-                      animate={{ opacity: [0, 1, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0 bg-steel-blue/20"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-mono text-steel-blue uppercase tracking-[0.3em] font-bold">Preservation Alert</p>
-                    <h2 className="text-xl font-display text-white uppercase tracking-wider leading-tight">
-                      Before it's too late...
-                    </h2>
-                  </div>
-                  
-                  <p className="text-sm text-mint-cream/80 font-light leading-relaxed">
-                    Australia's video game history is evaporating. Help us <span className="text-steel-blue font-medium">save the oral history</span> of the legends who built it all before their stories are lost forever.
-                  </p>
-
-                  <div className="pt-2 flex items-center gap-4">
-                    <button 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowSignupPopup(false);
-                        try {
-                          localStorage.setItem('has_seen_signup_popup_v3', 'true');
-                        } catch (e) { /* ignore */ }
-                        smoothScrollTo('#follow');
-                      }}
-                      className="bg-steel-blue hover:bg-steel-blue/90 text-white px-6 py-2.5 rounded-lg font-display uppercase tracking-[0.15em] transition-all flex items-center gap-2 text-xs cursor-pointer shadow-lg shadow-steel-blue/20 active:scale-95"
-                    >
-                      Join the Mission
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                    
-                    <button 
-                      onClick={() => {
-                        setShowSignupPopup(false);
-                        try {
-                          localStorage.setItem('has_seen_signup_popup_v3', 'true');
-                        } catch (e) { /* ignore */ }
-                      }}
-                      className="text-[10px] font-mono text-mint-cream/30 hover:text-mint-cream/60 uppercase tracking-widest transition-colors py-1 cursor-pointer"
-                    >
-                      Maybe later
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {showVaultPopup && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              className="bg-black border-2 border-yellow-600/50 p-8 max-w-md w-full relative shadow-[0_0_50px_rgba(202,138,4,0.3)]"
-            >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-600/50 to-transparent" />
-              
-              <h2 className="text-2xl font-retro text-yellow-500 uppercase tracking-widest mb-4">
-                Transmission Received
-              </h2>
-              
-              <p className="font-mono text-sm text-yellow-100/80 leading-relaxed mb-8">
-                Thank you for joining the mission. 
-                <br /><br />
-                If you are interested in following the project development,{" "}
-                <a 
-                  href="#follow" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handlePopupClose();
-                    smoothScrollTo('#follow');
-                  }}
-                  className="text-yellow-500 underline underline-offset-4 hover:text-yellow-400 transition-colors cursor-pointer"
-                >
-                  click here
-                </a>.
-              </p>
-
-              <button 
-                onClick={handlePopupClose}
-                className="w-full border border-yellow-600/30 py-3 text-[10px] font-pixel text-yellow-600/60 hover:bg-yellow-600/10 transition-all uppercase"
-              >
-                Close Connection
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Top Banner */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <div 
