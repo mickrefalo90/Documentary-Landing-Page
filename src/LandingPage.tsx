@@ -9,6 +9,7 @@ import ImageFlow from "./components/ImageFlow";
 import VideoLightbox from "./components/VideoLightbox";
 import TronBackground from "./components/TronBackground";
 import BrevoForm from "./components/BrevoForm";
+import HeaderForm from "./components/HeaderForm";
 import { Link } from "react-router-dom";
 import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase, Facebook, Youtube, Database } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
@@ -540,45 +541,62 @@ export default function LandingPage() {
       <main className="relative z-10">
         {/* Hero Section */}
         {sectionsConfig.hero && (
-          <section className="relative min-h-screen flex flex-col items-center justify-center py-32 px-8 overflow-hidden text-center">
+          <section className="relative min-h-screen flex flex-col items-center justify-center py-16 md:py-24 px-4 md:px-8 overflow-hidden text-center">
             <TronBackground opacity={0.3} />
             <div className="absolute inset-0 z-0 opacity-20">
               <StarField />
             </div>
             <motion.div
               style={{ opacity, scale }}
-              className="relative z-10 w-full max-w-5xl mx-auto space-y-12 flex flex-col items-center"
+              className="relative z-10 w-full max-w-5xl mx-auto space-y-8 md:space-y-12 flex flex-col items-center"
             >
-              <div className="flex justify-center mb-8">
+              <div className="flex justify-center mb-4 md:mb-6">
                 <CoinLogo className="w-24 h-24 md:w-32 md:h-32" />
               </div>
-              <div className="space-y-6">
+              <div className="flex flex-col items-center">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-steel-blue font-mono text-sm tracking-[0.5em] uppercase"
+                  className="text-steel-blue font-mono text-xs sm:text-sm tracking-[0.5em] uppercase font-bold pl-[0.5em] mb-6"
                 >
-                  Launching Q1 FY27 on Kickstarter
+                  LAUNCHING JULY 2026
                 </motion.p>
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-7xl md:text-[10rem] font-display font-normal tracking-[0.1em] text-white leading-[0.85] uppercase flex items-center justify-center flex-wrap gap-x-[0.15em]"
+                  className="text-[25vw] xs:text-[28vw] sm:text-7xl md:text-8xl lg:text-[10rem] font-display font-normal tracking-[0.1em] text-white leading-[0.8] sm:leading-[0.85] uppercase flex flex-col sm:flex-row items-center justify-center gap-y-0 sm:gap-y-0 gap-x-[0.15em] select-none"
+                  style={{ textShadow: '0 0 40px rgba(0, 0, 0, 0.4), 0 0 80px rgba(61, 122, 184, 0.2)' }}
                 >
                   <span>REGION</span>
-                  <span>L<span className="relative inline-flex items-center justify-center">O<svg viewBox="7 2 10 20" fill="currentColor" className="absolute h-[0.51em] w-auto text-[#050505] pointer-events-none top-[42%] left-[40%] -translate-x-1/2 -translate-y-1/2 scale-y-110"><path d="M12 2C9.24 2 7 4.24 7 7C7 8.83 8 10.42 9.5 11.25L7 22H17L14.5 11.25C16 10.42 17 8.83 17 7C17 4.24 14.76 2 12 2Z" /></svg></span>CKED<span className="text-[0.5em] tracking-tighter inline-block align-middle ml-[-0.1em] relative bottom-[0.02em] opacity-60">:</span></span>
+                  <span className="-mt-[0.02em] sm:mt-0">
+                    L
+                    <span className="relative inline-flex items-center justify-center">
+                      O
+                      <svg 
+                        viewBox="7 2 10 20" 
+                        fill="currentColor" 
+                        className="absolute h-[0.51em] w-auto text-[#050505] pointer-events-none top-[42%] left-[40%] -translate-x-1/2 -translate-y-1/2 scale-y-110"
+                      >
+                        <path d="M12 2C9.24 2 7 4.24 7 7C7 8.83 8 10.42 9.5 11.25L7 22H17L14.5 11.25C16 10.42 17 8.83 17 7C17 4.24 14.76 2 12 2C9.24 2 7 4.24 7 7C7 8.83 8 10.42 9.5 11.25L7 22H17L14.5 11.25C16 10.42 17 8.83 17 7C17 4.24 14.76 2 12 2Z" />
+                      </svg>
+                    </span>
+                    CKED
+                    <span className="text-[0.5em] tracking-tighter inline-block align-middle ml-[-0.1em] relative bottom-[0.02em] opacity-60">:</span>
+                  </span>
                 </motion.h1>
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-xl md:text-2xl text-mint-cream/70 font-normal max-w-xl mx-auto leading-relaxed"
+                  className="mt-3 text-[3vw] sm:text-xs md:text-sm lg:text-base xl:text-lg text-mint-cream/80 font-bold uppercase tracking-[0.22em] xs:tracking-[0.26em] sm:tracking-[0.34em] md:tracking-[0.44em] lg:tracking-[0.52em] xl:tracking-[0.62em] max-w-5xl mx-auto leading-[1.1] whitespace-nowrap pl-[0.22em] xs:pl-[0.26em] sm:pl-[0.34em] md:pl-[0.44em] lg:pl-[0.52em] xl:pl-[0.62em]"
                 >
-                  UNLOCKING AUSTRALIAN VIDEO GAMES
+                  Unlocking Australian Video Games
                 </motion.p>
               </div>
+
+              <HeaderForm />
 
               <motion.button
                 initial={{ opacity: 0 }}
@@ -592,7 +610,7 @@ export default function LandingPage() {
                   });
                   smoothScrollTo('#goal');
                 }}
-                className="flex flex-col items-center justify-center gap-4 pt-12 group cursor-pointer mx-auto"
+                className="flex flex-col items-center justify-center gap-2 pt-6 group cursor-pointer mx-auto"
               >
                 <p className="text-steel-blue font-mono text-xs uppercase tracking-[0.3em] group-hover:text-mint-cream transition-colors">Ready to join?</p>
                 <motion.div
@@ -912,6 +930,40 @@ export default function LandingPage() {
                     "The Wiggles - Various Projects (Creative Lead)"
                   ]}
                 />
+              </div>
+
+              {/* Our Industry Advisors Section */}
+              <div className="pt-16 border-t border-steel-blue/10 space-y-12">
+                <div className="text-center space-y-4">
+                  <h3 className="text-3xl md:text-5xl font-display font-normal tracking-widest uppercase text-white">Our Industry Advisors</h3>
+                  <div className="w-12 h-1 bg-steel-blue mx-auto" />
+                  <p className="text-mint-cream/70 max-w-xl mx-auto font-normal text-sm md:text-base">
+                    Advancing behind the scenes to guide, polish, and verify the historic authenticity of our journey.
+                  </p>
+                </div>
+
+                {SHOW_ADVISOR_CARDS ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                    {INDUSTRY_ADVISORS.map((advisor, index) => (
+                      <AdvisorCard 
+                        key={index}
+                        name={advisor.name}
+                        industry={advisor.industry}
+                        bio={advisor.bio}
+                        iconName={advisor.iconName}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="pt-6 text-center flex flex-col items-center gap-4">
+                    <span className="text-4xl md:text-6xl text-white font-display leading-none select-none">
+                      +
+                    </span>
+                    <h3 className="text-xl md:text-3xl font-display font-normal tracking-[0.2em] text-white uppercase">
+                      To be revealed soon
+                    </h3>
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -1279,6 +1331,114 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
       <div className="absolute top-0 right-0 w-16 h-16 pointer-events-none overflow-hidden rounded-tr-3xl">
         <div className="absolute top-[-1px] right-[-1px] w-8 h-8 border-t border-r border-steel-blue/20" />
       </div>
+    </motion.div>
+  );
+}
+
+const SHOW_ADVISOR_CARDS = false;
+
+interface IndustryAdvisor {
+  name: string;
+  industry: string;
+  bio: string;
+  iconName: string;
+}
+
+const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
+  {
+    name: "Advisor One",
+    industry: "Executive Producer",
+    bio: "Decades of production leadership across screen and digital interactive media.",
+    iconName: "Briefcase"
+  },
+  {
+    name: "Advisor Two",
+    industry: "Game Development",
+    bio: "Veteran software architect defining performance standards in premium studios.",
+    iconName: "Gamepad2"
+  },
+  {
+    name: "Advisor Three",
+    industry: "Audio Lead",
+    bio: "Creator of historical sound landmarks and authentic retro compositions.",
+    iconName: "Disc"
+  },
+  {
+    name: "Advisor Four",
+    industry: "Narrative Director",
+    bio: "Pioneering creative writer behind multiple award-winning interactive stories.",
+    iconName: "BookOpen"
+  },
+  {
+    name: "Advisor Five",
+    industry: "Retro Specialist",
+    bio: "Ardent collector and preservationist of precious vintage source code.",
+    iconName: "History"
+  },
+  {
+    name: "Advisor Six",
+    industry: "Systems Engineer",
+    bio: "Hardware archivist maintaining active legacy platforms and emulation tools.",
+    iconName: "Cpu"
+  },
+  {
+    name: "Advisor Seven",
+    industry: "Creative Producer",
+    bio: "Guiding the synthesis of cinematic narrative with emergent game mechanics.",
+    iconName: "Sparkles"
+  },
+  {
+    name: "Advisor Eight",
+    industry: "Database Custodian",
+    bio: "Chronicles digital records and oral histories in public registries.",
+    iconName: "Database"
+  },
+  {
+    name: "Advisor Nine",
+    industry: "IP & Copyright Counsel",
+    bio: "Navigating legal hurdles of digital resurrection and orphan licensing.",
+    iconName: "Crown"
+  },
+  {
+    name: "Advisor Ten",
+    industry: "Media Historian",
+    bio: "Academic lead documenting Australia's pioneering software community.",
+    iconName: "Layers"
+  }
+];
+
+function getAdvisorIcon(iconName: string) {
+  switch (iconName) {
+    case "Gamepad2": return <Gamepad2 className="w-5 h-5 text-steel-blue" />;
+    case "History": return <History className="w-5 h-5 text-steel-blue" />;
+    case "Cpu": return <Cpu className="w-5 h-5 text-steel-blue" />;
+    case "Sparkles": return <Sparkles className="w-5 h-5 text-steel-blue" />;
+    case "BookOpen": return <BookOpen className="w-5 h-5 text-steel-blue" />;
+    case "Disc": return <Disc className="w-5 h-5 text-steel-blue" />;
+    case "Briefcase": return <Briefcase className="w-5 h-5 text-steel-blue" />;
+    case "Database": return <Database className="w-5 h-5 text-steel-blue" />;
+    case "Crown": return <Crown className="w-5 h-5 text-steel-blue" />;
+    case "Layers": return <Layers className="w-5 h-5 text-steel-blue" />;
+    default: return <Gamepad2 className="w-5 h-5 text-steel-blue" />;
+  }
+}
+
+function AdvisorCard({ name, industry, bio, iconName }: { name: string; industry: string; bio: string; iconName: string; key?: any }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      className="p-6 rounded-2xl border border-steel-blue/10 bg-oxford-navy/20 hover:border-steel-blue/30 transition-all duration-300 flex flex-col items-center text-center space-y-4"
+    >
+      <div className="w-12 h-12 rounded-full bg-steel-blue/10 flex items-center justify-center border border-steel-blue/20">
+        {getAdvisorIcon(iconName)}
+      </div>
+      <div className="space-y-1">
+        <h4 className="text-lg font-display text-white">{name}</h4>
+        <p className="text-steel-blue font-mono text-[10px] uppercase tracking-wider">{industry}</p>
+      </div>
+      <p className="text-mint-cream/60 text-xs leading-relaxed font-light">{bio}</p>
     </motion.div>
   );
 }

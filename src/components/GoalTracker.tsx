@@ -32,7 +32,7 @@ export default function GoalTracker({ current, goal }: GoalTrackerProps) {
       </div>
 
       <div className="mt-6 flex justify-between items-center text-xs font-mono uppercase tracking-widest text-white/40">
-        <span>Launching Q1 FY27</span>
+        <span>LAUNCHING JULY 2026</span>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 bg-steel-blue rounded-full animate-pulse" />
           <span>Live Tracking Soon</span>

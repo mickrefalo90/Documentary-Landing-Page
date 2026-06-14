@@ -1,7 +1,7 @@
 {
   "hero": true,
   "mission": true,
-  "about": true,
+  "about": false,
   "roster": true,
   "narrative": true,
   "team": true,
