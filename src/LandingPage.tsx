@@ -768,7 +768,7 @@ export default function LandingPage() {
                 />
                 <TeamMember 
                   name="Michael Refalo"
-                  role="Creative Lead / Executive Producer"
+                  role="Creative Director / Executive Producer"
                   bio="Michael is a versatile visionary whose career defines innovation in visual communications and audience engagement. Sharpening his expertise as a creative leader at Toys 'R' Us Australia, he mastered the mechanics of visual storytelling—specifically framing, emotional pacing, and guiding a unified creative vision. Translating his proven ability to construct compelling, immersive narratives across dynamic visual mediums, Michael now directs creative projects designed to ignite the imaginations of the next generation."
                   firstGame="Final Fantasy: Mystic Quest"
                   favGame="Half Life: Alyx"
@@ -777,7 +777,7 @@ export default function LandingPage() {
                   credits={[
                     "iiNet's 'Business Help Hub' (Campaign and Creative Director)",
                     "Toys 'R' Us Australia (Art Direction and Manager)",
-                    "The Wiggles - Various Projects (Creative Lead)"
+                    "Indicia Worldwide (Unilever Agency) - (Creative Lead)"
                   ]}
                 />
               </div>
@@ -1253,26 +1253,7 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
           </ul>
         </div>
 
-        <div className="pt-4 flex items-center gap-6">
-          <a 
-            href={linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-steel-blue hover:text-mint-cream transition-colors"
-          >
-            <Linkedin className="w-4 h-4" />
-            LinkedIn
-          </a>
-          <a 
-            href={imdb}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-steel-blue hover:text-mint-cream transition-colors"
-          >
-            <ExternalLink className="w-4 h-4" />
-            IMDb
-          </a>
-        </div>
+
       </div>
       
       {/* Decorative corner */}
