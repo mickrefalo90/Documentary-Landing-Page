@@ -536,7 +536,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Embedded Cinematic Trailer */}
-                <div className="max-w-4xl mx-auto pt-8 relative group">
+                <div className="max-w-4xl md:max-w-2xl mx-auto pt-8 relative group">
                   {/* Outer atmospheric neon blue/red glow behind the video card */}
                   <div className="absolute -inset-1 bg-gradient-to-r from-steel-blue/40 to-red-500/20 rounded-2xl blur-xl opacity-40 group-hover:opacity-65 transition duration-1000" />
                   
