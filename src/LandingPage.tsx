@@ -408,9 +408,18 @@ export default function LandingPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-steel-blue font-mono text-xs sm:text-sm tracking-[0.5em] uppercase font-bold pl-[0.5em] mb-6"
+                  className="text-white font-mono text-xs sm:text-sm tracking-[0.22em] uppercase font-bold pl-[0.22em] mb-6 flex flex-col sm:flex-row items-center justify-center gap-y-1.5 sm:gap-x-2.5 text-center"
                 >
-                  LAUNCHING JULY 2026
+                  <span>launching on</span>
+                  <span className="flex items-center justify-center gap-x-2.5">
+                    <img
+                      src="https://i.kickstarter.com/d3rwhjkg-kickstarter-logo-white.png"
+                      alt="Kickstarter"
+                      referrerPolicy="no-referrer"
+                      className="h-[0.95em] w-auto inline-block select-none pointer-events-none align-middle"
+                    />
+                    <span>July 2026</span>
+                  </span>
                 </motion.p>
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
