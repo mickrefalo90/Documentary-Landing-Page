@@ -66,7 +66,7 @@ const ROSTER_GAMES = [
     year: "1996",
     genre: "Adventure / Puzzle",
     overview: "The Dame Was Loaded is a detective mystery adventure game reminiscent of private eye movies of the 1940's. The player controls detective Scott Anger, a Sam Spade type of character, who is hired by a mysterious woman to find her missing brother, Dan. What at first appears to be just another missing persons case, Anger's investigation soon reveals that Dan was somehow involved in some much larger crimes including several murders and a bank robbery.",
-    talents: ["Marshall Parker - Sound", "David Giles - Producer", "Craig Duturbure - Design Assistant / Writer"],
+    talents: ["Marshall Parker - Sound", "David Giles - Producer", "Craig Duturbure - Co-writer"],
     image: "https://images.launchbox-app.com//7154084e-64a4-477a-93ea-4c65a9016e44.jpg"
   },
   {
