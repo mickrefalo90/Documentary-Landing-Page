@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { google } from "googleapis";
 import dotenv from "dotenv";
+import fs from "fs/promises";
 
 dotenv.config();
 
@@ -65,9 +66,33 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+    app.use(express.static(distPath, { index: false }));
+    app.get("*", async (req, res) => {
+      try {
+        const indexPath = path.join(distPath, "index.html");
+        let html = await fs.readFile(indexPath, "utf-8");
+        
+        // Dynamically replace the default domain with the current request origin to ensure preview URLs display cards perfectly
+        const host = req.headers.host || "regionlocked-doco.com";
+        const protocol = req.secure || req.headers["x-forwarded-proto"] === "https" ? "https" : "http";
+        const currentOrigin = `${protocol}://${host}`;
+        
+        // Replace all instances of the base URL with the current domain and protocol
+        html = html.replaceAll("https://regionlocked-doco.com", currentOrigin);
+        
+        // Dynamically rewrite the og:url to match the exact requested path for failsafe sharing on Slack, iMessage, Messenger, etc.
+        const fullRequestedUrl = `${currentOrigin}${req.originalUrl}`;
+        html = html.replace(
+          `<meta property="og:url" content="${currentOrigin}/" />`,
+          `<meta property="og:url" content="${fullRequestedUrl}" />`
+        );
+        
+        res.setHeader("Content-Type", "text/html");
+        res.send(html);
+      } catch (err) {
+        console.error("Error serving index.html dynamically:", err);
+        res.sendFile(path.join(distPath, "index.html"));
+      }
     });
   }
 
