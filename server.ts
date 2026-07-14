@@ -74,7 +74,9 @@ async function startServer() {
         
         // Dynamically replace the default domain with the current request origin to ensure preview URLs display cards perfectly
         const host = req.headers.host || "regionlocked-doco.com";
-        const protocol = req.secure || req.headers["x-forwarded-proto"] === "https" ? "https" : "http";
+        // Force secure https protocol for all non-local preview or production requests to satisfy security-conscious scrapers
+        const isLocal = host.includes("localhost") || host.includes("127.0.0.1");
+        const protocol = isLocal ? "http" : "https";
         const currentOrigin = `${protocol}://${host}`;
         
         // Replace all instances of the base URL with the current domain and protocol
@@ -83,7 +85,7 @@ async function startServer() {
         // Dynamically rewrite the og:url to match the exact requested path for failsafe sharing on Slack, iMessage, Messenger, etc.
         const fullRequestedUrl = `${currentOrigin}${req.originalUrl}`;
         html = html.replace(
-          `<meta property="og:url" content="${currentOrigin}/" />`,
+          /<meta property="og:url" content="[^"]*" \/>/g,
           `<meta property="og:url" content="${fullRequestedUrl}" />`
         );
         
