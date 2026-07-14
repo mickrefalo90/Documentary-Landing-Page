@@ -796,22 +796,32 @@ export default function LandingPage() {
                 <div className="text-center space-y-4">
                   <h3 className="text-3xl md:text-5xl font-display font-normal tracking-widest uppercase text-white">Our Industry Advisors</h3>
                   <div className="w-12 h-1 bg-steel-blue mx-auto" />
-                  <p className="text-mint-cream/70 max-w-xl mx-auto font-normal text-sm md:text-base">
-                    Advancing behind the scenes to guide, polish, and verify the historic authenticity of our journey.
+                  <p className="text-mint-cream/70 max-w-2xl mx-auto font-normal text-sm md:text-base leading-relaxed">
+                    Our advisory team are coming along on the journey to sense-check and review the content as we progress. We have gathered a team of veterans, journalists and archivists to ensure the story we tell is honest and genuine.
                   </p>
                 </div>
 
                 {SHOW_ADVISOR_CARDS ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-                    {INDUSTRY_ADVISORS.map((advisor, index) => (
-                      <AdvisorCard 
-                        key={index}
-                        name={advisor.name}
-                        industry={advisor.industry}
-                        bio={advisor.bio}
-                        iconName={advisor.iconName}
-                      />
-                    ))}
+                  <div className="space-y-12">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                      {INDUSTRY_ADVISORS.map((advisor, index) => (
+                        <AdvisorCard 
+                          key={index}
+                          name={advisor.name}
+                          industry={advisor.industry}
+                          credits={advisor.credits}
+                        />
+                      ))}
+                    </div>
+                    {/* More to be revealed styling similar to classics section */}
+                    <div className="pt-6 text-center flex flex-col items-center gap-4">
+                      <span className="text-4xl md:text-6xl text-white font-display leading-none select-none">
+                        +
+                      </span>
+                      <h3 className="text-xl md:text-3xl font-display font-normal tracking-[0.2em] text-white uppercase">
+                        More to be revealed
+                      </h3>
+                    </div>
                   </div>
                 ) : (
                   <div className="pt-6 text-center flex flex-col items-center gap-4">
@@ -1273,110 +1283,97 @@ function TeamMember({ name, role, bio, firstGame, favGame, linkedin, imdb, credi
   );
 }
 
-const SHOW_ADVISOR_CARDS = false;
+const SHOW_ADVISOR_CARDS = true;
 
 interface IndustryAdvisor {
   name: string;
   industry: string;
   bio: string;
   iconName: string;
+  credits: string[];
 }
 
 const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   {
-    name: "Advisor One",
-    industry: "Executive Producer",
-    bio: "Decades of production leadership across screen and digital interactive media.",
-    iconName: "Briefcase"
+    name: "John De Margheriti",
+    industry: "Founder, Micro Forte & AIE",
+    bio: "A pioneering figure of Australian gaming, John founded Micro Forte in 1985—one of the nation's first major game development studios—and created the Academy of Interactive Entertainment (AIE) in 1996 to train future games and film talent.",
+    iconName: "Crown",
+    credits: ["Founder of Micro Forte", "Founder & CEO of AIE", "Former GDAA President"]
   },
   {
-    name: "Advisor Two",
-    industry: "Game Development",
-    bio: "Veteran software architect defining performance standards in premium studios.",
-    iconName: "Gamepad2"
+    name: "Dr. Helen Stuckey",
+    industry: "Media Historian & Games Curator",
+    bio: "Senior Lecturer in Media and Games at RMIT University. As the core games curator for ACMI from 2004 to 2009, she pioneered software preservation and curated historic exhibitions to safeguard Australia's digital play history.",
+    iconName: "Layers",
+    credits: ["RMIT Senior Lecturer", "Former ACMI Games Curator", "Play It Again Researcher"]
   },
   {
-    name: "Advisor Three",
-    industry: "Audio Lead",
-    bio: "Creator of historical sound landmarks and authentic retro compositions.",
-    iconName: "Disc"
+    name: "Simon Alty",
+    industry: "Games Publishing Executive",
+    bio: "A leader in regional distribution and global publishing. Simon founded Games People and subsequently established and led Bethesda Softworks' Australia & New Zealand operations as its Managing Director, driving massive regional franchise success.",
+    iconName: "Briefcase",
+    credits: ["Founder of Games People", "Ex-Managing Director Bethesda ANZ", "Global Publisher Specialist"]
   },
   {
-    name: "Advisor Four",
-    industry: "Narrative Director",
-    bio: "Pioneering creative writer behind multiple award-winning interactive stories.",
-    iconName: "BookOpen"
+    name: "John Passfield",
+    industry: "Game Designer & Studio Co-founder",
+    bio: "Co-founder of Krome Studios and legend of Australian retro game design. John is the creative mastermind behind landmark hits including Flight of the Amazon Queen, TY the Tasmanian Tiger, and the 90s classic Halloween Harry.",
+    iconName: "Gamepad2",
+    credits: ["Krome Studios Co-founder", "Halloween Harry Creator", "TY the Tasmanian Tiger Director"]
   },
   {
-    name: "Advisor Five",
-    industry: "Retro Specialist",
-    bio: "Ardent collector and preservationist of precious vintage source code.",
-    iconName: "History"
+    name: "Chris Arneil",
+    industry: "Digital Games Curator, NFSA",
+    bio: "Digital Games Curator at the National Film and Sound Archive of Australia. Chris is at the forefront of national efforts to locate, preserve, and archive historic Australian games and their creative development source materials.",
+    iconName: "History",
+    credits: ["NFSA Games Curator", "Software Archivist Specialist", "Preservation Strategist"]
   },
   {
-    name: "Advisor Six",
-    industry: "Systems Engineer",
-    bio: "Hardware archivist maintaining active legacy platforms and emulation tools.",
-    iconName: "Cpu"
-  },
-  {
-    name: "Advisor Seven",
-    industry: "Creative Producer",
-    bio: "Guiding the synthesis of cinematic narrative with emergent game mechanics.",
-    iconName: "Sparkles"
-  },
-  {
-    name: "Advisor Eight",
-    industry: "Database Custodian",
-    bio: "Chronicles digital records and oral histories in public registries.",
-    iconName: "Database"
-  },
-  {
-    name: "Advisor Nine",
-    industry: "IP & Copyright Counsel",
-    bio: "Navigating legal hurdles of digital resurrection and orphan licensing.",
-    iconName: "Crown"
-  },
-  {
-    name: "Advisor Ten",
-    industry: "Media Historian",
-    bio: "Academic lead documenting Australia's pioneering software community.",
-    iconName: "Layers"
+    name: "Andrew Bailey",
+    industry: "Ex-Programmer & Co-founder",
+    bio: "A core systems programmer who began his career at Beam Software, Australia's pioneer game developer, where he coded classic titles. Andrew later co-founded Tantalus Media, one of the nation's premier co-development and porting houses.",
+    iconName: "Cpu",
+    credits: ["Beam Software Programmer", "Tantalus Media Co-founder", "Way of the Exploding Fist Developer"]
   }
 ];
 
-function getAdvisorIcon(iconName: string) {
-  switch (iconName) {
-    case "Gamepad2": return <Gamepad2 className="w-5 h-5 text-steel-blue" />;
-    case "History": return <History className="w-5 h-5 text-steel-blue" />;
-    case "Cpu": return <Cpu className="w-5 h-5 text-steel-blue" />;
-    case "Sparkles": return <Sparkles className="w-5 h-5 text-steel-blue" />;
-    case "BookOpen": return <BookOpen className="w-5 h-5 text-steel-blue" />;
-    case "Disc": return <Disc className="w-5 h-5 text-steel-blue" />;
-    case "Briefcase": return <Briefcase className="w-5 h-5 text-steel-blue" />;
-    case "Database": return <Database className="w-5 h-5 text-steel-blue" />;
-    case "Crown": return <Crown className="w-5 h-5 text-steel-blue" />;
-    case "Layers": return <Layers className="w-5 h-5 text-steel-blue" />;
-    default: return <Gamepad2 className="w-5 h-5 text-steel-blue" />;
-  }
-}
-
-function AdvisorCard({ name, industry, bio, iconName }: { name: string; industry: string; bio: string; iconName: string; key?: any }) {
+function AdvisorCard({ name, industry, credits }: { name: string; industry: string; credits: string[]; key?: any }) {
   return (
     <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="p-6 rounded-2xl border border-steel-blue/10 bg-oxford-navy/20 hover:border-steel-blue/30 transition-all duration-300 flex flex-col items-center text-center space-y-4"
+      className="group relative p-6 rounded-2xl border border-steel-blue/10 bg-oxford-navy/20 hover:border-steel-blue/30 transition-all duration-300 flex flex-col justify-between space-y-4"
     >
-      <div className="w-12 h-12 rounded-full bg-steel-blue/10 flex items-center justify-center border border-steel-blue/20">
-        {getAdvisorIcon(iconName)}
+      <div className="space-y-4">
+        <div className="space-y-1">
+          <h4 className="text-3xl md:text-4xl font-display font-medium text-white group-hover:text-steel-blue transition-colors leading-tight">
+            {name}
+          </h4>
+          <p className="text-steel-blue font-mono text-[10px] uppercase tracking-wider leading-relaxed">
+            {industry}
+          </p>
+        </div>
       </div>
-      <div className="space-y-1">
-        <h4 className="text-lg font-display text-white">{name}</h4>
-        <p className="text-steel-blue font-mono text-[10px] uppercase tracking-wider">{industry}</p>
+
+      {/* Compact Credits Section */}
+      <div className="pt-3 border-t border-steel-blue/5 space-y-2">
+        <p className="text-[9px] font-mono text-steel-blue/40 uppercase tracking-[0.2em]">Key Focus / Credits</p>
+        <ul className="space-y-1 text-[10px] font-mono text-mint-cream/50 uppercase tracking-wider">
+          {credits.map((credit, idx) => (
+            <li key={idx} className="flex items-center gap-1.5">
+              <span className="w-1 h-1 bg-steel-blue/30 rounded-full shrink-0" />
+              <span className="truncate">{credit}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <p className="text-mint-cream/60 text-xs leading-relaxed font-light">{bio}</p>
+
+      {/* Decorative Corner accent */}
+      <div className="absolute top-0 right-0 w-8 h-8 pointer-events-none overflow-hidden rounded-tr-2xl">
+        <div className="absolute top-[-1px] right-[-1px] w-4 h-4 border-t border-r border-steel-blue/20" />
+      </div>
     </motion.div>
   );
 }
