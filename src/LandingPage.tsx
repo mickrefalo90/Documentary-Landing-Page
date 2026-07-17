@@ -809,18 +809,8 @@ export default function LandingPage() {
                           key={index}
                           name={advisor.name}
                           industry={advisor.industry}
-                          credits={advisor.credits}
                         />
                       ))}
-                    </div>
-                    {/* More to be revealed styling similar to classics section */}
-                    <div className="pt-6 text-center flex flex-col items-center gap-4">
-                      <span className="text-4xl md:text-6xl text-white font-display leading-none select-none">
-                        +
-                      </span>
-                      <h3 className="text-xl md:text-3xl font-display font-normal tracking-[0.2em] text-white uppercase">
-                        More to be revealed
-                      </h3>
                     </div>
                   </div>
                 ) : (
@@ -1295,6 +1285,20 @@ interface IndustryAdvisor {
 
 const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   {
+    name: "Luke Lancaster",
+    industry: "Head of Melbourne International Games Week",
+    bio: "Head of Melbourne International Games Week, delivering the premier games festival in the Asia-Pacific region.",
+    iconName: "Crown",
+    credits: []
+  },
+  {
+    name: "Chloe Appleby",
+    industry: "Games Curator",
+    bio: "Exhibition developer, researcher, and games curator focusing on digital heritage, local play preservation, and creative exhibition design.",
+    iconName: "Layers",
+    credits: []
+  },
+  {
     name: "John De Margheriti",
     industry: "Founder, Micro Forte & AIE",
     bio: "A pioneering figure of Australian gaming, John founded Micro Forte in 1985—one of the nation's first major game development studios—and created the Academy of Interactive Entertainment (AIE) in 1996 to train future games and film talent.",
@@ -1338,7 +1342,7 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   }
 ];
 
-function AdvisorCard({ name, industry, credits }: { name: string; industry: string; credits: string[]; key?: any }) {
+function AdvisorCard({ name, industry }: { name: string; industry: string; key?: any }) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 15 }}
@@ -1355,19 +1359,6 @@ function AdvisorCard({ name, industry, credits }: { name: string; industry: stri
             {industry}
           </p>
         </div>
-      </div>
-
-      {/* Compact Credits Section */}
-      <div className="pt-3 border-t border-steel-blue/5 space-y-2">
-        <p className="text-[9px] font-mono text-steel-blue/40 uppercase tracking-[0.2em]">Key Focus / Credits</p>
-        <ul className="space-y-1 text-[10px] font-mono text-mint-cream/50 uppercase tracking-wider">
-          {credits.map((credit, idx) => (
-            <li key={idx} className="flex items-center gap-1.5">
-              <span className="w-1 h-1 bg-steel-blue/30 rounded-full shrink-0" />
-              <span className="truncate">{credit}</span>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/* Decorative Corner accent */}
