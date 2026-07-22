@@ -804,7 +804,7 @@ export default function LandingPage() {
                 {SHOW_ADVISOR_CARDS ? (
                   <div className="space-y-12">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                      {INDUSTRY_ADVISORS.map((advisor, index) => (
+                      {INDUSTRY_ADVISORS.filter(advisor => !advisor.hidden).map((advisor, index) => (
                         <AdvisorCard 
                           key={index}
                           name={advisor.name}
@@ -1281,6 +1281,7 @@ interface IndustryAdvisor {
   bio: string;
   iconName: string;
   credits: string[];
+  hidden?: boolean;
 }
 
 const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
@@ -1307,7 +1308,7 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   },
   {
     name: "Dr. Helen Stuckey",
-    industry: "Media Historian & Games Curator",
+    industry: "Media Historian & Games Curator (RMIT University)",
     bio: "Senior Lecturer in Media and Games at RMIT University. As the core games curator for ACMI from 2004 to 2009, she pioneered software preservation and curated historic exhibitions to safeguard Australia's digital play history.",
     iconName: "Layers",
     credits: ["RMIT Senior Lecturer", "Former ACMI Games Curator", "Play It Again Researcher"]
@@ -1331,7 +1332,8 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
     industry: "Digital Games Curator, NFSA",
     bio: "Digital Games Curator at the National Film and Sound Archive of Australia. Chris is at the forefront of national efforts to locate, preserve, and archive historic Australian games and their creative development source materials.",
     iconName: "History",
-    credits: ["NFSA Games Curator", "Software Archivist Specialist", "Preservation Strategist"]
+    credits: ["NFSA Games Curator", "Software Archivist Specialist", "Preservation Strategist"],
+    hidden: true
   },
   {
     name: "Andrew Bailey",
