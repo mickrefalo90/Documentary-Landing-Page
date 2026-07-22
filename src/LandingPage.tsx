@@ -1337,7 +1337,7 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   },
   {
     name: "Andrew Bailey",
-    industry: "Ex-Programmer & Co-founder",
+    industry: "Programmer & Co-founder",
     bio: "A core systems programmer who began his career at Beam Software, Australia's pioneer game developer, where he coded classic titles. Andrew later co-founded Tantalus Media, one of the nation's premier co-development and porting houses.",
     iconName: "Cpu",
     credits: ["Beam Software Programmer", "Tantalus Media Co-founder", "Way of the Exploding Fist Developer"]
