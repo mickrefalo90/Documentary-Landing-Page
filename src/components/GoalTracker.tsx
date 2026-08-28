@@ -12,7 +12,7 @@ export default function GoalTracker({ current, goal }: GoalTrackerProps) {
     <div className="w-full max-w-2xl mx-auto p-8 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl">
       <div className="flex justify-between items-end mb-4">
         <div>
-          <p className="text-sm font-mono uppercase tracking-widest text-steel-blue mb-1">Kickstarter Goal</p>
+          <p className="text-sm font-mono uppercase tracking-widest text-steel-blue mb-1">Target Goal</p>
           <h3 className="text-2xl sm:text-4xl font-sans font-bold text-white flex flex-wrap items-baseline gap-x-2">
             ${current.toLocaleString()} <span className="text-lg sm:text-xl font-sans font-normal text-white/40">/ ${goal.toLocaleString()} AUD</span>
           </h3>
@@ -32,7 +32,7 @@ export default function GoalTracker({ current, goal }: GoalTrackerProps) {
       </div>
 
       <div className="mt-6 flex justify-between items-center text-xs font-mono uppercase tracking-widest text-white/40">
-        <span>LAUNCHING JULY 2026</span>
+        <span>PROJECT GOAL</span>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 bg-steel-blue rounded-full animate-pulse" />
           <span>Live Tracking Soon</span>

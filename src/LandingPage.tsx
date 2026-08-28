@@ -11,7 +11,7 @@ import TronBackground from "./components/TronBackground";
 import BrevoForm from "./components/BrevoForm";
 import HeaderForm from "./components/HeaderForm";
 import { Link } from "react-router-dom";
-import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase, Facebook, Youtube, Database } from "lucide-react";
+import { Gamepad2, History, Cpu, Sparkles, ArrowRight, Instagram, MessageSquare, Linkedin, ExternalLink, User, Disc, Shirt, BookOpen, Star, Crown, Layers, Menu, X, ChevronDown, Briefcase, Facebook, Youtube, Database, Quote } from "lucide-react";
 import sectionsConfig from "./config/sections.json";
 
 function BlueskyIcon({ className }: { className?: string }) {
@@ -168,11 +168,47 @@ const NARRATIVE_ACTS = [
 
 const ACT_LABELS = ["Act One", "Act Two", "Act Three"];
 
+interface FeaturedMediaItem {
+  id: string;
+  title: string;
+  image: string;
+  videoUrl: string;
+  alt: string;
+  tag?: string;
+}
+
+const FEATURED_MEDIA: FeaturedMediaItem[] = [
+  {
+    id: "retro-hour",
+    title: "The Retro Hour Podcast: The Secret History of Australian Gaming",
+    image: "/images/RETROHOUR.png",
+    videoUrl: "https://youtu.be/5HvrRLYcm8E?si=iCUJZY0U3ToAPRZH",
+    alt: "Featured on The Retro Hour - Watch Video",
+    tag: "Podcast Feature"
+  },
+  {
+    id: "back-pocket",
+    title: "Back Pocket: A Documentary Series on Australian Video Games?!",
+    image: "/images/BP.png",
+    videoUrl: "https://youtube.com/shorts/uN4fXaY8NyY?si=5j_FIEdbBq0i9-Ls",
+    alt: "Featured on Back Pocket - Watch Video",
+    tag: "Creator Feature"
+  }
+];
+
 export default function LandingPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [activeVideoUrl, setActiveVideoUrl] = useState("https://www.youtube.com/embed/hrsfSl_Dil4?rel=0");
+  const [activeVideoTitle, setActiveVideoTitle] = useState("Region Locked Trailer");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedGame, setSelectedGame] = useState<typeof ROSTER_GAMES[0] | null>(null);
   const targetRef = useRef(null);
+
+  const openVideoLightbox = (url: string, title?: string) => {
+    setActiveVideoUrl(url);
+    if (title) setActiveVideoTitle(title);
+    setIsVideoOpen(true);
+  };
 
   const [showVaultPopup, setShowVaultPopup] = useState(false);
   const [vaultName, setVaultName] = useState("");
@@ -222,7 +258,7 @@ export default function LandingPage() {
     }
   }, []);
   const [bannerIndex, setBannerIndex] = useState(0);
-  const bannerMessages = ["Sign up for updates!", "Follow our Kickstarter"];
+  const bannerMessages = ["Sign up for updates!", "Preserve Australian Gaming History"];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -407,24 +443,15 @@ export default function LandingPage() {
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-white font-mono text-xs sm:text-sm tracking-[0.22em] uppercase font-bold pl-[0.22em] mb-6 flex flex-col sm:flex-row items-center justify-center gap-y-1.5 sm:gap-x-2.5 text-center"
+                  transition={{ delay: 0.1 }}
+                  className="mb-3 sm:mb-4 text-[3vw] sm:text-xs md:text-sm lg:text-base xl:text-lg text-mint-cream/80 font-bold uppercase tracking-[0.22em] xs:tracking-[0.26em] sm:tracking-[0.34em] md:tracking-[0.44em] lg:tracking-[0.52em] xl:tracking-[0.62em] max-w-5xl mx-auto leading-[1.1] whitespace-nowrap pl-[0.22em] xs:pl-[0.26em] sm:pl-[0.34em] md:pl-[0.44em] lg:pl-[0.52em] xl:pl-[0.62em]"
                 >
-                  <span>launching on</span>
-                  <span className="flex items-center justify-center gap-x-2.5">
-                    <img
-                      src="https://i.kickstarter.com/d3rwhjkg-kickstarter-logo-white.png"
-                      alt="Kickstarter"
-                      referrerPolicy="no-referrer"
-                      className="h-[0.95em] w-auto inline-block select-none pointer-events-none align-middle"
-                    />
-                    <span>July 2026</span>
-                  </span>
+                  A Six-Part Documentary Series
                 </motion.p>
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ delay: 0.2 }}
                   className="text-[25vw] xs:text-[28vw] sm:text-7xl md:text-8xl lg:text-[10rem] font-display font-normal tracking-[0.1em] text-white leading-[0.8] sm:leading-[0.85] uppercase flex flex-col sm:flex-row items-center justify-center gap-y-0 sm:gap-y-0 gap-x-[0.15em] select-none"
                   style={{ textShadow: '0 0 40px rgba(0, 0, 0, 0.4), 0 0 80px rgba(61, 122, 184, 0.2)' }}
                 >
@@ -532,16 +559,29 @@ export default function LandingPage() {
               <div className="space-y-6">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase">Our Mission</h2>
                 <div className="w-12 h-1 bg-steel-blue mx-auto" />
-                <div className="max-w-3xl mx-auto space-y-8">
-                  <p className="text-mint-cream/90 text-2xl font-light leading-relaxed">
+                <div className="max-w-3xl mx-auto space-y-6">
+                  <p className="text-mint-cream/85 text-lg md:text-xl font-light leading-relaxed">
                     Video games are portals to another reality. Worlds where you can traverse perilous dungeons, create civilisations that span decades, or chart unknown planets across the universe. They entertain, educate, and inspire us. But behind the pixels and polygons lies an untold story of resilience. 
                   </p>
-                  <p className="text-mint-cream/70 text-lg font-light leading-relaxed italic">
-                    In the early days of video games, when technology was restrictive and the global market felt lightyears away, Australian developers were quietly changing the game. They were innovating, hacking, and pushing the boundaries of early hardware to make the impossible a reality.
+                  <p className="text-mint-cream/85 text-lg md:text-xl font-light leading-relaxed">
+                    In the early days of video games, when technology was restrictive and the global market felt light-years away, Australian developers were quietly changing the game. They were innovating and pushing the boundaries of early microcomputer hardware to make the impossible a reality. They built an industry that has only strengthened over time, and we are here to tell their stories before it&apos;s too late. 
                   </p>
-                  <p className="text-mint-cream/80 text-xl font-normal leading-relaxed">
-                    We are making this documentary to tell their story, and to prove that while Aussie developers may have been remote... their talent and passion was never <span className="font-bold italic text-white underline underline-offset-8 decoration-steel-blue/40">Region Locked</span>.
+                  <p className="text-mint-cream/85 text-lg md:text-xl font-light leading-relaxed">
+                    When you watch our guests&apos; recounts and experience their perspectives, you will discover that while Aussie developers may have been a long way from Silicon Valley or Tokyo, their talent and passion were never <span className="font-bold italic text-white underline underline-offset-8 decoration-steel-blue/50">Region Locked</span>.
                   </p>
+
+                  {/* Highlighted Quote Card */}
+                  <div className="relative mt-10 p-6 md:p-8 rounded-2xl bg-oxford-navy/25 border border-steel-blue/30 backdrop-blur-sm shadow-xl shadow-black/40 text-center">
+                    <Quote className="w-8 h-8 text-steel-blue/60 mx-auto mb-4" />
+                    <blockquote className="text-xl md:text-2xl font-light italic text-white leading-relaxed max-w-2xl mx-auto">
+                      &ldquo;We were building a future. It didn&apos;t occur to us that we were a part of history, so documenting it was the last thing on our minds. A massive piece of who we are as creative Australians is going to be lost forever if we don&apos;t take stock now. Once it&apos;s gone, it&apos;s gone.&rdquo;
+                    </blockquote>
+                    <div className="mt-6 pt-4 border-t border-steel-blue/20 flex flex-col sm:flex-row items-center justify-center gap-2">
+                      <span className="text-white font-mono text-sm tracking-wider uppercase font-semibold">&mdash; John Passfield</span>
+                      <span className="hidden sm:inline text-steel-blue/40">&bull;</span>
+                      <span className="text-steel-blue font-mono text-xs tracking-wider uppercase">Game Designer &amp; Studio Co-founder</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Embedded Cinematic Trailer */}
@@ -556,12 +596,38 @@ export default function LandingPage() {
                     <iframe
                       className="w-full h-full border-0 absolute inset-0"
                       src="https://www.youtube.com/embed/hrsfSl_Dil4?rel=0&autoplay=0"
-                      title="Region Locked: Australian Video Games Documentary Trailer"
+                      title="Region Locked: Australian Video Games Documentary Series Trailer"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                     />
                   </div>
                 </div>
+
+                {/* Featured In / Coverage Banners */}
+                {FEATURED_MEDIA.length > 0 && (
+                  <div className="max-w-4xl md:max-w-2xl mx-auto pt-6 space-y-4">
+                    {FEATURED_MEDIA.map((item) => (
+                      <div key={item.id} className="relative group">
+                        {/* Glow effect on hover */}
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-steel-blue/30 via-emerald-500/20 to-steel-blue/30 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition duration-500" />
+                        
+                        <button
+                          type="button"
+                          onClick={() => openVideoLightbox(item.videoUrl, item.title)}
+                          className="relative w-full block rounded-xl overflow-hidden border border-white/15 bg-black/40 hover:border-steel-blue/70 transition-all duration-300 shadow-xl shadow-black/60 group-hover:scale-[1.01] active:scale-[0.99] cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-steel-blue/80"
+                          aria-label={`Watch ${item.title}`}
+                        >
+                          <img
+                            src={item.image}
+                            alt={item.alt}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-auto object-cover block transition-transform duration-500 group-hover:brightness-105"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -569,20 +635,86 @@ export default function LandingPage() {
 
         {/* The Narrative Section */}
         {sectionsConfig.narrative && (
-          <section id="narrative" className="pt-16 md:pt-24 pb-8 md:pb-12 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
+          <section id="narrative" className="pt-16 md:pt-24 pb-12 md:pb-16 px-6 relative overflow-hidden bg-ink-black scroll-mt-20">
             {/* Background elements */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-steel-blue to-transparent" />
             </div>
 
-            <div className="max-w-7xl mx-auto space-y-20 relative z-10">
+            <div className="max-w-7xl mx-auto space-y-16 md:space-y-20 relative z-10">
               <div className="text-center space-y-4">
                 <h2 className="text-5xl md:text-7xl font-display font-normal tracking-widest uppercase text-white">The Narrative</h2>
                 <div className="w-12 h-1 bg-steel-blue mx-auto" />
+                
+                <div className="max-w-3xl mx-auto space-y-4 pt-4 text-center">
+                  <p className="text-mint-cream/85 text-lg md:text-xl font-light leading-relaxed">
+                    Region Locked will focus on a wide variety of creators across the many disciplines of video game development. From veterans to professionals still working in the industry, we will tell their stories and highlight the classic titles that call Australia home.
+                  </p>
+                  <p className="text-mint-cream/80 text-base md:text-lg font-light leading-relaxed">
+                    We have 70+ developers and artists from all walks of Aussie gaming, including from Beam Software, Tantalus, Micro Forte, Pandemic, Krome, Team Bondi, 2K, Multipath Movies, Ratbag and more, covering some interesting and obscure topics that we cannot wait to share with you!
+                  </p>
+                </div>
               </div>
 
-              {/* Timeline Graphic Container */}
-              <div className="relative pt-12 md:pt-24 pb-12 overflow-hidden">
+              {/* Episode Synopses */}
+              <div className="pt-2 md:pt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 max-w-5xl mx-auto">
+                  {/* Episode One */}
+                  <div className="space-y-4 border-l border-steel-blue/25 pl-6">
+                    <div className="space-y-2">
+                      <span className="block text-steel-blue font-mono text-xs uppercase tracking-[0.3em] font-bold">
+                        Episode One:
+                      </span>
+                      <h4 className="text-2xl md:text-3xl font-display uppercase tracking-widest text-white leading-tight">
+                        At the edge of the world
+                      </h4>
+                    </div>
+
+                    <div className="space-y-3 text-mint-cream/70 text-sm md:text-base leading-relaxed font-light">
+                      <p>
+                        In the early 1980s, Australia was isolated from the burgeoning electronics industry. From this void emerged a rogue band of hobbyists and academic rule-breakers who dared to build a video game industry from the ground up.
+                      </p>
+                      <p>
+                        Fuelled by caffeine and a blank slate, they fought suffocating hardware limitations on Commodore 64s and early microcomputers to achieve the impossible: churning out massive international hits. But just as these grassroots pioneers found their footing, a change arrived, bringing rigid corporate structure to the somewhat lawless creative ecosystem.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Episode Two */}
+                  <div className="space-y-4 border-l border-steel-blue/25 pl-6">
+                    <div className="space-y-2">
+                      <span className="block text-steel-blue font-mono text-xs uppercase tracking-[0.3em] font-bold">
+                        Episode Two:
+                      </span>
+                      <h4 className="text-2xl md:text-3xl font-display uppercase tracking-widest text-white leading-tight">
+                        Playing with fire
+                      </h4>
+                    </div>
+
+                    <div className="space-y-3 text-mint-cream/70 text-sm md:text-base leading-relaxed font-light">
+                      <p>
+                        Restricted access to the global console boom, a group of defiant Australian programmers hacked their way into the mainstream ecosystem. Suddenly, Australia becomes a global powerhouse for Western pop-culture adaptations, creating classic 8-bit hits like Back to the Future, Star Wars, and The Punisher, alongside culturally significant local hits like Aussie Rules Footy and International Cricket.
+                      </p>
+                      <p>
+                        But as a 16-bit war loomed, local developers took it upon themselves to embrace the ultimate frontier of freedom: the personal computer.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Callout */}
+                <div className="pt-14 md:pt-20 text-center flex flex-col items-center gap-4">
+                  <span className="text-4xl md:text-6xl text-white font-display leading-none select-none">
+                    +
+                  </span>
+                  <h3 className="text-xl md:text-3xl font-display font-normal tracking-[0.2em] text-white uppercase max-w-3xl">
+                    with more episodes TO BE REVEALED SOON - the full series follows a three act structure:
+                  </h3>
+                </div>
+              </div>
+
+              {/* Timeline Graphic Container (Acts) */}
+              <div className="relative pt-12 md:pt-24 pb-8 overflow-hidden">
                 {/* Horizontal Progress Track (Desktop) */}
                 <div className="absolute top-[88px] left-0 w-full h-1 bg-white/5 hidden md:block rounded-full overflow-hidden">
                   <motion.div 
@@ -803,7 +935,7 @@ export default function LandingPage() {
 
                 {SHOW_ADVISOR_CARDS ? (
                   <div className="space-y-12">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                       {INDUSTRY_ADVISORS.filter(advisor => !advisor.hidden).map((advisor, index) => (
                         <AdvisorCard 
                           key={index}
@@ -1058,7 +1190,8 @@ export default function LandingPage() {
       <VideoLightbox 
         isOpen={isVideoOpen} 
         onClose={() => setIsVideoOpen(false)} 
-        videoUrl="https://www.youtube.com/embed/hrsfSl_Dil4?rel=0"
+        videoUrl={activeVideoUrl}
+        title={activeVideoTitle}
       />
 
       <AnimatePresence>
@@ -1101,7 +1234,7 @@ export default function LandingPage() {
 
                 <div className="py-2 text-center">
                   <p className="font-display text-[#3d7ab8] text-2xl md:text-3.5xl leading-relaxed uppercase tracking-wider text-center">
-                     Welcome to the mission. Please explore our website. Kickstarter launches July 2026.
+                     Welcome to the mission. Please explore our website.
                   </p>
                 </div>
 
@@ -1286,25 +1419,18 @@ interface IndustryAdvisor {
 
 const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
   {
-    name: "Luke Lancaster",
-    industry: "Head of Melbourne International Games Week",
-    bio: "Head of Melbourne International Games Week, delivering the premier games festival in the Asia-Pacific region.",
-    iconName: "Crown",
-    credits: []
+    name: "John Passfield",
+    industry: "Game Designer & Studio Co-founder",
+    bio: "Co-founder of Krome Studios and legend of Australian retro game design. John is the creative mastermind behind landmark hits including Flight of the Amazon Queen, TY the Tasmanian Tiger, and the 90s classic Halloween Harry.",
+    iconName: "Gamepad2",
+    credits: ["Krome Studios Co-founder", "Halloween Harry Creator", "TY the Tasmanian Tiger Director"]
   },
   {
-    name: "Chloe Appleby",
-    industry: "Games Curator",
-    bio: "Exhibition developer, researcher, and games curator focusing on digital heritage, local play preservation, and creative exhibition design.",
-    iconName: "Layers",
-    credits: []
-  },
-  {
-    name: "John De Margheriti",
-    industry: "Founder, Micro Forte & AIE",
-    bio: "A pioneering figure of Australian gaming, John founded Micro Forte in 1985—one of the nation's first major game development studios—and created the Academy of Interactive Entertainment (AIE) in 1996 to train future games and film talent.",
-    iconName: "Crown",
-    credits: ["Founder of Micro Forte", "Founder & CEO of AIE", "Former GDAA President"]
+    name: "Andrew Bailey",
+    industry: "Programmer & Co-founder",
+    bio: "A core systems programmer who began his career at Beam Software, Australia's pioneer game developer, where he coded classic titles. Andrew later co-founded Tantalus Media, one of the nation's premier co-development and porting houses.",
+    iconName: "Cpu",
+    credits: ["Beam Software Programmer", "Tantalus Media Co-founder", "Way of the Exploding Fist Developer"]
   },
   {
     name: "Dr. Helen Stuckey",
@@ -1314,18 +1440,25 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
     credits: ["RMIT Senior Lecturer", "Former ACMI Games Curator", "Play It Again Researcher"]
   },
   {
+    name: "Chloe Appleby",
+    industry: "Games Curator",
+    bio: "Exhibition developer, researcher, and games curator focusing on digital heritage, local play preservation, and creative exhibition design.",
+    iconName: "Layers",
+    credits: []
+  },
+  {
+    name: "Luke Lancaster",
+    industry: "Head of Melbourne International Games Week",
+    bio: "Head of Melbourne International Games Week, delivering the premier games festival in the Asia-Pacific region.",
+    iconName: "Crown",
+    credits: []
+  },
+  {
     name: "Simon Alty",
     industry: "Games Publishing Executive",
     bio: "A leader in regional distribution and global publishing. Simon founded Games People and subsequently established and led Bethesda Softworks' Australia & New Zealand operations as its Managing Director, driving massive regional franchise success.",
     iconName: "Briefcase",
     credits: ["Founder of Games People", "Ex-Managing Director Bethesda ANZ", "Global Publisher Specialist"]
-  },
-  {
-    name: "John Passfield",
-    industry: "Game Designer & Studio Co-founder",
-    bio: "Co-founder of Krome Studios and legend of Australian retro game design. John is the creative mastermind behind landmark hits including Flight of the Amazon Queen, TY the Tasmanian Tiger, and the 90s classic Halloween Harry.",
-    iconName: "Gamepad2",
-    credits: ["Krome Studios Co-founder", "Halloween Harry Creator", "TY the Tasmanian Tiger Director"]
   },
   {
     name: "Chris Arneil",
@@ -1334,13 +1467,6 @@ const INDUSTRY_ADVISORS: IndustryAdvisor[] = [
     iconName: "History",
     credits: ["NFSA Games Curator", "Software Archivist Specialist", "Preservation Strategist"],
     hidden: true
-  },
-  {
-    name: "Andrew Bailey",
-    industry: "Programmer & Co-founder",
-    bio: "A core systems programmer who began his career at Beam Software, Australia's pioneer game developer, where he coded classic titles. Andrew later co-founded Tantalus Media, one of the nation's premier co-development and porting houses.",
-    iconName: "Cpu",
-    credits: ["Beam Software Programmer", "Tantalus Media Co-founder", "Way of the Exploding Fist Developer"]
   }
 ];
 

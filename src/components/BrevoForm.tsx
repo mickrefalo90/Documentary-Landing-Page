@@ -202,7 +202,7 @@ const BrevoForm: React.FC = () => {
               >
                 {[...Array(8)].map((_, i) => (
                   <span key={i} className="text-white font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs pr-[50px]">
-                    Kickstarter Date Announcement Soon!
+                    Sign Up for Mission Updates!
                   </span>
                 ))}
               </div>

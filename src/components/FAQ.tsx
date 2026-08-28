@@ -10,7 +10,7 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "What is 'Region Locked'?",
-    answer: "Region Locked is a documentary project of large cinematic scale, exploring the hidden history of the Australian video game industry, from the early 70s to the turn of the millennium."
+    answer: "Region Locked is a documentary series of large cinematic scale, exploring the hidden history of the Australian video game industry, from the early 70s to the turn of the millennium."
   },
   {
     question: "What games will be featured?",

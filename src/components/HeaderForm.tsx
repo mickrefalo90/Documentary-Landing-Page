@@ -46,7 +46,7 @@ const HeaderForm: React.FC = () => {
       {/* Form Content */}
       <div className="w-full space-y-3 text-center">
         <p className="text-sm md:text-base text-mint-cream/80 font-normal tracking-wide max-w-md mx-auto leading-relaxed">
-          Sign up now to be the first to know when we launch.
+          Sign up now for updates on our mission.
         </p>
 
         <AnimatePresence mode="wait">
